@@ -1392,6 +1392,13 @@ body.moodboard-initial #stepMood .mood-title,
     animation: none !important; /* stop color cycling for this heading */
 }
 
+/* Core mood labels (the 9 moods) should appear neon yellow on first open */
+body.moodboard-initial .expanded-moods .mood-card .mood-label,
+.moodboard-view.initial-load .expanded-moods .mood-card .mood-label {
+    color: var(--cyber-yellow) !important;
+    text-shadow: 0 0 8px var(--cyber-yellow), 0 0 18px rgba(255,215,64,0.5) !important;
+}
+
 /* ---------- Fix: prevent unintended tilt/rotation on mood cards ---------- */
 /* Reset any stray rotation while preserving hover transforms (hover rules below will override) */
 .mood-card {
