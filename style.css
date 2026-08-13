@@ -1281,6 +1281,97 @@ body {
     letter-spacing: 1px;
 }
 
+/* --- INITIAL ONBOARDING NEON EFFECTS --- */
+/* This is applied via JS when no theme is set in localStorage */
+.app-container:has(#moodboard-view.initial-load) .sidebar .nav-item {
+    color: #fff;
+    text-shadow:
+        0 0 4px #fff,
+        0 0 8px var(--neon-pink),
+        0 0 12px var(--neon-green),
+        0 0 16px var(--electric-blue);
+}
+
+.moodboard-view.initial-load .onboarding-step.active-step .mood-title {
+    text-shadow:
+        0 0 5px #fff, /* Neon White */
+        0 0 10px var(--neon-pink),
+        0 0 20px var(--neon-green),
+        0 0 30px var(--electric-blue),
+        0 0 40px var(--neon-pink), /* Stronger pink glow */
+        0 0 50px var(--neon-cyan); /* Cyan glow */
+    color: #fff; /* Ensure white base */
+}
+
+.moodboard-view.initial-load .onboarding-step.active-step .onboarding-subtitle {
+    color: #fff; /* Neon White base for subtitle */
+    text-shadow:
+        0 0 5px var(--neon-green),
+        0 0 10px var(--neon-cyan),
+        0 0 15px var(--electric-blue);
+}
+
+/* ---------- Neon color cycle (first-time onboarding) ---------- */
+@keyframes neonCycle {
+    0% {
+        color: var(--electric-blue);
+        text-shadow: 0 0 6px #fff, 0 0 14px var(--electric-blue);
+    }
+    20% {
+        color: var(--neon-pink);
+        text-shadow: 0 0 6px #fff, 0 0 14px var(--neon-pink);
+    }
+    40% {
+        color: var(--neon-green);
+        text-shadow: 0 0 6px #fff, 0 0 14px var(--neon-glow-green);
+    }
+    60% {
+        color: var(--cyber-yellow);
+        text-shadow: 0 0 6px #fff, 0 0 14px var(--cyber-yellow);
+    }
+    80% {
+        color: #ffffff;
+        text-shadow: 0 0 6px #fff, 0 0 14px #fff;
+    }
+    100% {
+        color: var(--electric-blue);
+        text-shadow: 0 0 6px #fff, 0 0 14px var(--electric-blue);
+    }
+}
+
+/* Apply the neon cycle only during the initial onboarding load */
+.moodboard-view.initial-load .mood-card .mood-label,
+.moodboard-view.initial-load .mood-title,
+.moodboard-view.initial-load .onboarding-subtitle {
+    animation: neonCycle 4s linear infinite;
+    will-change: color, text-shadow;
+}
+
+/* ---------- Fix: prevent unintended tilt/rotation on mood cards ---------- */
+/* Reset any stray rotation while preserving hover transforms (hover rules below will override) */
+.mood-card {
+    transform: none !important;
+    transform-origin: center center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.mood-card img {
+    transform: none !important;
+    transform-origin: center center;
+}
+
+/* Re-apply the intended hover effects with higher specificity to ensure they still run */
+.mood-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    z-index: 5 !important;
+}
+
+.mood-card:hover img {
+    transform: scale(1.08) !important;
+    filter: brightness(0.65) saturate(1.3) !important;
+}
+
 /* ---------- Section Labels ---------- */
 .mood-section-label {
     font-size: 0.72rem;
