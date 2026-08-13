@@ -238,6 +238,7 @@ function initApp() {
             renderLanguages();
             showStep(stepLanguages);
             
+            moodboardView.classList.add('initial-load'); // Add class for initial text effects
         } else {
             document.body.setAttribute('data-theme', savedTheme);
             // Fetch based on saved mood, intelligently blended with user's favorite artist or language
@@ -247,6 +248,7 @@ function initApp() {
                                
             updateDashboardForMood(savedTheme);
             showStep(stepMood);
+            moodboardView.classList.remove('initial-load'); // Remove if not initial load
         }
 
         // Sidebar "Change Mood" (Legacy button support if any)
@@ -254,6 +256,7 @@ function initApp() {
             openMoodBtn.addEventListener('click', () => {
                 if (moodboardTab) moodboardTab.click();
                 showStep(stepMood);
+                moodboardView.classList.remove('initial-load'); // Remove if changing mood
             });
         }
 
@@ -299,6 +302,7 @@ function initApp() {
                     lyricToast.classList.add('show');
                     setTimeout(() => lyricToast.classList.remove('show'), 6000);
                 }
+                moodboardView.classList.remove('initial-load'); // Remove after mood selection
             });
         });
     }
