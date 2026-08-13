@@ -106,6 +106,20 @@ function initApp() {
         demoModeBadge.style.display = isOfflineMode ? 'flex' : 'none';
     }
 
+    // First-time moodboard onboarding: add a body class and mark as seen
+    try {
+        const moodSeen = localStorage.getItem('moodboardSeen');
+        if (!moodSeen) {
+            document.body.classList.add('moodboard-initial');
+            const mb = document.getElementById('moodboard-view');
+            if (mb) mb.classList.add('initial-load');
+            // mark as seen so the effect is shown only once
+            localStorage.setItem('moodboardSeen', 'true');
+        }
+    } catch (e) {
+        // ignore storage errors
+    }
+
     function showMoodboardView() {
         const navItems = document.querySelectorAll('.nav-item');
         const views = document.querySelectorAll('.view');

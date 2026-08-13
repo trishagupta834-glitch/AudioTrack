@@ -1362,6 +1362,28 @@ body {
     color: inherit;
 }
 
+/* Fallback selectors when :has() isn't supported — add a body class via JS */
+body.moodboard-initial .sidebar .nav-item,
+body.moodboard-initial .sidebar .nav-item * {
+    color: #ffffff !important;
+    text-shadow:
+        0 0 4px #fff,
+        0 0 8px var(--neon-pink),
+        0 0 12px var(--neon-green),
+        0 0 16px var(--electric-blue) !important;
+}
+
+body.moodboard-initial .top-bar,
+body.moodboard-initial .top-bar * {
+    color: #ffffff !important;
+}
+
+body.moodboard-initial .mood-section-label,
+body.moodboard-initial .mood-title,
+body.moodboard-initial .mood-card .mood-label {
+    color: #ffffff !important;
+}
+
 /* ---------- Fix: prevent unintended tilt/rotation on mood cards ---------- */
 /* Reset any stray rotation while preserving hover transforms (hover rules below will override) */
 .mood-card {
