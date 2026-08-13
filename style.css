@@ -1384,6 +1384,14 @@ body.moodboard-initial .mood-card .mood-label {
     color: #ffffff !important;
 }
 
+/* Make the Step 3 main heading neon yellow on first open */
+body.moodboard-initial #stepMood .mood-title,
+.moodboard-view.initial-load #stepMood .mood-title {
+    color: var(--cyber-yellow) !important;
+    text-shadow: 0 0 8px var(--cyber-yellow), 0 0 20px rgba(255, 215, 64, 0.6);
+    animation: none !important; /* stop color cycling for this heading */
+}
+
 /* ---------- Fix: prevent unintended tilt/rotation on mood cards ---------- */
 /* Reset any stray rotation while preserving hover transforms (hover rules below will override) */
 .mood-card {
