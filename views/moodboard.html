@@ -1,0 +1,158 @@
+<!-- --- MOOD BOARD VIEW --- -->
+<section id="moodboard-view" class="view active-view" style="padding-bottom: 6rem; padding-top: 1rem; text-align: center;">
+
+    <!-- STEP 1: LANGUAGES -->
+    <div id="stepLanguages" class="onboarding-step active-step">
+        <h2 class="mood-title">What do you listen to?</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; letter-spacing: 1px;">Pick all that
+            apply</p>
+        <div class="language-grid" id="languageGrid">
+            <!-- Injected via JS -->
+        </div>
+        <button id="btnNextArtists" class="neon-btn" style="margin-top: 3rem; width: 220px; display: none;">
+            NEXT <span class="material-icons">arrow_forward</span>
+        </button>
+    </div>
+
+    <!-- STEP 2: ARTISTS -->
+    <div id="stepArtists" class="onboarding-step">
+        <h2 class="mood-title">Pick your favorites</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; letter-spacing: 1px;">Select 3 or
+            more artists</p>
+        <div class="artist-grid" id="artistGrid">
+            <!-- Injected via JS -->
+        </div>
+        <button id="btnNextMood" class="neon-btn" style="margin-top: 3rem; width: 220px; display: none;">
+            NEXT <span class="material-icons">arrow_forward</span>
+        </button>
+    </div>
+
+    <!-- STEP 3: MOOD BOARD -->
+    <div id="stepMood" class="onboarding-step">
+        <h2 class="mood-title">What's your vibe today?</h2>
+
+        <!-- AI Recommendation Banner -->
+        <div class="mood-ai-banner" id="moodAiBanner">
+            <span class="material-icons">auto_awesome</span>
+            <span id="moodAiText">Based on the time, we recommend: <strong>Chill</strong></span>
+        </div>
+
+        <!-- 9 Core Moods -->
+        <p class="mood-section-label">Core Moods</p>
+        <div class="expanded-moods">
+            <div class="mood-card lofi" data-theme-select="lofi">
+                <img src="https://i.pinimg.com/736x/07/56/b8/0756b89cd947cee53668c7cbec1055e2.jpg"
+                    alt="Lofi">
+                <div class="mood-label">Lofi</div>
+            </div>
+            <div class="mood-card romantic" data-theme-select="romantic">
+                <img src="https://i.pinimg.com/736x/4c/76/19/4c76199eadcfb27f85ba99b69324f465.jpg"
+                    alt="Romantic">
+                <div class="mood-label">Romantic</div>
+            </div>
+            <div class="mood-card sad" data-theme-select="sad">
+                <img src="https://i.pinimg.com/736x/d4/1f/8d/d41f8d6161fdb197b84f7779887e80eb.jpg"
+                    alt="Sad">
+                <div class="mood-label">Sad</div>
+            </div>
+            <div class="mood-card chill" data-theme-select="chill">
+                <img src="https://i.pinimg.com/736x/c1/9a/96/c19a9667056d1c63cdb28697abb8de56.jpg"
+                    alt="Chill">
+                <div class="mood-label">Chill</div>
+            </div>
+            <div class="mood-card happy" data-theme-select="happy">
+                <img src="https://i.pinimg.com/736x/53/df/f8/53dff82cd588a9f85589f667d4ec77b5.jpg"
+                    alt="Happy">
+                <div class="mood-label">Happy</div>
+            </div>
+            <div class="mood-card energetic" data-theme-select="energetic">
+                <img src="https://i.pinimg.com/736x/03/da/fc/03dafc525a6790e275433520396e1d42.jpg"
+                    alt="Energetic">
+                <div class="mood-label">Energetic</div>
+            </div>
+            <div class="mood-card focus" data-theme-select="focus">
+                <img src="https://i.pinimg.com/1200x/ee/43/82/ee4382fa3d6912de189489ae48c7aa18.jpg"
+                    alt="Focus">
+                <div class="mood-label">Focus</div>
+            </div>
+            <div class="mood-card party" data-theme-select="party">
+                <img src="https://i.pinimg.com/1200x/28/7a/80/287a80544bb2c1404188148213c34f93.jpg"
+                    alt="Party">
+                <div class="mood-label">Party</div>
+            </div>
+            <div class="mood-card cyberpunk" data-theme-select="cyberpunk">
+                <img src="https://i.pinimg.com/736x/af/70/c4/af70c457fb6bafb11a1b988c8a5a7476.jpg"
+                    alt="Cyberpunk">
+                <div class="mood-label">Cyberpunk</div>
+            </div>
+        </div>
+
+        <!-- Seasonal Moods -->
+        <p class="mood-section-label">Seasonal Specials</p>
+        <div class="seasonal-moods">
+            <div class="mood-card seasonal" data-theme-select="chill" data-seasonal="summer">
+                <img src="https://i.pinimg.com/736x/aa/95/09/aa95091971d34dc464bcc18e75c717c0.jpg"
+                    alt="Summer">
+                <div class="mood-label">☀️ Summer</div>
+            </div>
+            <div class="mood-card seasonal" data-theme-select="sad" data-seasonal="rainy">
+                <img src="https://i.pinimg.com/736x/25/fc/e3/25fce3fcfcf37200be4cd56fe84d773a.jpg"
+                    alt="Rainy Day">
+                <div class="mood-label">🌧️ Rainy Day</div>
+            </div>
+            <div class="mood-card seasonal" data-theme-select="lofi" data-seasonal="winter">
+                <img src="https://i.pinimg.com/1200x/bb/62/c7/bb62c7c5aa4626408c5e5bbd7a32d2f2.jpg"
+                    alt="Winter Cozy">
+                <div class="mood-label">❄️ Winter Cozy</div>
+            </div>
+            <div class="mood-card seasonal" data-theme-select="party" data-seasonal="festival">
+                <img src="https://i.pinimg.com/736x/b3/f4/cb/b3f4cbb9ded6f5a1de75231493d9b647.jpg"
+                    alt="Festival">
+                <div class="mood-label">🎆 Festival</div>
+            </div>
+            <div class="mood-card seasonal" data-theme-select="focus" data-seasonal="autumn">
+                <img src="https://i.pinimg.com/736x/9b/d5/8e/9bd58ef63ee628acd3bdff938e80cab5.jpg"
+                    alt="Autumn Vibes">
+                <div class="mood-label">🍂 Autumn</div>
+            </div>
+        </div>
+
+        <!-- Mood Mix Generator -->
+        <p class="mood-section-label">Blend Two Vibes</p>
+        <div class="mood-mix-generator" id="moodMixGenerator">
+            <h3>
+                <span class="material-icons">blender</span>
+                Mood Mix Generator
+            </h3>
+            <div class="mood-mix-controls">
+                <select id="moodMix1" class="mood-mix-select">
+                    <option value="lofi">Lofi</option>
+                    <option value="romantic">Romantic</option>
+                    <option value="sad">Sad</option>
+                    <option value="chill">Chill</option>
+                    <option value="happy">Happy</option>
+                    <option value="energetic">Energetic</option>
+                    <option value="focus">Focus</option>
+                    <option value="party">Party</option>
+                </select>
+                <span class="material-icons">add</span>
+                <select id="moodMix2" class="mood-mix-select">
+                    <option value="chill">Chill</option>
+                    <option value="lofi">Lofi</option>
+                    <option value="romantic">Romantic</option>
+                    <option value="sad">Sad</option>
+                    <option value="happy">Happy</option>
+                    <option value="energetic">Energetic</option>
+                    <option value="focus">Focus</option>
+                    <option value="party">Party</option>
+                </select>
+                <button class="neon-btn mood-mix-generate-btn" id="generateMixBtn">
+                    <span class="material-icons">blender</span> Generate
+                </button>
+            </div>
+            <div class="mood-mix-preview" id="moodMixPreview" style="display: none;">
+                <!-- Generated mix results injected by JS -->
+            </div>
+        </div>
+    </div>
+</section>

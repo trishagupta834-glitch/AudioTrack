@@ -1,0 +1,25 @@
+<!-- Artist Profile View -->
+<section id="artist-profile-view" class="view">
+    <button class="neon-btn back-to-home-btn" style="margin-bottom: 1rem; width: 120px; font-size: 0.9rem; padding: 0.5rem;">
+        <span class="material-icons">arrow_back</span> BACK
+    </button>
+    
+    <div class="artist-header">
+        <div class="artist-header-bg" id="artistProfileBg" style="background-image: url('https://images.unsplash.com/photo-1493225457124-a1a2a5f36e4b?q=80&w=1200&auto=format&fit=crop');"></div>
+        <div class="artist-header-content">
+            <h1 class="glitch-text" id="artistProfileName" style="font-size: 4rem; text-shadow: 0 0 20px #000;">Artist Name</h1>
+            <p style="font-size: 1.2rem; color: #ccc;">24.5M Monthly Listeners</p>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                <button class="neon-btn" style="width: 150px; font-size: 1rem;"><span class="material-icons">play_arrow</span> PLAY</button>
+                <button class="neon-btn" style="width: 150px; font-size: 1rem; background: transparent; color: #fff;">FOLLOW</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-section" style="margin-top: 2rem;">
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Popular Tracks</h2>
+        <div id="artist-tracks-gallery" class="masonry-grid">
+            <!-- Tracks injected by JS -->
+        </div>
+    </div>
+</section>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioTrack - Y2K Music Player</title>
+
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;800;900&family=Rubik+Glitch&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=4">
+</head>
+
+<body>
+    <!-- Song Suggestion Toast -->
+    <div id="lyricToast" class="lyric-toast">
+        <div class="toast-content">
+            <span class="material-icons toast-icon">music_note</span>
+            <div>
+                <h4 id="toastSong">Song Name</h4>
+                <p id="toastLyric">"Lyric goes here..."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Animated Shapes -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <!-- Dynamic Background Color Layer -->
+    <div class="dynamic-bg" id="dynamicBg"></div>
+
+    <!-- Theme Specific Decorations (Visible only on specific themes) -->
+    <div class="theme-decorations lofi-decor">
+        <img src="https://i.pinimg.com/736x/07/56/b8/0756b89cd947cee53668c7cbec1055e2.jpg" class="lofi-blur-bg"
+            alt="Lofi Background">
+    </div>
+
+    <div class="theme-decorations romantic-decor">
+        <img src="https://i.pinimg.com/736x/61/b6/8a/61b68a601974ea2383a1bd5702c9f533.jpg" class="romantic-blur-bg"
+            alt="Romantic Background">
+        <div class="floating-heart" style="left: 15%; animation-delay: 0s; font-size: 3rem;">❤️</div>
+        <div class="floating-heart" style="left: 35%; animation-delay: 4s; font-size: 4rem;">💖</div>
+        <div class="floating-heart" style="left: 55%; animation-delay: 2s; font-size: 2.5rem;">🕯️</div>
+        <div class="floating-heart" style="left: 75%; animation-delay: 6s; font-size: 3.5rem;">❤️</div>
+        <div class="floating-heart" style="left: 85%; animation-delay: 1s; font-size: 5rem;">🕯️</div>
+        <div class="floating-heart" style="left: 5%; animation-delay: 7s; font-size: 2rem;">💖</div>
+    </div>
+
+    <div class="theme-decorations sad-decor">
+        <img src="https://i.pinimg.com/736x/2c/bf/31/2cbf312200f8c6d53e71724841270349.jpg" class="sad-blur-bg" alt="Sad Background">
+    </div>
+    <div class="theme-decorations chill-decor">
+        <img src="https://i.pinimg.com/736x/c2/71/4d/c2714d3c5e59dfd0b4417f558a1e1338.jpg" class="chill-blur-bg" alt="Chill Background">
+    </div>
+    <div class="theme-decorations happy-decor">
+        <img src="https://i.pinimg.com/736x/43/6b/de/436bde2c5e1aaefa27f8598ccafda41c.jpg" class="happy-blur-bg" alt="Happy Background">
+    </div>
+    <div class="theme-decorations energetic-decor">
+        <img src="https://i.pinimg.com/736x/df/ce/71/dfce719e012a535e5592a6ab92707fbd.jpg" class="energetic-blur-bg" alt="Energetic Background">
+    </div>
+    <div class="theme-decorations focus-decor">
+        <img src="https://i.pinimg.com/736x/c3/10/3f/c3103f32a48590be59080d094fbe36ca.jpg" class="focus-blur-bg" alt="Focus Background">
+    </div>
+    <div class="theme-decorations party-decor">
+        <img src="https://i.pinimg.com/736x/56/d9/c5/56d9c536fe069559b436d83010b39b01.jpg" class="party-blur-bg" alt="Party Background">
+    </div>
+    <div class="theme-decorations cyberpunk-decor">
+        <img src="https://i.pinimg.com/736x/2e/de/03/2ede036c4272faf1e58e283ca5eeabc9.jpg" class="cyberpunk-blur-bg" alt="Cyberpunk Background">
+    </div>
+
+    <!-- Floating Sticker Example -->
+    <!-- You can add more stickers here -->
+    <!-- <img src="path/to/sticker.png" class="floating-sticker sticker-1"> -->
+
+    <div class="app-container">
+        <!-- --- SIDEBAR --- -->
+        <aside class="sidebar glass-panel">
+            <div class="logo-container">
+                <!-- Replace with your logo image -->
+                <img src="Gemini_Generated_Image_beydw1beydw1beyd (1).png" alt="AudioTrack Logo" class="brand-logo">
+            </div>
+
+            <ul class="nav-links">
+                <li class="nav-item" data-target="home">
+                    <span class="material-icons">home</span>
+                    <span>Home</span>
+                </li>
+                <li class="nav-item" data-target="discover">
+                    <span class="material-icons">explore</span>
+                    <span>Discover</span>
+                </li>
+                <li class="nav-item" data-target="library">
+                    <span class="material-icons">music_note</span>
+                    <span>Library</span>
+                </li>
+                <li class="nav-item" data-target="playlists">
+                    <span class="material-icons">queue_music</span>
+                    <span>Playlists</span>
+                </li>
+                <li class="nav-item" data-target="dedications">
+                    <span class="material-icons">card_giftcard</span>
+                    <span>Dedications</span>
+                <li class="nav-item active" data-target="moodboard">
+                    <span class="material-icons">palette</span>
+                    <span>Mood Board</span>
+                </li>
+
+                <li class="nav-item push-down" id="hapticSyncToggle">
+                    <span class="material-icons">vibration</span>
+                    <span>Haptic Sync</span>
+                </li>
+                <li class="nav-item">
+                    <span class="material-icons">add</span>
+                    <span>New Playlist</span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- --- MAIN CONTENT --- -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="search-bar glass-panel" style="display: none;">
+                    <span class="material-icons">search</span>
+                    <input type="text" placeholder="Search for artists, songs, or podcasts...">
+                </div>
+                <div id="demoModeBadge" style="display: none; align-items: center; gap: 0.5rem; background: rgba(0, 240, 255, 0.1); border: 1px solid var(--neon-cyan); padding: 0.4rem 0.8rem; border-radius: 50px; color: var(--neon-cyan); font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);">
+                    <span class="material-icons" style="font-size: 1rem; animation: pulse 2s infinite;">offline_bolt</span>
+                    Demo Active
+                </div>
+                <div class="user-profile nav-item" data-target="profile"
+                    style="text-decoration: none; display: flex; align-items: center; gap: 1rem; cursor: pointer; padding: 0.5rem 1rem; border-radius: 50px;">
+                    <div class="avatar"
+                        style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; border: 2px solid var(--neon-pink);">
+                        <img id="topbarAvatarImg" src="https://api.dicebear.com/9.x/avataaars/svg?seed=DJ_Glitch"
+                            alt="User Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <span class="username"
+                        style="font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">DJ_Glitch</span>
+                </div>
+            </header>
+
+            <!-- Marquee -->
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    NOW PLAYING: HYPERPOP HITS // CYBER RAVE MIX // ACID TECHNO ANTHEMS // FOLLOW @AUDIOTRACK ON SOCIALS
+                    //
+                </div>
+            </div>
+
+            <!-- Views -->
+            <div class="view-container" id="app-content-area">
+                <!-- Content will be injected here dynamically by app.js -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Drag-and-Drop Queue Bubble -->
+    <div id="queue-dropzone" class="queue-dropzone">
+        <span class="material-icons" style="font-size: 3rem;">queue_music</span>
+        <p style="margin-top: 0.5rem; font-weight: bold;">Drop to Queue</p>
+    </div>
+
+    <!-- --- BOTTOM MUSIC PLAYER --- -->
+    <footer class="music-player glass-panel" id="bottom-player" style="display: none;">
+        <!-- Now Playing -->
+        <div class="now-playing">
+            <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=120&auto=format&fit=crop"
+                alt="Track Art" class="track-art rotating">
+            <div class="track-info">
+                <div class="track-title">Acid Rain</div>
+                <div class="track-artist">Y2K Junkie</div>
+            </div>
+            <span class="material-icons like-btn">favorite_border</span>
+            <span class="material-icons dedicate-btn" id="openDedicateBtn" title="Dedicate to a Friend"
+                style="color: var(--neon-pink); cursor: pointer; margin-left: 10px;">card_giftcard</span>
+        </div>
+
+        <!-- Player Controls -->
+        <div class="player-controls">
+            <div class="control-buttons">
+                <span class="material-icons">shuffle</span>
+                <span class="material-icons">skip_previous</span>
+                <button id="playBtn" class="play-pause-btn">
+                    <span id="playIcon" class="material-icons">play_arrow</span>
+                </button>
+                <span class="material-icons">skip_next</span>
+                <span class="material-icons">repeat</span>
+            </div>
+            <div class="progress-container">
+                <span class="time">1:23</span>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
+                </div>
+                <span class="time">3:45</span>
+            </div>
+        </div>
+
+        <!-- Player Actions -->
+        <div class="player-actions">
+            <span class="material-icons" id="shareTimestampBtn" title="Share Timestamp">share</span>
+            <span class="material-icons" id="focusModeBtn" title="Focus Mode">center_focus_strong</span>
+            <span class="material-icons">playlist_play</span>
+            <span class="material-icons" id="muteBtn">volume_up</span>
+            <div class="volume-bar-bg">
+                <div class="volume-bar-fill"></div>
+            </div>
+            <span class="material-icons">fullscreen</span>
+        </div>
+    </footer>
+
+    <!-- Hidden Audio Player -->
+    <audio id="mainAudio" preload="auto"></audio>
+
+
+    <!-- --- ONBOARDING & MOOD MODAL --- -->
+    <!-- Content now injected into #app-content-area via JS -->
+
+    <!-- --- DEDICATE SONG MODAL --- -->
+    <div id="dedicateModal" class="mood-modal">
+        <h2 class="mood-title glitch-text" style="font-size: 3rem;">Dedicate this Track</h2>
+        <div class="dedicate-form"
+            style="background: var(--bg-panel); padding: 2rem; border-radius: 20px; border: 1px solid var(--neon-pink); width: 400px; text-align: left;">
+            <p style="margin-bottom: 0.5rem; font-weight: bold;">Send to Friend:</p>
+            <select id="dedicateFriendSelect" class="glass-input"
+                style="width: 100%; margin-bottom: 1.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 10px; border-radius: 5px;">
+                <!-- Options populated by JS -->
+            </select>
+
+            <p style="margin-bottom: 0.5rem; font-weight: bold;">Add a Note (Optional):</p>
+            <textarea id="dedicateMessageInput" class="glass-input" rows="3" placeholder="This song reminds me of..."
+                style="width: 100%; margin-bottom: 1.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 10px; border-radius: 5px;"></textarea>
+
+            <div style="display: flex; gap: 1rem; justify-content: space-between;">
+                <button id="cancelDedicateBtn"
+                    style="background: transparent; border: none; color: var(--text-muted); cursor: pointer;">Cancel</button>
+                <button id="submitDedicateBtn" class="neon-btn">SEND 🎁</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- BIRTHDAY CONFETTI OVERLAY --- -->
+    <div id="confettiContainer" class="confetti-container"></div>
+
+    <!-- JavaScript (Modular View Loader) -->
+    <script>
+        const cb = Date.now();
+        Promise.all([
+            fetch('views/home.html?v=' + cb).then(r => r.text()),
+            fetch('views/discover.html?v=' + cb).then(r => r.text()),
+            fetch('views/library.html?v=' + cb).then(r => r.text()),
+            fetch('views/playlist.html?v=' + cb).then(r => r.text()),
+            fetch('views/dedications.html?v=' + cb).then(r => r.text()),
+            fetch('views/artist.html?v=' + cb).then(r => r.text()),
+            fetch('views/moodboard.html?v=' + cb).then(r => r.text()),
+            fetch('views/profile.html?v=' + cb).then(r => r.text())
+        ]).then(([home, discover, library, playlist, dedications, artist, moodboard, profile]) => {
+            document.getElementById('app-content-area').innerHTML = home + discover + library + playlist + dedications + artist + moodboard + profile;
+
+            const script = document.createElement('script');
+            script.src = 'app.js?v=' + cb;
+            document.body.appendChild(script);
+        }).catch(err => {
+            console.error("Error loading modular views:", err);
+            document.getElementById('app-content-area').innerHTML = "<h2 class='glitch-text' style='padding: 2rem;'>Error loading views. Please ensure you are running on a local server.</h2>";
+        });
+    </script>
+</body>
+
+</html>

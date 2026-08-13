@@ -1,0 +1,123 @@
+<!-- Library View -->
+<section id="library-view" class="view">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 class="glitch-text">Your Library</h1>
+        <div style="display:flex; gap: 0.5rem;">
+            <button class="neon-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><span class="material-icons">filter_list</span> Filter</button>
+            <button class="neon-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-color: var(--neon-cyan); color: var(--neon-cyan);"><span class="material-icons">sort</span> Sort</button>
+        </div>
+    </div>
+
+    <!-- Liked Songs -->
+    <div class="dashboard-section">
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Liked Songs</h2>
+        <div class="horizontal-scroll-row">
+            <div class="curated-card" style="background: linear-gradient(135deg, #4a00e0, #8e2de2);">
+                <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=300&auto=format&fit=crop" alt="Liked Songs">
+                <h3>♥ Liked Songs</h3>
+            </div>
+            <div class="curated-card">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=300&auto=format&fit=crop" alt="Downloaded">
+                <h3>↓ Downloaded</h3>
+            </div>
+            <div class="curated-card">
+                <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=300&auto=format&fit=crop" alt="Recently Added">
+                <h3>🕐 Recently Added</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Artists -->
+    <div class="dashboard-section">
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Artists You Follow</h2>
+        <div id="library-artists-row" class="horizontal-scroll-row" style="gap: 2rem;">
+            <div class="artist-circle" style="flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1541271696563-3be2f555fc4e?q=80&w=200&auto=format&fit=crop" alt="The Weeknd">
+                <p>The Weeknd</p>
+            </div>
+            <div class="artist-circle" style="flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop" alt="Billie Eilish">
+                <p>Billie Eilish</p>
+            </div>
+            <div class="artist-circle" style="flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1493225457124-a1a2a5f36e4b?q=80&w=200&auto=format&fit=crop" alt="Travis Scott">
+                <p>Travis Scott</p>
+            </div>
+            <div class="artist-circle" style="flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=200&auto=format&fit=crop" alt="NewJeans">
+                <p>NewJeans</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Albums -->
+    <div class="dashboard-section">
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Saved Albums</h2>
+        <div class="horizontal-scroll-row">
+            <div class="curated-card">
+                <img src="https://images.unsplash.com/photo-1458560871784-56d23406c091?q=80&w=300&auto=format&fit=crop" alt="Album 1">
+                <h3>After Hours</h3>
+            </div>
+            <div class="curated-card">
+                <img src="https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=300&auto=format&fit=crop" alt="Album 2">
+                <h3>Happier Than Ever</h3>
+            </div>
+            <div class="curated-card">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop" alt="Album 3">
+                <h3>Midnights</h3>
+            </div>
+            <div class="curated-card">
+                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=300&auto=format&fit=crop" alt="Album 4">
+                <h3>Un Verano Sin Ti</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mood Stats Tracker -->
+    <div class="dashboard-section">
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Your Mood History</h2>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Based on your listening sessions</p>
+        <div class="mood-tracker-grid" id="moodTrackerGrid">
+            <div class="mood-stat-card">
+                <div style="font-size: 1.5rem;">🌙</div>
+                <p style="font-size: 0.8rem; font-weight: 700; margin: 0.3rem 0;">Lofi</p>
+                <div class="mood-stat-bar"><div class="mood-stat-fill lofi" style="width: 75%"></div></div>
+            </div>
+            <div class="mood-stat-card">
+                <div style="font-size: 1.5rem;">💖</div>
+                <p style="font-size: 0.8rem; font-weight: 700; margin: 0.3rem 0;">Romantic</p>
+                <div class="mood-stat-bar"><div class="mood-stat-fill romantic" style="width: 40%"></div></div>
+            </div>
+            <div class="mood-stat-card">
+                <div style="font-size: 1.5rem;">🌧️</div>
+                <p style="font-size: 0.8rem; font-weight: 700; margin: 0.3rem 0;">Sad</p>
+                <div class="mood-stat-bar"><div class="mood-stat-fill sad" style="width: 55%"></div></div>
+            </div>
+            <div class="mood-stat-card">
+                <div style="font-size: 1.5rem;">🌊</div>
+                <p style="font-size: 0.8rem; font-weight: 700; margin: 0.3rem 0;">Chill</p>
+                <div class="mood-stat-bar"><div class="mood-stat-fill chill" style="width: 60%"></div></div>
+            </div>
+            <div class="mood-stat-card">
+                <div style="font-size: 1.5rem;">☀️</div>
+                <p style="font-size: 0.8rem; font-weight: 700; margin: 0.3rem 0;">Happy</p>
+                <div class="mood-stat-bar"><div class="mood-stat-fill happy" style="width: 45%"></div></div>
+            </div>
+            <div class="mood-stat-card">
+                <div style="font-size: 1.5rem;">🔥</div>
+                <p style="font-size: 0.8rem; font-weight: 700; margin: 0.3rem 0;">Energetic</p>
+                <div class="mood-stat-bar"><div class="mood-stat-fill energetic" style="width: 25%"></div></div>
+            </div>
+            <div class="mood-stat-card">
+                <div style="font-size: 1.5rem;">🎯</div>
+                <p style="font-size: 0.8rem; font-weight: 700; margin: 0.3rem 0;">Focus</p>
+                <div class="mood-stat-bar"><div class="mood-stat-fill focus" style="width: 85%"></div></div>
+            </div>
+            <div class="mood-stat-card">
+                <div style="font-size: 1.5rem;">🎉</div>
+                <p style="font-size: 0.8rem; font-weight: 700; margin: 0.3rem 0;">Party</p>
+                <div class="mood-stat-bar"><div class="mood-stat-fill party" style="width: 20%"></div></div>
+            </div>
+        </div>
+    </div>
+</section>

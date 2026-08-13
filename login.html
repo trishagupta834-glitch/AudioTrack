@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioTrack | Enter The Vibe</title>
+
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;800;900&family=Rubik+Glitch&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css?v=1"> <!-- Import base styles/tokens -->
+    <link rel="stylesheet" href="login.css?v=1">
+    <style>
+        /* Custom Switch Slider */
+        .switch-container input:checked + .slider {
+            background-color: rgba(0, 229, 255, 0.2) !important;
+            border-color: var(--neon-cyan) !important;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+        .switch-container .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--text-muted);
+            transition: .4s;
+            border-radius: 50%;
+        }
+        .switch-container input:checked + .slider:before {
+            transform: translateX(24px);
+            background-color: var(--neon-cyan) !important;
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        /* Demo Buttons Styles */
+        .demo-user-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.6rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        .demo-user-btn img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .demo-user-btn:hover {
+            background: rgba(0, 229, 255, 0.08);
+            border-color: var(--neon-cyan);
+            color: var(--text-main);
+            box-shadow: 0 0 8px rgba(0, 229, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        .demo-user-btn:active {
+            transform: translateY(0);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="split-container">
+
+        <!-- Left Side: Chaotic Pinterest Moodboard (The Vibe) -->
+        <div class="vibe-side">
+            <div class="collage-scroller">
+                <!-- Column 1 -->
+                <div class="collage-col speed-1">
+                    <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400&auto=format&fit=crop"
+                        alt="Tokyo">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=400&auto=format&fit=crop"
+                        alt="Neon">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop"
+                        alt="Glitch">
+                    <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=400&auto=format&fit=crop"
+                        alt="Cyber">
+                </div>
+                <!-- Column 2 -->
+                <div class="collage-col speed-2">
+                    <img src="https://images.unsplash.com/photo-1493225457124-a1a2a5f36e4b?q=80&w=400&auto=format&fit=crop"
+                        alt="Art">
+                    <img src="https://images.unsplash.com/photo-1510258169188-7512a8183015?q=80&w=400&auto=format&fit=crop"
+                        alt="Graffiti">
+                    <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=400&auto=format&fit=crop"
+                        alt="Vaporwave">
+                </div>
+                <!-- Column 3 -->
+                <div class="collage-col speed-3">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=400&auto=format&fit=crop"
+                        alt="Phonk">
+                    <img src="https://images.unsplash.com/photo-1510258169188-7512a8183015?q=80&w=400&auto=format&fit=crop"
+                        alt="Street">
+                    <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400&auto=format&fit=crop"
+                        alt="Tokyo">
+                </div>
+            </div>
+
+            <div class="vibe-overlay">
+                <h1 class="massive-glitch">AUDIO<br>TRACK</h1>
+            </div>
+        </div>
+
+        <!-- Right Side: The Login Form -->
+        <div class="form-side">
+            <!-- Animated background shapes for the form side -->
+            <div class="bg-shape shape-1" style="width: 300px; height: 300px; top: 10%; right: 10%;"></div>
+            <div class="bg-shape shape-2"
+                style="width: 250px; height: 250px; bottom: 20%; right: 40%; background: var(--neon-pink);"></div>
+
+            <div class="login-card glass-panel">
+                <div
+                    style="display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+                    <button id="modeSignIn"
+                        style="background: none; border: none; font-size: 1.2rem; font-weight: bold; color: var(--neon-pink); cursor: pointer; border-bottom: 2px solid var(--neon-pink); padding-bottom: 5px;">CHECK
+                        IN (Sign In)</button>
+                    <button id="modeSignUp"
+                        style="background: none; border: none; font-size: 1.2rem; font-weight: bold; color: #fff; cursor: pointer; padding-bottom: 5px;">CREATE
+                        DROP (Sign Up)</button>
+                </div>
+
+                <h2 id="formTitle" class="form-title glitch-text" data-text="CHECK IN">CHECK IN</h2>
+                <p id="formSub" class="form-subtitle" style="color: var(--neon-pink);">Enter the vibe. Your music awaits.</p>
+
+                <div id="authError"
+                    style="display: none; background: rgba(255, 0, 85, 0.2); border: 1px solid var(--neon-pink); color: #fff; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem;">
+                </div>
+
+                <!-- Offline / Demo Mode Container -->
+                <div class="demo-mode-container" style="margin-bottom: 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem; background: rgba(0, 240, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.2); border-radius: 16px; padding: 1rem; box-shadow: inset 0 0 10px rgba(0,240,255,0.05);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span style="font-weight: 500; font-size: 0.9rem; color: var(--neon-cyan); text-shadow: 0 0 5px rgba(0,229,255,0.3); display: flex; align-items: center; gap: 0.5rem;">
+                            <span class="material-icons" style="font-size: 1.2rem;">wifi_off</span>
+                            Offline Demo Mode
+                        </span>
+                        <label class="switch-container" style="position: relative; display: inline-block; width: 50px; height: 26px;">
+                            <input type="checkbox" id="demoModeToggle" style="opacity: 0; width: 0; height: 0;">
+                            <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); transition: .4s; border-radius: 34px;"></span>
+                        </label>
+                    </div>
+                    
+                    <div id="demoAccountsSection" style="width: 100%; display: none; text-align: left; animation: fadeIn 0.3s ease;">
+                        <p style="font-size: 0.75rem; color: var(--neon-cyan); margin: 0 0 0.8rem 0;">Click a demo ID to login instantly:</p>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; width: 100%;">
+                            <button type="button" class="demo-user-btn" data-username="Alex">
+                                <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Alex" alt="Alex">
+                                <span>Alex</span>
+                            </button>
+                            <button type="button" class="demo-user-btn" data-username="Sam">
+                                <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Sam" alt="Sam">
+                                <span>Sam</span>
+                            </button>
+                            <button type="button" class="demo-user-btn" data-username="Charlie">
+                                <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Charlie" alt="Charlie">
+                                <span>Charlie</span>
+                            </button>
+                            <button type="button" class="demo-user-btn" data-username="Taylor">
+                                <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Taylor" alt="Taylor">
+                                <span>Taylor</span>
+                            </button>
+                            <button type="button" class="demo-user-btn" data-username="Jordan">
+                                <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Jordan" alt="Jordan">
+                                <span>Jordan</span>
+                            </button>
+                            <button type="button" class="demo-user-btn" data-username="Morgan">
+                                <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Morgan" alt="Morgan">
+                                <span>Morgan</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                    <div class="input-group">
+                        <label for="username">@HypeName</label>
+                        <input type="text" id="username" placeholder="Enter your username..." required>
+                        <span class="focus-border"></span>
+                    </div>
+
+                    <div id="emailGroup" class="input-group" style="display: none;">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email...">
+                        <span class="focus-border"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Secret Key</label>
+                        <input type="password" id="password" placeholder="Enter your password..." required>
+                        <span class="focus-border"></span>
+                        <span class="material-icons toggle-pwd">visibility_off</span>
+                    </div>
+
+                    <div class="form-actions">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" checked>
+                            <span class="checkmark"></span>
+                            Remember my vibe
+                        </label>
+                        <a href="#" class="forgot-link">Lost key?</a>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="submit-btn neon-btn">
+                        ENTER THE TRACK <span class="material-icons">arrow_forward</span>
+                    </button>
+                </form>
+
+                <div class="divider">
+                    <span>OR SYNC WITH</span>
+                </div>
+
+                <div class="social-login">
+                    <button class="social-btn discord">
+                        <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"
+                            alt="Discord">
+                    </button>
+                    <button class="social-btn tiktok">
+                        <img src="https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Tiktok-512.png"
+                            alt="TikTok">
+                    </button>
+                    <button class="social-btn google">
+                        <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
+                            alt="Google">
+                    </button>
+                </div>
+
+                <p class="signup-prompt" id="togglePrompt">New to the track? <a href="#" id="toggleModeLink">Create a
+                        drop.</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isSignUp = false;
+
+        const modeSignInBtn = document.getElementById('modeSignIn');
+        const modeSignUpBtn = document.getElementById('modeSignUp');
+        const formTitle = document.getElementById('formTitle');
+        const formSub = document.getElementById('formSub');
+        const emailGroup = document.getElementById('emailGroup');
+        const submitBtn = document.getElementById('submitBtn');
+        const togglePrompt = document.getElementById('togglePrompt');
+        const authError = document.getElementById('authError');
+
+        function getMockAuthData(usrName, usrEmail) {
+            // Predefined list of mock users
+            const allMockUsers = ["Alex", "Sam", "Charlie", "Taylor", "Jordan", "Morgan"];
+            
+            // Filter connections to not include the current user
+            const connections = allMockUsers.filter(u => u.toLowerCase() !== usrName.toLowerCase()).slice(0, 3);
+            
+            // Generate a nice profile avatar url
+            const avatarUrl = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(usrName)}`;
+            
+            // Predefined dedications that make sense for this user
+            const sender = connections[0] || "Alex";
+            const dedications = [
+                {
+                    fromUser: sender,
+                    trackTitle: "Midnight City",
+                    trackArtist: "M83",
+                    trackArt: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=300&auto=format&fit=crop",
+                    trackUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/92/79/ce/9279ce85-bcf3-dfb5-b461-1250b73c9c9b/mzaf_7823528437021703273.plus.aac.p.m4a",
+                    message: `Hey ${usrName}, this track matches your vibe today!`,
+                    timestamp: new Date().toISOString()
+                }
+            ];
+
+            return {
+                user: {
+                    username: usrName,
+                    email: usrEmail || `${usrName}@example.com`,
+                    avatarUrl: avatarUrl,
+                    connections: connections,
+                    pinnedPlaylists: [],
+                    dedications: dedications
+                },
+                token: 'mock-jwt-token'
+            };
+        }
+
+        function setMode(signUp) {
+            isSignUp = signUp;
+            authError.style.display = 'none';
+            if (isSignUp) {
+                modeSignUpBtn.style.color = 'var(--neon-pink)';
+                modeSignUpBtn.style.borderBottom = '2px solid var(--neon-pink)';
+                modeSignInBtn.style.color = '#fff';
+                modeSignInBtn.style.borderBottom = 'none';
+
+                formTitle.textContent = 'CREATE DROP';
+                formTitle.setAttribute('data-text', 'CREATE DROP');
+                formSub.textContent = 'Join the revolution. Claim your vibe.';
+                formSub.style.color = 'var(--text-muted)';
+                emailGroup.style.display = 'block';
+                submitBtn.innerHTML = 'JOIN THE TRACK <span class="material-icons">arrow_forward</span>';
+                togglePrompt.innerHTML = 'Already have a drop? <a href="#" id="toggleModeLink">Check in.</a>';
+            } else {
+                modeSignInBtn.style.color = 'var(--neon-pink)';
+                modeSignInBtn.style.borderBottom = '2px solid var(--neon-pink)';
+                modeSignUpBtn.style.color = '#fff';
+                modeSignUpBtn.style.borderBottom = 'none';
+
+                formTitle.textContent = 'CHECK IN';
+                formTitle.setAttribute('data-text', 'CHECK IN');
+                formSub.textContent = 'Enter the vibe. Your music awaits.';
+                formSub.style.color = 'var(--neon-pink)';
+                emailGroup.style.display = 'none';
+                submitBtn.innerHTML = 'ENTER THE TRACK <span class="material-icons">arrow_forward</span>';
+                togglePrompt.innerHTML = 'New to the track? <a href="#" id="toggleModeLink">Create a drop.</a>';
+            }
+            document.getElementById('toggleModeLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                setMode(!isSignUp);
+            });
+        }
+
+        modeSignInBtn.addEventListener('click', () => setMode(false));
+        modeSignUpBtn.addEventListener('click', () => setMode(true));
+        document.getElementById('toggleModeLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            setMode(true);
+        });
+
+        // Password toggle logic
+        document.querySelector('.toggle-pwd').addEventListener('click', function () {
+            const pwdInput = document.getElementById('password');
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                this.textContent = 'visibility';
+                this.style.color = 'var(--neon-pink)';
+            } else {
+                pwdInput.type = 'password';
+                this.textContent = 'visibility_off';
+                this.style.color = 'var(--text-muted)';
+            }
+        });
+
+        // Setup Demo/Offline Mode Toggle
+        const demoModeToggle = document.getElementById('demoModeToggle');
+        const demoAccountsSection = document.getElementById('demoAccountsSection');
+
+        if (localStorage.getItem('offlineMode') === null) {
+            localStorage.setItem('offlineMode', 'true'); // Default to offline demo mode
+        }
+        const initialOffline = localStorage.getItem('offlineMode') !== 'false';
+        demoModeToggle.checked = initialOffline;
+        demoAccountsSection.style.display = initialOffline ? 'block' : 'none';
+
+        demoModeToggle.addEventListener('change', (e) => {
+            const isChecked = e.target.checked;
+            localStorage.setItem('offlineMode', isChecked ? 'true' : 'false');
+            demoAccountsSection.style.display = isChecked ? 'block' : 'none';
+        });
+
+        // Add click listeners to demo account buttons
+        document.querySelectorAll('.demo-user-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const username = btn.getAttribute('data-username');
+                
+                submitBtn.innerHTML = 'CONNECTING DEMO... <span class="material-icons rotating-icon">sync</span>';
+                submitBtn.disabled = true;
+                
+                const mockData = getMockAuthData(username);
+                
+                // Save user session and token to localStorage
+                localStorage.setItem('currentUser', JSON.stringify(mockData.user));
+                localStorage.setItem('authToken', mockData.token);
+                
+                // Clear user-specific theme to force onboarding
+                const userKey = `audioTrackTheme_${username}`;
+                localStorage.removeItem(userKey);
+                
+                setTimeout(() => {
+                    submitBtn.innerHTML = `WELCOME, ${username.toUpperCase()} <span class="material-icons">check_circle</span>`;
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 800);
+                }, 600);
+            });
+        });
+
+        // Form submit authentication logic
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            authError.style.display = 'none';
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            submitBtn.innerHTML = 'AUTHENTICATING... <span class="material-icons rotating-icon">sync</span>';
+            submitBtn.disabled = true;
+
+            const endpoint = isSignUp ? 'http://localhost:5000/api/auth/register' : 'http://localhost:5000/api/auth/login';
+            const payload = isSignUp ? { username, email, password } : { username, password };
+
+            try {
+                let res, data;
+                let isMocked = false;
+                
+                // If running on GitHub Pages/static host, offline mode is checked, or if localhost is offline, simulate authentication
+                const isMockHost = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+                const isOfflineMode = localStorage.getItem('offlineMode') !== 'false';
+
+                if (isOfflineMode || isMockHost) {
+                    console.log('Static host or Offline mode active. Simulating frontend auth...');
+                    isMocked = true;
+                    data = getMockAuthData(username, email);
+                } else {
+                    try {
+                        res = await fetch(endpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        data = await res.json();
+                        if (!res.ok) {
+                            console.warn('Backend returned error or offline status. Falling back to mock...');
+                            isMocked = true;
+                            data = getMockAuthData(username, email);
+                        }
+                    } catch (fetchErr) {
+                        console.warn('Backend server offline. Simulating frontend-only mock login.', fetchErr);
+                        isMocked = true;
+                        data = getMockAuthData(username, email);
+                    }
+                }
+
+                // Save user session and token to localStorage
+                localStorage.setItem('currentUser', JSON.stringify(data.user || { username }));
+                if (data.token) {
+                    localStorage.setItem('authToken', data.token);
+                }
+                
+                // Clear user-specific theme to force onboarding on simulated new logins
+                const userKey = `audioTrackTheme_${username}`;
+                localStorage.removeItem(userKey);
+
+                submitBtn.innerHTML = 'ACCESS GRANTED <span class="material-icons">check_circle</span>';
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+
+            } catch (err) {
+                authError.textContent = err.message;
+                authError.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = isSignUp ? 'JOIN THE TRACK <span class="material-icons">arrow_forward</span>' : 'ENTER THE TRACK <span class="material-icons">arrow_forward</span>';
+            }
+        });
+    </script>
+</body>
+
+</html>

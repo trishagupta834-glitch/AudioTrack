@@ -1,0 +1,191 @@
+<!-- Playlists View -->
+<section id="playlists-view" class="view">
+    <div id="playlistsMainContent">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1 class="glitch-text">Your Playlists</h1>
+            <div>
+                <button id="openMoodBtn" class="neon-btn" style="padding: 0.5rem 1rem; margin-right: 0.5rem;"><span class="material-icons">mood</span> CHANGE MOOD</button>
+                <button id="openQueueDrawer" class="neon-btn" style="padding: 0.5rem 1rem; margin-right: 0.5rem; border-color: var(--neon-cyan); color: var(--neon-cyan);"><span class="material-icons">queue_music</span> QUEUE</button>
+                <button class="neon-btn" style="padding: 0.5rem 1rem;"><span class="material-icons">add</span> CREATE NEW</button>
+            </div>
+        </div>
+
+        <!-- Mood Ring Filter -->
+        <div class="mood-ring-container" style="margin-bottom: 2rem;">
+            <p style="text-transform: uppercase; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem; letter-spacing: 2px;">Mood Ring Filter</p>
+            <input type="range" id="moodRing" min="0" max="100" value="50" class="mood-ring-slider">
+            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                <span>SAD</span>
+                <span>CHILL</span>
+                <span>HYPE</span>
+            </div>
+        </div>
+
+        <!-- User Created Playlists -->
+        <div class="horizontal-scroll-row" id="user-playlists" style="margin-bottom: 3rem;">
+            <!-- Playlists will be injected here dynamically -->
+        </div>
+
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Saved Playlists</h2>
+        <div class="horizontal-scroll-row" id="saved-playlists-row">
+            <!-- Saved playlists injected dynamically -->
+        </div>
+
+        <!-- Time Capsules Section -->
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1rem;">Time Capsules</h2>
+        <div class="horizontal-scroll-row" style="margin-bottom: 3rem;">
+            <div class="curated-card playlist-card time-capsule">
+                <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=300&auto=format&fit=crop" style="filter: grayscale(100%) blur(2px);" alt="Time Capsule 1">
+                <div class="lock-overlay">
+                    <span class="material-icons" style="font-size: 3rem; margin-bottom: 0.5rem;">lock</span>
+                    <p style="font-size: 0.9rem; font-weight: bold; text-align: center;">Unlocks on Birthday</p>
+                </div>
+                <h3>Alex's Playlist</h3>
+            </div>
+        </div>
+
+        <!-- Birthday Memories Archive -->
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">🎂 Birthday Memories Archive</h2>
+        <div class="horizontal-scroll-row birthday-archive" id="birthdayArchive" style="margin-bottom: 3rem;">
+            <div class="archive-card" data-year="2026">
+                <div class="archive-year">2026</div>
+                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=300&auto=format&fit=crop" alt="Birthday 2026">
+                <div class="archive-overlay">
+                    <span class="material-icons">cake</span>
+                    <p>12 Tracks</p>
+                </div>
+                <h3>Birthday 2026</h3>
+            </div>
+            <div class="archive-card locked" data-year="2025">
+                <div class="archive-year">2025</div>
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop" style="filter: sepia(50%);" alt="Birthday 2025">
+                <div class="archive-overlay">
+                    <span class="material-icons">cake</span>
+                    <p>10 Tracks</p>
+                </div>
+                <h3>Birthday 2025</h3>
+            </div>
+            <div class="archive-card locked" data-year="2024">
+                <div class="archive-year">2024</div>
+                <img src="https://images.unsplash.com/photo-1493225457124-a1a2a5f36e4b?q=80&w=300&auto=format&fit=crop" style="filter: sepia(70%);" alt="Birthday 2024">
+                <div class="archive-overlay">
+                    <span class="material-icons">cake</span>
+                    <p>8 Tracks</p>
+                </div>
+                <h3>Birthday 2024</h3>
+            </div>
+        </div>
+
+        <!-- Birthday Dedications (visible in Birthday Mode) -->
+        <div id="birthdayDedications" class="birthday-only" style="margin-top: 3rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 class="glitch-text" style="font-size: 2rem;">🎉 Birthday Dedications</h2>
+            </div>
+            
+            <!-- Auto-Generated Birthday Playlist -->
+            <div class="birthday-auto-playlist" id="birthdayAutoPlaylist" style="margin-bottom: 2rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <span class="material-icons" style="color: #ffd700; font-size: 2rem;">auto_awesome</span>
+                    <div>
+                        <h3>AI Birthday Mix</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Generated from your dedications + listening history</p>
+                    </div>
+                    <button class="neon-btn" style="margin-left: auto; padding: 0.4rem 1rem; border-color: #ffd700; color: #ffd700;"><span class="material-icons">play_arrow</span> PLAY</button>
+                </div>
+                <div class="horizontal-scroll-row" id="birthdayMixTracks">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+
+            <div class="dedications-grid">
+                <div class="dedication-card">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=300&auto=format&fit=crop" alt="Track">
+                    <div class="sticky-note">
+                        <p>"This song reminds me of our trip!"</p>
+                        <span>- Alex</span>
+                    </div>
+                    <div class="play-hover"><span class="material-icons">play_arrow</span></div>
+                </div>
+                
+                <div class="dedication-card">
+                    <img src="https://images.unsplash.com/photo-1541271696563-3be2f555fc4e?q=80&w=300&auto=format&fit=crop" alt="Track">
+                    <div class="sticky-note" style="background: #ff7eb3; transform: rotate(3deg);">
+                        <p>"You need to hear this drop!"</p>
+                        <span>- Sam</span>
+                    </div>
+                    <div class="play-hover"><span class="material-icons">play_arrow</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Playlist Detail Section (Initially Hidden) -->
+    <div id="playlistDetailSection" style="display: none; margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem; text-align: left;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <button id="btnBackToPlaylists" class="neon-btn" style="padding: 0.5rem 1rem; border-color: var(--neon-pink); color: var(--neon-pink);">
+                <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">arrow_back</span> BACK TO PLAYLISTS
+            </button>
+            <div style="display: flex; gap: 1rem;">
+                <button id="btnPinPlaylistDetail" class="neon-btn" style="padding: 0.5rem 1rem; border-color: var(--neon-cyan); color: var(--neon-cyan);">
+                    <span class="material-icons" style="font-size: 1.2rem; vertical-align: middle;">push_pin</span> <span>PIN PLAYLIST</span>
+                </button>
+                <button id="btnPlayAllPlaylist" class="neon-btn" style="padding: 0.5rem 1.5rem; background: var(--neon-pink); color: #fff;">
+                    <span class="material-icons" style="font-size: 1.2rem; vertical-align: middle;">play_arrow</span> PLAY ALL
+                </button>
+            </div>
+        </div>
+        <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 2rem;" class="playlist-detail-header">
+            <img id="detailPlaylistArt" src="" style="width: 180px; height: 180px; border-radius: 12px; object-fit: cover; border: 2px solid var(--neon-pink); box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);">
+            <div>
+                <h2 id="detailPlaylistName" class="glitch-text" style="margin: 0; font-size: 2.2rem; letter-spacing: 1px;">Playlist Name</h2>
+                <p id="detailPlaylistDesc" style="color: var(--text-secondary); margin: 0.5rem 0 0; font-size: 0.95rem;">Playlist description</p>
+                <p id="detailPlaylistTrackCount" style="color: var(--neon-cyan); margin: 0.5rem 0 0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">0 TRACKS</p>
+            </div>
+        </div>
+        
+        <h3 class="glitch-text" style="font-size: 1.3rem; margin-bottom: 1rem;">Tracks</h3>
+        <div id="playlistTracksList" style="display: flex; flex-direction: column; gap: 0.8rem;">
+            <!-- Dynamic list of tracks will be injected here -->
+        </div>
+    </div>
+</section>
+
+<!-- Queue Drawer (Slide-out Panel) -->
+<div class="queue-drawer" id="queueDrawer">
+    <div class="queue-drawer-header">
+        <h2 class="glitch-text" style="font-size: 1.5rem;">Queue</h2>
+        <button class="queue-close-btn" id="closeQueueDrawer"><span class="material-icons">close</span></button>
+    </div>
+
+    <!-- Now Playing in Queue -->
+    <div class="queue-now-playing" id="queueNowPlaying">
+        <p style="text-transform: uppercase; font-size: 0.7rem; color: var(--neon-green); letter-spacing: 2px; margin-bottom: 0.5rem;">Now Playing</p>
+        <div class="queue-track active-queue-track">
+            <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=60&auto=format&fit=crop" alt="Current">
+            <div>
+                <p class="queue-track-title">Acid Rain</p>
+                <p class="queue-track-artist">Y2K Junkie</p>
+            </div>
+            <span class="material-icons queue-playing-icon">equalizer</span>
+        </div>
+    </div>
+
+    <!-- Up Next (AI Predicted) -->
+    <div class="queue-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <p style="text-transform: uppercase; font-size: 0.7rem; color: var(--neon-cyan); letter-spacing: 2px;">Up Next (AI Smart Queue)</p>
+            <button class="queue-refresh-btn" id="refreshSmartQueue" title="Refresh AI Queue"><span class="material-icons">refresh</span></button>
+        </div>
+        <div id="smartQueueList" class="queue-list">
+            <!-- Items injected by JS -->
+        </div>
+    </div>
+
+    <!-- User Queue -->
+    <div class="queue-section">
+        <p style="text-transform: uppercase; font-size: 0.7rem; color: var(--text-secondary); letter-spacing: 2px; margin-bottom: 0.5rem;">Your Queue</p>
+        <div id="userQueueList" class="queue-list" style="min-height: 60px;">
+            <p class="queue-empty-msg" id="queueEmptyMsg">Drag songs here or tap + to add</p>
+        </div>
+    </div>
+</div>
