@@ -1347,6 +1347,21 @@ body {
     will-change: color, text-shadow;
 }
 
+/* Ensure non-neon text is visible (white) during the first-time moodboard onboarding */
+.moodboard-view.initial-load {
+    color: #ffffff;
+}
+
+/* Make common moodboard subcomponents inherit white text by default */
+.moodboard-view.initial-load .onboarding-step,
+.moodboard-view.initial-load .mood-cards,
+.moodboard-view.initial-load .mood-ai-banner,
+.moodboard-view.initial-load .mood-mix-preview,
+.moodboard-view.initial-load .mood-section-label,
+.moodboard-view.initial-load .mood-card .mood-label {
+    color: inherit;
+}
+
 /* ---------- Fix: prevent unintended tilt/rotation on mood cards ---------- */
 /* Reset any stray rotation while preserving hover transforms (hover rules below will override) */
 .mood-card {
