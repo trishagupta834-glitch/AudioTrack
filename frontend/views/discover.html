@@ -1,0 +1,110 @@
+<!-- Discover View (Dashboard) -->
+<section id="discover-view" class="view">
+    <!-- Top Picks Hero -->
+    <div class="hero-tile playlist-card" data-playlist="Top Picks for You" style="cursor: pointer;">
+        <div class="hero-content">
+            <h2 class="hero-title" style="font-size: 3rem; margin-bottom: 0.5rem; color: #fef08a; text-shadow: 0 0 12px rgba(0, 0, 0, 0.9);">Top Picks for You</h2>
+            <p class="hero-subtitle" style="font-size: 1.2rem; margin-bottom: 1.5rem; color: #fef08a; text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);">A personalized playlist updated daily.</p>
+            <button class="neon-btn hero-play-btn" onclick="event.stopPropagation(); openPlaylistDetail('Top Picks for You');" style="width: 150px; font-size: 1rem; color: #fef08a; border-color: #fef08a; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;"><span class="material-icons" style="color: #fef08a;">play_arrow</span> PLAY</button>
+        </div>
+    </div>
+
+    <!-- Trending / Top Charts -->
+    <div class="dashboard-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 class="glitch-text discover-section-header" style="font-size: 1.5rem; margin: 0;">Trending & Top Charts</h2>
+            <span class="see-all-btn" data-section="trending" data-playlist="Viral Hits" style="color: var(--neon-pink); font-size: 0.8rem; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center;">See all <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">chevron_right</span></span>
+        </div>
+        <div class="horizontal-scroll-row no-scrollbar">
+            <div class="curated-card playlist-card" data-playlist="Global Top 50" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?q=80&w=300&auto=format&fit=crop" alt="Global Top 50">
+                <h3>Global Top 50</h3>
+            </div>
+            <div class="curated-card playlist-card" data-playlist="Viral Hits" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=300&auto=format&fit=crop" alt="Viral Hits">
+                <h3>Viral Hits</h3>
+            </div>
+            <div class="curated-card playlist-card" data-playlist="US Top 50" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=300&auto=format&fit=crop" alt="US Top 50" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=300&auto=format&fit=crop';">
+                <h3>US Top 50</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Curated Playlists -->
+    <div class="dashboard-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 class="glitch-text discover-section-header" style="font-size: 1.5rem; margin: 0;">Curated for your Mood</h2>
+            <span class="see-all-btn" data-section="curated" data-playlist="Morning Chill" style="color: var(--neon-pink); font-size: 0.8rem; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center;">See all <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">chevron_right</span></span>
+        </div>
+        <div class="horizontal-scroll-row no-scrollbar">
+            <div class="curated-card playlist-card" data-playlist="Morning Chill" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=300&auto=format&fit=crop" alt="Morning Chill">
+                <h3>Morning Chill</h3>
+            </div>
+            <div class="curated-card playlist-card" data-playlist="Workout Beats" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=300&auto=format&fit=crop" alt="Workout Beats">
+                <h3>Workout Beats</h3>
+            </div>
+            <div class="curated-card playlist-card" data-playlist="Study Focus" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?q=80&w=300&auto=format&fit=crop" alt="Study Focus">
+                <h3>Study Focus</h3>
+            </div>
+            <div class="curated-card playlist-card" data-playlist="Late Night Rave" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop" alt="Late Night Rave">
+                <h3>Late Night Rave</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Releases (Dynamic) -->
+    <div class="dashboard-section">
+        <h2 class="glitch-text discover-section-header" style="font-size: 1.5rem; margin-bottom: 1rem;">New Releases</h2>
+        <div id="discover-gallery" class="horizontal-scroll-row album-row no-scrollbar">
+            <!-- Items injected by JS -->
+        </div>
+    </div>
+    
+    <!-- Editorial Picks -->
+    <div class="dashboard-section">
+        <h2 class="glitch-text discover-section-header" style="font-size: 1.5rem; margin-bottom: 1rem;">Editorial Picks</h2>
+        <div class="horizontal-scroll-row no-scrollbar">
+            <div class="curated-card" style="height: 150px;">
+                <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=300&auto=format&fit=crop" alt="Indie Rising">
+                <h3>Indie Rising</h3>
+            </div>
+            <div class="curated-card" style="height: 150px;">
+                <img src="https://images.unsplash.com/photo-1458560871784-56d23406c091?q=80&w=300&auto=format&fit=crop" alt="Future Bass">
+                <h3>Future Bass</h3>
+            </div>
+            <div class="curated-card" style="height: 150px;">
+                <img src="https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?q=80&w=300&auto=format&fit=crop" alt="Alt R&B">
+                <h3>Alt R&B</h3>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Artist Spotlights -->
+    <div class="dashboard-section">
+        <h2 class="glitch-text discover-section-header" style="font-size: 1.5rem; margin-bottom: 1rem;">Artist Spotlights</h2>
+        <div class="horizontal-scroll-row no-scrollbar" style="gap: 2rem;">
+            <!-- Reusing the artist-circle CSS -->
+            <div class="artist-circle" style="flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1541271696563-3be2f555fc4e?q=80&w=200&auto=format&fit=crop" alt="The Weeknd">
+                <p>The Weeknd</p>
+            </div>
+            <div class="artist-circle" style="flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop" alt="Billie Eilish">
+                <p>Billie Eilish</p>
+            </div>
+            <div class="artist-circle" style="flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&auto=format&fit=crop" alt="Travis Scott" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop';">
+                <p>Travis Scott</p>
+            </div>
+            <div class="artist-circle" style="flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=200&auto=format&fit=crop" alt="NewJeans">
+                <p>NewJeans</p>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,109 @@
+<!-- Playlists View -->
+<section id="playlists-view" class="view">
+    <div id="playlistsMainContent">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1 class="glitch-text">All Playlists</h1>
+            <div>
+                <button id="openMoodBtn" class="neon-btn" style="padding: 0.5rem 1rem; margin-right: 0.5rem;"><span class="material-icons">mood</span> CHANGE MOOD</button>
+                <button id="openQueueDrawer" class="neon-btn" style="padding: 0.5rem 1rem; margin-right: 0.5rem; border-color: var(--neon-cyan); color: var(--neon-cyan);"><span class="material-icons">queue_music</span> QUEUE</button>
+                <button class="neon-btn" style="padding: 0.5rem 1rem;"><span class="material-icons">add</span> CREATE NEW</button>
+            </div>
+        </div>
+
+        <!-- Every Playlist across AudioTrack -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+            <p style="text-transform: uppercase; font-size: 0.8rem; color: var(--text-secondary); margin: 0; letter-spacing: 2px;">Every Playlist</p>
+            <div style="display: flex; gap: 0.5rem;">
+                <button onclick="document.getElementById('user-playlists')?.scrollBy({left: -320, behavior: 'smooth'})" class="neon-btn" style="padding: 0.2rem 0.6rem; font-size: 0.9rem;" title="Scroll Left"><span class="material-icons" style="font-size: 1.1rem; vertical-align: middle;">chevron_left</span></button>
+                <button onclick="document.getElementById('user-playlists')?.scrollBy({left: 320, behavior: 'smooth'})" class="neon-btn" style="padding: 0.2rem 0.6rem; font-size: 0.9rem;" title="Scroll Right"><span class="material-icons" style="font-size: 1.1rem; vertical-align: middle;">chevron_right</span></button>
+            </div>
+        </div>
+        <div class="horizontal-scroll-row no-scrollbar" id="user-playlists" style="margin-bottom: 2.5rem;">
+            <!-- Every playlist will be injected here dynamically -->
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+            <h2 class="glitch-text" style="font-size: 1.5rem; margin: 0;">Featured Collections</h2>
+            <div style="display: flex; gap: 0.5rem;">
+                <button onclick="document.getElementById('saved-playlists-row')?.scrollBy({left: -320, behavior: 'smooth'})" class="neon-btn" style="padding: 0.2rem 0.6rem; font-size: 0.9rem;" title="Scroll Left"><span class="material-icons" style="font-size: 1.1rem; vertical-align: middle;">chevron_left</span></button>
+                <button onclick="document.getElementById('saved-playlists-row')?.scrollBy({left: 320, behavior: 'smooth'})" class="neon-btn" style="padding: 0.2rem 0.6rem; font-size: 0.9rem;" title="Scroll Right"><span class="material-icons" style="font-size: 1.1rem; vertical-align: middle;">chevron_right</span></button>
+            </div>
+        </div>
+        <div class="horizontal-scroll-row no-scrollbar" id="saved-playlists-row" style="margin-bottom: 2.5rem;">
+            <!-- Saved playlists injected dynamically -->
+        </div>
+    </div>
+
+    <!-- Playlist Detail Section (Initially Hidden) -->
+    <div id="playlistDetailSection" style="display: none; margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem; padding-bottom: 8rem; text-align: left;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <button id="btnBackToPlaylists" class="neon-btn">
+                <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">arrow_back</span> BACK TO PLAYLISTS
+            </button>
+            <div style="display: flex; gap: 1rem;">
+                <button id="btnPinPlaylistDetail" class="neon-btn">
+                    <span class="material-icons" style="font-size: 1.2rem; vertical-align: middle;">push_pin</span> <span>PIN PLAYLIST</span>
+                </button>
+                <button id="btnSharePlaylistDetail" class="neon-btn share-playlist-btn" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <span class="material-icons" style="font-size: 1.2rem; vertical-align: middle;">share</span> <span>SHARE PLAYLIST</span>
+                </button>
+                <button id="btnPlayAllPlaylist" class="neon-btn">
+                    <span class="material-icons" style="font-size: 1.2rem; vertical-align: middle;">play_arrow</span> PLAY ALL
+                </button>
+            </div>
+        </div>
+        <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 2rem;" class="playlist-detail-header">
+            <img id="detailPlaylistArt" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop';" style="width: 180px; height: 180px; border-radius: 12px; object-fit: cover;">
+            <div>
+                <h2 id="detailPlaylistName" class="glitch-text" style="margin: 0; font-size: 2.2rem; letter-spacing: 1px;">Playlist Name</h2>
+                <p id="detailPlaylistDesc" style="color: var(--text-secondary); margin: 0.5rem 0 0; font-size: 0.95rem;">Playlist description</p>
+                <p id="detailPlaylistTrackCount" style="color: var(--neon-cyan); margin: 0.5rem 0 0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">0 TRACKS</p>
+            </div>
+        </div>
+        
+        <h3 id="detailTracksHeading" class="glitch-text" style="font-size: 1.3rem; margin-bottom: 1rem;">Tracks</h3>
+        <div id="playlistTracksList" style="display: flex; flex-direction: column; gap: 0.8rem;">
+            <!-- Dynamic list of tracks will be injected here -->
+        </div>
+    </div>
+</section>
+
+<!-- Queue Drawer (Slide-out Panel) -->
+<div class="queue-drawer" id="queueDrawer">
+    <div class="queue-drawer-header">
+        <h2 class="glitch-text" style="font-size: 1.5rem;">Queue</h2>
+        <button class="queue-close-btn" id="closeQueueDrawer"><span class="material-icons">close</span></button>
+    </div>
+
+    <!-- Now Playing in Queue -->
+    <div class="queue-now-playing" id="queueNowPlaying">
+        <p style="text-transform: uppercase; font-size: 0.7rem; color: var(--neon-green); letter-spacing: 2px; margin-bottom: 0.5rem;">Now Playing</p>
+        <div class="queue-track active-queue-track">
+            <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=60&auto=format&fit=crop" alt="Current">
+            <div>
+                <p class="queue-track-title">Acid Rain</p>
+                <p class="queue-track-artist">Y2K Junkie</p>
+            </div>
+            <span class="material-icons queue-playing-icon">equalizer</span>
+        </div>
+    </div>
+
+    <!-- Up Next (AI Predicted) -->
+    <div class="queue-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <p style="text-transform: uppercase; font-size: 0.7rem; color: var(--neon-cyan); letter-spacing: 2px;">Up Next (AI Smart Queue)</p>
+            <button class="queue-refresh-btn" id="refreshSmartQueue" title="Refresh AI Queue"><span class="material-icons">refresh</span></button>
+        </div>
+        <div id="smartQueueList" class="queue-list">
+            <!-- Items injected by JS -->
+        </div>
+    </div>
+
+    <!-- User Queue -->
+    <div class="queue-section">
+        <p style="text-transform: uppercase; font-size: 0.7rem; color: var(--text-secondary); letter-spacing: 2px; margin-bottom: 0.5rem;">Your Queue</p>
+        <div id="userQueueList" class="queue-list" style="min-height: 60px;">
+            <p class="queue-empty-msg" id="queueEmptyMsg">Drag songs here or tap + to add</p>
+        </div>
+    </div>
+</div>

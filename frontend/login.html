@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioTrack | Enter The Vibe</title>
+
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;800;900&family=Rubik+Glitch&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="audiotrack_logo.jpg">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css?v=1"> <!-- Import base styles/tokens -->
+    <link rel="stylesheet" href="login.css?v=1">
+    <style>
+        /* Social Auth Modal Styles */
+        .social-auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease-out;
+        }
+        .social-auth-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .social-auth-card {
+            position: relative;
+            width: 90%;
+            max-width: 420px;
+            background: #0f111a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 2.2rem 2rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 240, 255, 0.15);
+            z-index: 2;
+            text-align: center;
+        }
+        .close-social-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted, #888);
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-social-btn:hover {
+            color: #fff;
+        }
+        .social-auth-header {
+            margin-bottom: 1.3rem;
+        }
+        .social-provider-logo {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            margin-bottom: 0.6rem;
+        }
+        .social-auth-header h3 {
+            font-size: 1.35rem;
+            margin: 0 0 0.3rem;
+            color: #fff;
+            font-weight: 800;
+        }
+        .social-auth-header p {
+            font-size: 0.85rem;
+            color: var(--text-muted, #aaa);
+            margin: 0;
+        }
+        .social-account-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+        .social-account-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--neon-cyan, #00f0ff);
+            transform: translateY(-2px);
+        }
+        .social-account-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+        }
+        .social-account-details .account-name {
+            margin: 0 0 2px;
+            font-weight: bold;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+        .social-account-details .account-email {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--text-muted, #888);
+        }
+        .social-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.2rem 0;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+        }
+        .social-divider::before, .social-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .social-divider span {
+            padding: 0 0.8rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="split-container">
+
+        <!-- Left Side: Chaotic Pinterest Moodboard (The Vibe) -->
+        <div class="vibe-side">
+            <div class="collage-scroller">
+                <!-- Column 1 -->
+                <div class="collage-col speed-1">
+                    <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400&auto=format&fit=crop"
+                        alt="Tokyo">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=400&auto=format&fit=crop"
+                        alt="Neon">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop"
+                        alt="Glitch">
+                    <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=400&auto=format&fit=crop"
+                        alt="Cyber">
+                </div>
+                <!-- Column 2 -->
+                <div class="collage-col speed-2">
+                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=400&auto=format&fit=crop"
+                        alt="Art" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop';">
+                    <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=400&auto=format&fit=crop"
+                        alt="Graffiti" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop';">
+                    <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=400&auto=format&fit=crop"
+                        alt="Vaporwave" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop';">
+                </div>
+                <!-- Column 3 -->
+                <div class="collage-col speed-3">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=400&auto=format&fit=crop"
+                        alt="Phonk" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop';">
+                    <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=400&auto=format&fit=crop"
+                        alt="Street" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop';">
+                    <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400&auto=format&fit=crop"
+                        alt="Tokyo" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop';">
+                </div>
+            </div>
+
+            <div class="vibe-overlay">
+                <h1 class="massive-glitch">AUDIO<br>TRACK</h1>
+            </div>
+        </div>
+
+        <!-- Right Side: The Login Form -->
+        <div class="form-side">
+            <!-- Animated background shapes for the form side -->
+            <div class="bg-shape shape-1" style="width: 300px; height: 300px; top: 10%; right: 10%;"></div>
+            <div class="bg-shape shape-2"
+                style="width: 250px; height: 250px; bottom: 20%; right: 40%; background: var(--neon-pink);"></div>
+
+            <div class="login-card glass-panel">
+                <div style="text-align: center; margin-bottom: 1.2rem;">
+                    <img src="audiotrack_logo.jpg" alt="AudioTrack Logo" style="width: 76px; height: 76px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(0, 240, 255, 0.75); box-shadow: 0 0 16px rgba(0, 240, 255, 0.45); display: inline-block;">
+                </div>
+                <div
+                    style="display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+                    <button id="modeSignIn"
+                        style="background: none; border: none; font-size: 1.2rem; font-weight: bold; color: var(--neon-pink); cursor: pointer; border-bottom: 2px solid var(--neon-pink); padding-bottom: 5px;">CHECK
+                        IN (Sign In)</button>
+                    <button id="modeSignUp"
+                        style="background: none; border: none; font-size: 1.2rem; font-weight: bold; color: #fff; cursor: pointer; padding-bottom: 5px;">CREATE
+                        DROP (Sign Up)</button>
+                </div>
+
+                <h2 id="formTitle" class="form-title glitch-text" data-text="CHECK IN">CHECK IN</h2>
+                <p id="formSub" class="form-subtitle" style="color: var(--neon-pink);">Enter the vibe. Your music awaits.</p>
+
+                <div id="authError"
+                    style="display: none; background: rgba(255, 0, 85, 0.2); border: 1px solid var(--neon-pink); color: #fff; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem;">
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                    <div class="input-group">
+                        <label for="username">@HypeName</label>
+                        <input type="text" id="username" placeholder="Enter your username..." required>
+                        <span class="focus-border"></span>
+                    </div>
+
+                    <div id="emailGroup" class="input-group" style="display: none;">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email...">
+                        <span class="focus-border"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Secret Key</label>
+                        <input type="password" id="password" placeholder="Enter your password..." required>
+                        <span class="focus-border"></span>
+                        <span class="material-icons toggle-pwd">visibility_off</span>
+                    </div>
+
+                    <div class="form-actions">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" checked>
+                            <span class="checkmark"></span>
+                            Remember my vibe
+                        </label>
+                        <a href="#" class="forgot-link">Lost key?</a>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="submit-btn neon-btn">
+                        ENTER THE TRACK <span class="material-icons">arrow_forward</span>
+                    </button>
+
+                    <button type="button" id="demoModeBtn" class="neon-btn" style="width: 100%; margin-top: 0.8rem; background: rgba(0, 240, 255, 0.1); border-color: var(--neon-cyan); color: var(--neon-cyan); display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 0.9rem;">
+                        <span class="material-icons" style="font-size: 1.2rem;">offline_bolt</span> Demo Mode / Guest Login
+                    </button>
+                </form>
+
+                <div class="divider">
+                    <span>OR SYNC WITH</span>
+                </div>
+
+                <div class="social-login">
+                    <button type="button" class="social-btn discord" id="socialDiscordBtn" title="Sync with Discord">
+                        <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"
+                            alt="Discord">
+                    </button>
+                    <button type="button" class="social-btn tiktok" id="socialTiktokBtn" title="Sync with TikTok">
+                        <img src="https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Tiktok-512.png"
+                            alt="TikTok">
+                    </button>
+                    <button type="button" class="social-btn google" id="socialGoogleBtn" title="Sign in with Google">
+                        <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
+                            alt="Google">
+                    </button>
+                </div>
+
+                <p class="signup-prompt" id="togglePrompt">New to the track? <a href="#" id="toggleModeLink">Create a
+                        drop.</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social OAuth Modal -->
+    <div id="socialAuthModal" class="social-auth-modal" style="display: none;">
+        <div class="social-auth-backdrop" id="socialAuthBackdrop"></div>
+        <div class="social-auth-card glass-panel" style="max-width: 440px;">
+            <button type="button" id="closeSocialModal" class="close-social-btn" title="Close">✕</button>
+            
+            <div class="social-auth-header">
+                <img id="socialModalLogo" src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" alt="Provider" class="social-provider-logo">
+                <h3 id="socialModalTitle">Sign in with Google</h3>
+                <p id="socialModalSubtitle">Choose an account to continue to AudioTrack</p>
+            </div>
+
+            <!-- GOOGLE AUTH FLOW (Account Chooser -> Password) -->
+            <div id="googleAuthSection" style="display: none;">
+                <!-- Step 1: Choose an Account -->
+                <div id="modalGoogleStepAccount">
+                    <div id="modalGoogleAccountList" style="display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem;">
+                        <!-- Dynamically populated from saved accounts on laptop -->
+                    </div>
+
+                    <!-- Custom / New Email Form -->
+                    <div id="modalGoogleCustomSection" style="display: none;">
+                        <div class="input-group" style="margin-bottom: 0.8rem; text-align: left;">
+                            <label for="modalGoogleCustomEmail" style="font-size: 0.8rem; color: var(--neon-cyan); display: block; margin-bottom: 0.3rem;">Email or Phone</label>
+                            <input type="text" id="modalGoogleCustomEmail" placeholder="e.g. you@gmail.com" style="width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); color: #fff; font-size: 0.9rem;" autocomplete="email">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <button type="button" onclick="modalSwitchBackToAccounts()" style="background: none; border: none; color: var(--neon-cyan); cursor: pointer; font-size: 0.85rem;">Back</button>
+                            <button type="button" class="neon-btn" onclick="modalSubmitCustomEmail()" style="padding: 0.6rem 1.4rem; border-radius: 8px; cursor: pointer; font-weight: bold;">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Password Verification Screen -->
+                <div id="modalGoogleStepPassword" style="display: none;">
+                    <h4 id="modalGoogleWelcomeHeading" style="font-size: 1.25rem; color: #fff; margin-bottom: 0.6rem; font-weight: 600;">Welcome</h4>
+                    
+                    <div class="social-account-item" onclick="modalSwitchBackToAccounts()" style="margin-bottom: 1.2rem; cursor: pointer; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.06); padding: 8px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15);" title="Switch account">
+                        <div id="modalGoogleChipAvatar" style="width: 26px; height: 26px; border-radius: 50%; background: #0b57d0; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">T</div>
+                        <span id="modalGoogleChipEmail" style="font-size: 0.85rem; color: #fff; flex: 1; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">user@gmail.com</span>
+                        <span class="material-icons" style="font-size: 1.1rem; color: #aaa;">arrow_drop_down</span>
+                    </div>
+
+                    <p style="font-size: 0.85rem; color: #bbb; margin-bottom: 1rem; text-align: left;">To continue, first verify it's you</p>
+
+                    <div class="input-group" style="margin-bottom: 0.8rem; text-align: left;">
+                        <label for="modalGooglePasswordInput" style="font-size: 0.8rem; color: var(--neon-cyan); display: block; margin-bottom: 0.3rem;">Enter your password</label>
+                        <input type="password" id="modalGooglePasswordInput" placeholder="Password" style="width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); color: #fff; font-size: 0.9rem;" autocomplete="current-password">
+                    </div>
+
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #aaa; margin-bottom: 1.3rem; cursor: pointer; user-select: none;">
+                        <input type="checkbox" id="modalGoogleShowPwd" onchange="modalTogglePassword()">
+                        <span>Show password</span>
+                    </label>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <button type="button" onclick="modalSwitchBackToAccounts()" style="background: none; border: none; color: var(--neon-cyan); cursor: pointer; font-size: 0.85rem;">Switch account</button>
+                        <button type="button" id="modalGoogleFinishBtn" onclick="modalFinishGoogleAuth()" class="neon-btn" style="padding: 0.65rem 1.6rem; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                            <span id="modalGoogleBtnText">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GENERIC SOCIAL SECTION (Discord / TikTok) -->
+            <div id="genericSocialSection" style="display: none;">
+                <div class="social-quick-accounts" id="socialQuickAccounts" style="margin-bottom: 0.8rem;">
+                    <div class="social-account-item" id="socialQuickSelect">
+                        <img id="socialQuickAvatar" src="https://api.dicebear.com/9.x/avataaars/svg?seed=Gamer" alt="Avatar">
+                        <div class="social-account-details" style="flex: 1;">
+                            <p class="account-name" id="socialQuickName">Gamer</p>
+                            <p class="account-email" id="socialQuickEmail">handle@discord.gg</p>
+                        </div>
+                        <span class="material-icons" style="color: var(--neon-cyan); margin-left: auto; font-size: 1.3rem;">login</span>
+                    </div>
+                </div>
+
+                <div class="social-divider">
+                    <span>OR SIGN IN WITH CUSTOM ID</span>
+                </div>
+
+                <form id="socialAuthForm">
+                    <div class="input-group" style="margin-bottom: 0.8rem; text-align: left;">
+                        <label id="socialNameLabel" for="socialNameInput" style="font-size: 0.8rem; color: var(--neon-cyan); display: block; margin-bottom: 0.3rem;">Username / Profile Name</label>
+                        <input type="text" id="socialNameInput" placeholder="Enter username" style="width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); color: #fff; font-size: 0.9rem;" required>
+                    </div>
+                    <div class="input-group" id="socialEmailGroup" style="margin-bottom: 1.2rem; text-align: left;">
+                        <label id="socialEmailLabel" for="socialEmailInput" style="font-size: 0.8rem; color: var(--neon-cyan); display: block; margin-bottom: 0.3rem;">Email Address</label>
+                        <input type="email" id="socialEmailInput" placeholder="you@discord.gg" style="width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); color: #fff; font-size: 0.9rem;">
+                    </div>
+                    <button type="submit" id="socialSubmitBtn" class="neon-btn" style="width: 100%; padding: 0.85rem; font-weight: bold; font-size: 0.95rem; border-radius: 8px; cursor: pointer;">
+                        SIGN IN
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isSignUp = false;
+
+        const modeSignInBtn = document.getElementById('modeSignIn');
+        const modeSignUpBtn = document.getElementById('modeSignUp');
+        const formTitle = document.getElementById('formTitle');
+        const formSub = document.getElementById('formSub');
+        const emailGroup = document.getElementById('emailGroup');
+        const submitBtn = document.getElementById('submitBtn');
+        const togglePrompt = document.getElementById('togglePrompt');
+        const authError = document.getElementById('authError');
+
+        function getMockAuthData(usrName, usrEmail) {
+            // Predefined list of mock users
+            const allMockUsers = ["Alex", "Sam", "Charlie", "Taylor", "Jordan", "Morgan"];
+            
+            // Filter connections to not include the current user
+            const connections = allMockUsers.filter(u => u.toLowerCase() !== usrName.toLowerCase()).slice(0, 3);
+            
+            // Generate a nice profile avatar url
+            const avatarUrl = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(usrName)}`;
+            
+            // Predefined dedications that make sense for this user
+            const sender = connections[0] || "Alex";
+            const dedications = [
+                {
+                    fromUser: sender,
+                    trackTitle: "Midnight City",
+                    trackArtist: "M83",
+                    trackArt: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=300&auto=format&fit=crop",
+                    trackUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/92/79/ce/9279ce85-bcf3-dfb5-b461-1250b73c9c9b/mzaf_7823528437021703273.plus.aac.p.m4a",
+                    message: `Hey ${usrName}, this track matches your vibe today!`,
+                    timestamp: new Date().toISOString()
+                }
+            ];
+
+            return {
+                user: {
+                    username: usrName,
+                    email: usrEmail || `${usrName}@example.com`,
+                    avatarUrl: avatarUrl,
+                    connections: [],
+                    connectionRequests: [],
+                    sentConnectionRequests: [],
+                    followedArtists: [],
+                    pinnedPlaylists: [],
+                    playlistPlayCounts: {},
+                    dedications: []
+                },
+                token: 'mock-jwt-token'
+            };
+        }
+
+        function setMode(signUp) {
+            isSignUp = signUp;
+            authError.style.display = 'none';
+            if (isSignUp) {
+                modeSignUpBtn.style.color = 'var(--neon-pink)';
+                modeSignUpBtn.style.borderBottom = '2px solid var(--neon-pink)';
+                modeSignInBtn.style.color = '#fff';
+                modeSignInBtn.style.borderBottom = 'none';
+
+                formTitle.textContent = 'CREATE DROP';
+                formTitle.setAttribute('data-text', 'CREATE DROP');
+                formSub.textContent = 'Join the revolution. Claim your vibe.';
+                formSub.style.color = 'var(--text-muted)';
+                emailGroup.style.display = 'block';
+                submitBtn.innerHTML = 'JOIN THE TRACK <span class="material-icons">arrow_forward</span>';
+                togglePrompt.innerHTML = 'Already have a drop? <a href="#" id="toggleModeLink">Check in.</a>';
+            } else {
+                modeSignInBtn.style.color = 'var(--neon-pink)';
+                modeSignInBtn.style.borderBottom = '2px solid var(--neon-pink)';
+                modeSignUpBtn.style.color = '#fff';
+                modeSignUpBtn.style.borderBottom = 'none';
+
+                formTitle.textContent = 'CHECK IN';
+                formTitle.setAttribute('data-text', 'CHECK IN');
+                formSub.textContent = 'Enter the vibe. Your music awaits.';
+                formSub.style.color = 'var(--neon-pink)';
+                emailGroup.style.display = 'none';
+                submitBtn.innerHTML = 'ENTER THE TRACK <span class="material-icons">arrow_forward</span>';
+                togglePrompt.innerHTML = 'New to the track? <a href="#" id="toggleModeLink">Create a drop.</a>';
+            }
+            document.getElementById('toggleModeLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                setMode(!isSignUp);
+            });
+        }
+
+        modeSignInBtn.addEventListener('click', () => setMode(false));
+        modeSignUpBtn.addEventListener('click', () => setMode(true));
+        document.getElementById('toggleModeLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            setMode(true);
+        });
+
+        // Password toggle logic
+        document.querySelector('.toggle-pwd').addEventListener('click', function () {
+            const pwdInput = document.getElementById('password');
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                this.textContent = 'visibility';
+                this.style.color = 'var(--neon-pink)';
+            } else {
+                pwdInput.type = 'password';
+                this.textContent = 'visibility_off';
+                this.style.color = 'var(--text-muted)';
+            }
+        });
+
+        function getIndexRedirectUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const room = params.get('room') || params.get('join');
+            return room ? `index.html?room=${encodeURIComponent(room)}` : 'index.html';
+        }
+
+        // Demo Mode / Guest Login Handler
+        const demoModeBtn = document.getElementById('demoModeBtn');
+        if (demoModeBtn) {
+            demoModeBtn.addEventListener('click', () => {
+                const guestUser = {
+                    username: 'Guest_Viber',
+                    email: 'guest@audiotrack.io',
+                    avatarUrl: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Guest_Viber',
+                    bio: 'Cruising AudioTrack in Guest / Demo Mode 🎧',
+                    connections: [],
+                    connectionRequests: [],
+                    sentConnectionRequests: [],
+                    followedArtists: [],
+                    pinnedPlaylists: [],
+                    playlistPlayCounts: {},
+                    dedications: []
+                };
+                localStorage.setItem('currentUser', JSON.stringify(guestUser));
+                localStorage.setItem('authToken', 'demo-token-' + Date.now());
+                localStorage.setItem('offlineMode', 'true');
+                sessionStorage.setItem('justLoggedIn', 'true');
+                const userKey = `audioTrackTheme_${guestUser.username}`;
+                localStorage.removeItem(userKey);
+                window.location.href = getIndexRedirectUrl();
+            });
+        }
+
+        // Form submit authentication logic
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            authError.style.display = 'none';
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (!username) {
+                authError.textContent = 'Please enter your username.';
+                authError.style.display = 'block';
+                return;
+            }
+
+            if (password.length < 6) {
+                authError.textContent = 'Password must be at least 6 characters long.';
+                authError.style.display = 'block';
+                return;
+            }
+
+            if (isSignUp && email && !/^\S+@\S+\.\S+$/.test(email)) {
+                authError.textContent = 'Please enter a valid email address.';
+                authError.style.display = 'block';
+                return;
+            }
+
+            submitBtn.innerHTML = 'AUTHENTICATING... <span class="material-icons rotating-icon">sync</span>';
+            submitBtn.disabled = true;
+
+            const proto = window.location.protocol;
+            const host = window.location.hostname || 'localhost';
+            const port = window.location.port;
+            // If served through unified gateway on port 5000, direct Spring Boot 8080, or tunnel (port 80/443)
+            const apiBase = (port === '5000' || port === '8080' || !port || port === '80' || port === '443')
+                ? `${proto}//${host}${port ? ':' + port : ''}`
+                : `${proto}//${host}:5000`;
+            const endpoint = isSignUp ? `${apiBase}/api/auth/register` : `${apiBase}/api/auth/login`;
+            const payload = isSignUp ? { username, email, password } : { username, password };
+
+            try {
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.error || data.message || 'Invalid credentials');
+                }
+
+                // Save user session and token to localStorage
+                localStorage.setItem('currentUser', JSON.stringify(data.user || { username }));
+                if (data.token) {
+                    localStorage.setItem('authToken', data.token);
+                }
+                localStorage.setItem('offlineMode', 'false');
+                sessionStorage.setItem('justLoggedIn', 'true');
+                
+                // Clear user-specific theme to force onboarding on simulated new logins
+                const userKey = `audioTrackTheme_${username}`;
+                localStorage.removeItem(userKey);
+
+                submitBtn.innerHTML = 'ACCESS GRANTED <span class="material-icons">check_circle</span>';
+                setTimeout(() => {
+                    window.location.href = getIndexRedirectUrl();
+                }, 1000);
+
+            } catch (err) {
+                authError.textContent = err.message || 'Authentication failed. Please check your credentials.';
+                authError.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = isSignUp ? 'JOIN THE TRACK <span class="material-icons">arrow_forward</span>' : 'ENTER THE TRACK <span class="material-icons">arrow_forward</span>';
+            }
+        });
+
+        // ==========================================
+        // SOCIAL OAUTH / SSO AUTHENTICATION SYSTEM
+        // ==========================================
+        const socialAuthModal = document.getElementById('socialAuthModal');
+        const socialAuthBackdrop = document.getElementById('socialAuthBackdrop');
+        const closeSocialModal = document.getElementById('closeSocialModal');
+        const socialModalLogo = document.getElementById('socialModalLogo');
+        const socialModalTitle = document.getElementById('socialModalTitle');
+        const socialModalSubtitle = document.getElementById('socialModalSubtitle');
+        const socialQuickSelect = document.getElementById('socialQuickSelect');
+        const socialQuickName = document.getElementById('socialQuickName');
+        const socialQuickEmail = document.getElementById('socialQuickEmail');
+        const socialQuickAvatar = document.getElementById('socialQuickAvatar');
+        const socialNameInput = document.getElementById('socialNameInput');
+        const socialEmailInput = document.getElementById('socialEmailInput');
+        const socialSubmitBtn = document.getElementById('socialSubmitBtn');
+        const socialAuthForm = document.getElementById('socialAuthForm');
+
+        let activeSocialProvider = 'google';
+
+        const socialConfig = {
+            google: {
+                name: 'Google',
+                logo: 'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png',
+                title: 'Sign in with Google',
+                subtitle: 'Choose an account to continue to AudioTrack',
+                btnText: 'CONTINUE WITH GOOGLE',
+                btnColor: '#EA4335',
+                defaultName: 'Google User',
+                defaultEmail: 'user@gmail.com',
+                avatarSeed: 'GoogleVibe',
+                emailPlaceholder: 'you@gmail.com'
+            },
+            discord: {
+                name: 'Discord',
+                logo: 'https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png',
+                title: 'Connect with Discord',
+                subtitle: 'Authorize with Discord to access AudioTrack',
+                btnText: 'AUTHORIZE WITH DISCORD',
+                btnColor: '#5865F2',
+                defaultName: 'Discord Gamer',
+                defaultEmail: 'gamer@discord.gg',
+                avatarSeed: 'DiscordPlayer',
+                emailPlaceholder: 'handle@discord.gg'
+            },
+            tiktok: {
+                name: 'TikTok',
+                logo: 'https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Tiktok-512.png',
+                title: 'Continue with TikTok',
+                subtitle: 'Sign in to AudioTrack with your TikTok account',
+                btnText: 'CONTINUE WITH TIKTOK',
+                btnColor: '#ff0050',
+                defaultName: 'TikTok Creator',
+                defaultEmail: 'creator@tiktok.com',
+                avatarSeed: 'TikTokVibes',
+                emailPlaceholder: 'handle@tiktok.com'
+            }
+        };
+
+        // Saved Google accounts management (stored on this device/laptop)
+        const GOOGLE_STORAGE_KEY = 'audiotrack_google_saved_accounts';
+
+        function getModalGoogleSavedAccounts() {
+            try {
+                const stored = localStorage.getItem(GOOGLE_STORAGE_KEY);
+                if (stored) return JSON.parse(stored);
+            } catch (e) {}
+            return [
+                { name: 'Trisha', email: 'trisha@gmail.com' }
+            ];
+        }
+
+        function saveModalGoogleAccount(name, email) {
+            try {
+                const accounts = getModalGoogleSavedAccounts();
+                const existing = accounts.findIndex(a => a.email.toLowerCase() === email.toLowerCase());
+                if (existing >= 0) {
+                    accounts[existing].name = name;
+                } else {
+                    accounts.unshift({ name, email });
+                }
+                localStorage.setItem(GOOGLE_STORAGE_KEY, JSON.stringify(accounts.slice(0, 5)));
+            } catch (e) {}
+        }
+
+        let modalSelectedGoogleName = '';
+        let modalSelectedGoogleEmail = '';
+
+        function modalRenderGoogleAccounts() {
+            const list = document.getElementById('modalGoogleAccountList');
+            if (!list) return;
+
+            const accounts = getModalGoogleSavedAccounts();
+            let html = '';
+
+            accounts.forEach(acc => {
+                const initial = (acc.name || acc.email || 'G').charAt(0).toUpperCase();
+                html += `
+                    <div class="social-account-item" onclick="modalSelectSavedAccount('${escapeModalHtml(acc.name)}', '${escapeModalHtml(acc.email)}')">
+                        <div style="width: 38px; height: 38px; border-radius: 50%; background: #0b57d0; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1rem; flex-shrink: 0;">${initial}</div>
+                        <div class="social-account-details" style="flex: 1; text-align: left;">
+                            <p class="account-name">${escapeModalHtml(acc.name)}</p>
+                            <p class="account-email">${escapeModalHtml(acc.email)}</p>
+                        </div>
+                        <span class="material-icons" style="color: var(--neon-cyan); margin-left: auto; font-size: 1.2rem;">login</span>
+                    </div>
+                `;
+            });
+
+            // Use another account item
+            html += `
+                <div class="social-account-item" onclick="modalSwitchToCustomEmail()" style="border-style: dashed;">
+                    <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.3rem; flex-shrink: 0;">+</div>
+                    <div class="social-account-details" style="flex: 1; text-align: left;">
+                        <p class="account-name" style="color: var(--neon-cyan);">Use another account</p>
+                        <p class="account-email">Sign in with any email or ID</p>
+                    </div>
+                </div>
+            `;
+
+            list.innerHTML = html;
+        }
+
+        function escapeModalHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+
+        function modalSelectSavedAccount(name, email) {
+            modalSelectedGoogleName = name || email.split('@')[0];
+            modalSelectedGoogleEmail = email;
+            modalGoToPasswordStep();
+        }
+
+        function modalSwitchToCustomEmail() {
+            document.getElementById('modalGoogleAccountList').style.display = 'none';
+            document.getElementById('modalGoogleCustomSection').style.display = 'block';
+            const input = document.getElementById('modalGoogleCustomEmail');
+            input.value = '';
+            input.focus();
+        }
+
+        function modalSwitchBackToAccounts() {
+            document.getElementById('modalGoogleStepPassword').style.display = 'none';
+            document.getElementById('modalGoogleStepAccount').style.display = 'block';
+            document.getElementById('modalGoogleAccountList').style.display = 'flex';
+            document.getElementById('modalGoogleCustomSection').style.display = 'none';
+            modalRenderGoogleAccounts();
+        }
+
+        function modalSubmitCustomEmail() {
+            const input = document.getElementById('modalGoogleCustomEmail').value.trim();
+            if (!input) {
+                alert('Enter an email address or phone');
+                return;
+            }
+            modalSelectedGoogleEmail = input.includes('@') ? input : input + '@gmail.com';
+            const rawName = modalSelectedGoogleEmail.split('@')[0];
+            modalSelectedGoogleName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+
+            saveModalGoogleAccount(modalSelectedGoogleName, modalSelectedGoogleEmail);
+            modalGoToPasswordStep();
+        }
+
+        function modalGoToPasswordStep() {
+            document.getElementById('modalGoogleStepAccount').style.display = 'none';
+            document.getElementById('modalGoogleStepPassword').style.display = 'block';
+
+            document.getElementById('modalGoogleWelcomeHeading').textContent = `Hi ${modalSelectedGoogleName}`;
+            document.getElementById('modalGoogleChipEmail').textContent = modalSelectedGoogleEmail;
+            document.getElementById('modalGoogleChipAvatar').textContent = modalSelectedGoogleName.charAt(0).toUpperCase();
+
+            const pwd = document.getElementById('modalGooglePasswordInput');
+            pwd.value = '';
+            setTimeout(() => pwd.focus(), 50);
+        }
+
+        function modalTogglePassword() {
+            const pwd = document.getElementById('modalGooglePasswordInput');
+            pwd.type = document.getElementById('modalGoogleShowPwd').checked ? 'text' : 'password';
+        }
+
+        async function modalFinishGoogleAuth() {
+            const pwd = document.getElementById('modalGooglePasswordInput').value;
+            if (!pwd) {
+                alert('Please enter your password');
+                return;
+            }
+
+            const btnText = document.getElementById('modalGoogleBtnText');
+            const finishBtn = document.getElementById('modalGoogleFinishBtn');
+            btnText.innerHTML = `AUTHENTICATING... <span class="material-icons rotating-icon" style="font-size: 1rem; vertical-align: middle;">sync</span>`;
+            finishBtn.disabled = true;
+
+            saveModalGoogleAccount(modalSelectedGoogleName, modalSelectedGoogleEmail);
+
+            await executeSocialLogin(
+                modalSelectedGoogleName,
+                modalSelectedGoogleEmail,
+                'google',
+                `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(modalSelectedGoogleName)}`
+            );
+        }
+
+        function openSocialModal(provider) {
+            activeSocialProvider = provider;
+            const config = socialConfig[provider];
+            if (!config) return;
+
+            const modal = document.getElementById('socialAuthModal');
+            const logo = document.getElementById('socialModalLogo');
+            const title = document.getElementById('socialModalTitle');
+            const subtitle = document.getElementById('socialModalSubtitle');
+
+            if (logo) logo.src = config.logo;
+            if (title) title.textContent = config.title;
+            if (subtitle) subtitle.textContent = config.subtitle;
+
+            if (provider === 'google') {
+                document.getElementById('googleAuthSection').style.display = 'block';
+                document.getElementById('genericSocialSection').style.display = 'none';
+                modalSwitchBackToAccounts();
+            } else {
+                document.getElementById('googleAuthSection').style.display = 'none';
+                document.getElementById('genericSocialSection').style.display = 'block';
+
+                const quickName = document.getElementById('socialQuickName');
+                const quickEmail = document.getElementById('socialQuickEmail');
+                const quickAvatar = document.getElementById('socialQuickAvatar');
+                const nameInput = document.getElementById('socialNameInput');
+                const emailInput = document.getElementById('socialEmailInput');
+                const submitBtn = document.getElementById('socialSubmitBtn');
+
+                if (quickName) quickName.textContent = config.defaultName;
+                if (quickEmail) quickEmail.textContent = config.defaultEmail;
+                if (quickAvatar) quickAvatar.src = `https://api.dicebear.com/9.x/avataaars/svg?seed=${config.avatarSeed}`;
+
+                if (nameInput) {
+                    nameInput.placeholder = `e.g. ${config.defaultName}`;
+                    nameInput.value = config.defaultName;
+                }
+                if (emailInput) {
+                    emailInput.placeholder = config.emailPlaceholder;
+                    emailInput.value = config.defaultEmail;
+                }
+
+                if (submitBtn) {
+                    submitBtn.textContent = config.btnText;
+                    submitBtn.style.borderColor = config.btnColor;
+                    submitBtn.style.color = config.btnColor;
+                    submitBtn.disabled = false;
+                }
+            }
+
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function hideSocialModal() {
+            const modal = document.getElementById('socialAuthModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function openGoogleSignInPopup() {
+            const width = 480;
+            const height = 620;
+            const left = Math.max(0, Math.floor((window.screen.width - width) / 2));
+            const top = Math.max(0, Math.floor((window.screen.height - height) / 2));
+            const popup = window.open('google_auth.html', 'Google_Account_Chooser', `width=${width},height=${height},top=${top},left=${left},status=no,menubar=no,toolbar=no`);
+            if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+                // If popup was blocked by browser, smoothly fallback to in-page modal
+                openSocialModal('google');
+            }
+        }
+
+        // Listen for Google Auth completion from popup
+        window.addEventListener('message', async (e) => {
+            if (e.data && e.data.type === 'GOOGLE_AUTH_SUCCESS') {
+                const user = e.data.user;
+                await executeSocialLogin(user.username, user.email, 'google', user.avatarUrl);
+            }
+        });
+
+        // Delegated click handling so clicking the logo image or button always works
+        document.addEventListener('click', (e) => {
+            const googleBtn = e.target.closest('.social-btn.google') || e.target.closest('#socialGoogleBtn');
+            if (googleBtn) {
+                e.preventDefault();
+                openGoogleSignInPopup();
+                return;
+            }
+            const discordBtn = e.target.closest('.social-btn.discord') || e.target.closest('#socialDiscordBtn');
+            if (discordBtn) {
+                e.preventDefault();
+                openSocialModal('discord');
+                return;
+            }
+            const tiktokBtn = e.target.closest('.social-btn.tiktok') || e.target.closest('#socialTiktokBtn');
+            if (tiktokBtn) {
+                e.preventDefault();
+                openSocialModal('tiktok');
+                return;
+            }
+            if (e.target.id === 'closeSocialModal' || e.target.id === 'socialAuthBackdrop') {
+                hideSocialModal();
+            }
+        });
+
+        // Core Social Login execution
+        async function executeSocialLogin(username, email, provider, avatarUrl) {
+            const submitBtn = document.getElementById('socialSubmitBtn');
+            if (submitBtn) {
+                submitBtn.innerHTML = `AUTHENTICATING WITH ${provider.toUpperCase()}... <span class="material-icons rotating-icon">sync</span>`;
+                submitBtn.disabled = true;
+            }
+
+            const proto = window.location.protocol;
+            const host = window.location.hostname || 'localhost';
+            const port = window.location.port;
+            const apiBase = (port === '5000' || port === '8080' || !port || port === '80' || port === '443')
+                ? `${proto}//${host}${port ? ':' + port : ''}`
+                : `${proto}//${host}:5000`;
+
+            const payload = {
+                username: username || `${provider}_User`,
+                email: email || `${username}@${provider}.com`,
+                provider: provider,
+                avatarUrl: avatarUrl || `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(username)}`
+            };
+
+            let userData = null;
+            let token = 'social-token-' + Date.now();
+
+            try {
+                const res = await fetch(`${apiBase}/api/auth/social-login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    userData = data.user;
+                    token = data.token || token;
+                }
+            } catch (err) {
+                console.warn('Backend social login fallback: generating local authenticated session', err);
+            }
+
+            if (!userData) {
+                userData = {
+                    username: payload.username,
+                    email: payload.email,
+                    avatarUrl: payload.avatarUrl,
+                    bio: 'Vibing to the beat of the universe 🎧',
+                    connections: [],
+                    pinnedPlaylists: []
+                };
+            }
+
+            // Save session to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            localStorage.setItem('authToken', token);
+            localStorage.setItem('offlineMode', 'false');
+            sessionStorage.setItem('justLoggedIn', 'true');
+
+            const userKey = `audioTrackTheme_${userData.username}`;
+            localStorage.removeItem(userKey);
+
+            if (submitBtn) {
+                submitBtn.innerHTML = `CONNECTED WITH ${provider.toUpperCase()} <span class="material-icons">check_circle</span>`;
+            }
+            setTimeout(() => {
+                window.location.href = getIndexRedirectUrl();
+            }, 800);
+        }
+
+        // 1-Click Quick Account Select
+        document.addEventListener('click', (e) => {
+            const quickItem = e.target.closest('#socialQuickSelect');
+            if (quickItem) {
+                const name = document.getElementById('socialQuickName')?.textContent || 'Google User';
+                const email = document.getElementById('socialQuickEmail')?.textContent || 'user@gmail.com';
+                const avatar = document.getElementById('socialQuickAvatar')?.src || '';
+                executeSocialLogin(name, email, activeSocialProvider, avatar);
+            }
+        });
+
+        // Custom Form Submit
+        document.addEventListener('submit', (e) => {
+            if (e.target && e.target.id === 'socialAuthForm') {
+                e.preventDefault();
+                const name = document.getElementById('socialNameInput')?.value.trim() || 'User';
+                const email = document.getElementById('socialEmailInput')?.value.trim() || 'user@gmail.com';
+                const avatar = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
+                executeSocialLogin(name, email, activeSocialProvider, avatar);
+            }
+        });
+
+        // Google Modal Enter key listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                if (document.activeElement && document.activeElement.id === 'modalGoogleCustomEmail') {
+                    e.preventDefault();
+                    modalSubmitCustomEmail();
+                } else if (document.activeElement && document.activeElement.id === 'modalGooglePasswordInput') {
+                    e.preventDefault();
+                    modalFinishGoogleAuth();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!-- Library View -->
+<section id="library-view" class="view">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 class="glitch-text">Your Library</h1>
+        <div style="display:flex; gap: 0.5rem;">
+            <button id="libraryFilterBtn" class="neon-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-color: #ffd700; color: #ffd700;"><span class="material-icons" style="color: #ffd700;">filter_list</span> Filter</button>
+            <button id="librarySortBtn" class="neon-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-color: #ffd700; color: #ffd700;"><span class="material-icons" style="color: #ffd700;">sort</span> Sort</button>
+        </div>
+    </div>
+
+    <!-- Liked Songs -->
+    <div class="dashboard-section">
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Liked Songs</h2>
+        <div class="horizontal-scroll-row no-scrollbar">
+            <div class="curated-card playlist-card" data-playlist="Liked Songs" style="background: linear-gradient(135deg, #4a00e0, #8e2de2); cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=300&auto=format&fit=crop" alt="Liked Songs">
+                <h3>♥ Liked Songs</h3>
+            </div>
+            <div class="curated-card playlist-card" data-playlist="Downloaded" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=300&auto=format&fit=crop" alt="Downloaded">
+                <h3>↓ Downloaded</h3>
+            </div>
+            <div class="curated-card playlist-card" data-playlist="Recently Added" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=300&auto=format&fit=crop" alt="Recently Added">
+                <h3>🕐 Recently Added</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Albums -->
+    <div class="dashboard-section">
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Saved Albums</h2>
+        <div class="horizontal-scroll-row no-scrollbar">
+            <div class="curated-card playlist-card" data-playlist="After Hours" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1458560871784-56d23406c091?q=80&w=300&auto=format&fit=crop" alt="Album 1">
+                <h3>After Hours</h3>
+            </div>
+            <div class="curated-card playlist-card" data-playlist="Happier Than Ever" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=300&auto=format&fit=crop" alt="Album 2">
+                <h3>Happier Than Ever</h3>
+            </div>
+            <div class="curated-card playlist-card" data-playlist="Midnights" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop" alt="Album 3">
+                <h3>Midnights</h3>
+            </div>
+            <div class="curated-card playlist-card" data-playlist="Un Verano Sin Ti" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=300&auto=format&fit=crop" alt="Album 4">
+                <h3>Un Verano Sin Ti</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mood Stats Tracker -->
+    <div class="dashboard-section" id="moodStatsTrackerSection">
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Your Mood History</h2>
+        <div class="mood-tracker-grid" id="moodTrackerGrid">
+            <!-- Dynamically populated with real-time user listening history -->
+        </div>
+    </div>
+
+    <!-- Time Capsules Section -->
+    <div class="dashboard-section" style="margin-top: 2.5rem;">
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">Time Capsules</h2>
+        <div class="horizontal-scroll-row no-scrollbar" style="margin-bottom: 2.5rem;">
+            <div class="curated-card playlist-card time-capsule" data-playlist="Alex's Playlist" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=300&auto=format&fit=crop" style="filter: grayscale(100%) blur(2px);" alt="Time Capsule 1">
+                <div class="lock-overlay">
+                    <span class="material-icons" style="font-size: 3rem; margin-bottom: 0.5rem;">lock</span>
+                    <p style="font-size: 0.9rem; font-weight: bold; text-align: center;">Unlocks on Birthday</p>
+                </div>
+                <h3>Alex's Playlist</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Birthday Memories Archive -->
+    <div class="dashboard-section" style="margin-top: 2rem;">
+        <h2 class="glitch-text" style="font-size: 1.5rem; margin-bottom: 1rem;">🎂 Birthday Memories Archive</h2>
+        <div class="horizontal-scroll-row no-scrollbar birthday-archive" id="birthdayArchive" style="margin-bottom: 3rem;">
+            <div class="archive-card playlist-card" data-playlist="Birthday 2026" data-year="2026" style="cursor: pointer;">
+                <div class="archive-year">2026</div>
+                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=300&auto=format&fit=crop" alt="Birthday 2026">
+                <div class="archive-overlay">
+                    <span class="material-icons">cake</span>
+                    <p>12 Tracks</p>
+                </div>
+                <h3>Birthday 2026</h3>
+            </div>
+            <div class="archive-card playlist-card" data-playlist="Birthday 2025" data-year="2025" style="cursor: pointer;">
+                <div class="archive-year">2025</div>
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop" style="filter: sepia(50%);" alt="Birthday 2025">
+                <div class="archive-overlay">
+                    <span class="material-icons">cake</span>
+                    <p>10 Tracks</p>
+                </div>
+                <h3>Birthday 2025</h3>
+            </div>
+            <div class="archive-card playlist-card" data-playlist="Birthday 2024" data-year="2024" style="cursor: pointer;">
+                <div class="archive-year">2024</div>
+                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=300&auto=format&fit=crop" style="filter: sepia(70%);" alt="Birthday 2024" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=300&auto=format&fit=crop';">
+                <div class="archive-overlay">
+                    <span class="material-icons">cake</span>
+                    <p>8 Tracks</p>
+                </div>
+                <h3>Birthday 2024</h3>
+            </div>
+        </div>
+    </div>
+</section>

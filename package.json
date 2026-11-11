@@ -1,0 +1,14 @@
+{
+  "name": "audiotrack",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node gateway/server.js"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  }
+}

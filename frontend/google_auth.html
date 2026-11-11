@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Google Accounts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #f0f4f9;
+            color: #1f1f1f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1.5rem 1rem;
+        }
+        .google-card {
+            background: #ffffff;
+            border-radius: 28px;
+            width: 100%;
+            max-width: 440px;
+            padding: 40px 36px 36px 36px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e0e2ec;
+            position: relative;
+        }
+        .google-logo {
+            width: 44px;
+            height: 44px;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 500;
+            color: #1f1f1f;
+            margin-bottom: 8px;
+            letter-spacing: -0.2px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #444746;
+            margin-bottom: 24px;
+        }
+        .account-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            border: 1px solid #e0e2ec;
+            background: #fff;
+        }
+        .account-item:hover {
+            background: #f8fafd;
+            border-color: #c4c7c5;
+        }
+        .account-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #0b57d0;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .account-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .account-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f1f1f;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .account-email {
+            font-size: 12px;
+            color: #444746;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .step-container {
+            display: none;
+        }
+        .step-container.active {
+            display: block;
+        }
+        .input-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input-box input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #747775;
+            font-size: 16px;
+            color: #1f1f1f;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fff;
+        }
+        .input-box input:focus {
+            border-color: #0b57d0;
+            border-width: 2px;
+            padding: 15px;
+        }
+        .input-label {
+            position: absolute;
+            left: 14px;
+            top: -10px;
+            background: #fff;
+            padding: 0 6px;
+            font-size: 12px;
+            color: #0b57d0;
+            font-weight: 500;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: #444746;
+            cursor: pointer;
+            user-select: none;
+        }
+        .checkbox-container input {
+            width: 18px;
+            height: 18px;
+            accent-color: #0b57d0;
+            cursor: pointer;
+        }
+        .btn-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+        }
+        .link-btn {
+            background: none;
+            border: none;
+            color: #0b57d0;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+        .link-btn:hover {
+            background: #f0f4f9;
+        }
+        .next-btn {
+            background: #0b57d0;
+            color: #ffffff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 88px;
+            height: 40px;
+        }
+        .next-btn:hover {
+            background: #0842a0;
+        }
+        .next-btn:disabled {
+            background: #a8c7fa;
+            cursor: not-allowed;
+        }
+        .user-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px 4px 6px;
+            border-radius: 16px;
+            border: 1px solid #747775;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #1f1f1f;
+            cursor: pointer;
+            background: #fff;
+        }
+        .user-chip:hover {
+            background: #f8fafd;
+        }
+        .user-chip-avatar {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #0b57d0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid #e0e2ec;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #747775;
+        }
+        .footer a {
+            color: #747775;
+            text-decoration: none;
+            margin-left: 12px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .error-msg {
+            color: #ba1a1a;
+            font-size: 12px;
+            margin-top: -12px;
+            margin-bottom: 16px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="google-card">
+        <!-- Google G Logo -->
+        <svg class="google-logo" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+
+        <!-- STEP 1: Account Chooser (Pick saved email on laptop) -->
+        <div id="stepAccount" class="step-container active">
+            <h1>Choose an account</h1>
+            <p class="subtitle">to continue to <strong>AudioTrack</strong></p>
+
+            <div class="account-list" id="accountList">
+                <!-- Dynamically populated from saved accounts on this device -->
+            </div>
+
+            <!-- Custom / New Email Form -->
+            <div id="customEmailSection" style="display: none;">
+                <div class="input-box">
+                    <input type="text" id="customEmailInput" placeholder="Email or phone" autocomplete="email">
+                </div>
+                <div id="emailError" class="error-msg">Enter a valid email address</div>
+                <div class="btn-row">
+                    <button type="button" class="link-btn" onclick="switchBackToAccounts()">Back</button>
+                    <button type="button" class="next-btn" onclick="submitCustomEmail()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: Password Entry (Official Google Screen) -->
+        <div id="stepPassword" class="step-container">
+            <h1 id="welcomeUserHeading">Welcome</h1>
+            
+            <div class="user-chip" onclick="switchBackToAccounts()" title="Switch account">
+                <div class="user-chip-avatar" id="chipAvatar">T</div>
+                <span id="chipEmail">user@gmail.com</span>
+                <span style="font-size: 11px; color: #444746; margin-left: 2px;">▼</span>
+            </div>
+
+            <p style="font-size: 14px; color: #444746; margin-bottom: 20px;">To continue, first verify it's you</p>
+
+            <div class="input-box">
+                <div class="input-label">Enter your password</div>
+                <input type="password" id="googlePasswordInput" placeholder="Password" autocomplete="current-password">
+            </div>
+            <div id="passwordError" class="error-msg">Wrong password. Try again or click Forgot password.</div>
+
+            <label class="checkbox-container">
+                <input type="checkbox" id="showPasswordToggle" onchange="togglePasswordVisibility()">
+                <span>Show password</span>
+            </label>
+
+            <div class="btn-row">
+                <button type="button" class="link-btn" onclick="switchBackToAccounts()">Switch account</button>
+                <button type="button" class="next-btn" id="finishAuthBtn" onclick="finishGoogleAuth()">
+                    <span id="btnText">Next</span>
+                    <div class="loading-spinner" id="spinner"></div>
+                </button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span>English (United States)</span>
+            <div>
+                <a href="#">Help</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Key for storing accounts saved on this device/laptop
+        const STORAGE_KEY = 'audiotrack_google_saved_accounts';
+
+        // Load or initialize saved laptop accounts
+        function getSavedAccounts() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) return JSON.parse(stored);
+            } catch (e) {}
+
+            // Default saved accounts present on this machine
+            return [
+                { name: 'Trisha', email: 'trisha@gmail.com' }
+            ];
+        }
+
+        function saveAccount(name, email) {
+            try {
+                const accounts = getSavedAccounts();
+                const existingIndex = accounts.findIndex(a => a.email.toLowerCase() === email.toLowerCase());
+                if (existingIndex >= 0) {
+                    accounts[existingIndex].name = name;
+                } else {
+                    accounts.unshift({ name, email });
+                }
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts.slice(0, 5)));
+            } catch (e) {}
+        }
+
+        let selectedName = '';
+        let selectedEmail = '';
+
+        function renderAccountList() {
+            const list = document.getElementById('accountList');
+            if (!list) return;
+
+            const accounts = getSavedAccounts();
+            let html = '';
+
+            accounts.forEach(acc => {
+                const initial = (acc.name || acc.email || 'G').charAt(0).toUpperCase();
+                html += `
+                    <div class="account-item" onclick="selectSavedAccount('${escapeHtml(acc.name)}', '${escapeHtml(acc.email)}')">
+                        <div class="account-avatar">${initial}</div>
+                        <div class="account-info">
+                            <div class="account-name">${escapeHtml(acc.name)}</div>
+                            <div class="account-email">${escapeHtml(acc.email)}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Use another account option
+            html += `
+                <div class="account-item" onclick="switchToCustomEmail()">
+                    <div class="account-avatar" style="background: #e0e2ec; color: #444746; font-size: 22px;">+</div>
+                    <div class="account-info">
+                        <div class="account-name" style="color: #0b57d0; font-weight: 500;">Use another account</div>
+                    </div>
+                </div>
+            `;
+
+            list.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+
+        function selectSavedAccount(name, email) {
+            selectedName = name || email.split('@')[0];
+            selectedEmail = email;
+            goToPasswordStep();
+        }
+
+        function switchToCustomEmail() {
+            document.getElementById('accountList').style.display = 'none';
+            document.getElementById('customEmailSection').style.display = 'block';
+            document.getElementById('emailError').style.display = 'none';
+            const input = document.getElementById('customEmailInput');
+            input.value = '';
+            input.focus();
+        }
+
+        function switchBackToAccounts() {
+            document.getElementById('stepPassword').classList.remove('active');
+            document.getElementById('stepAccount').classList.add('active');
+            document.getElementById('accountList').style.display = 'flex';
+            document.getElementById('customEmailSection').style.display = 'none';
+            renderAccountList();
+        }
+
+        function submitCustomEmail() {
+            const input = document.getElementById('customEmailInput').value.trim();
+            const error = document.getElementById('emailError');
+            if (!input) {
+                error.textContent = 'Enter an email address or phone';
+                error.style.display = 'block';
+                return;
+            }
+            error.style.display = 'none';
+
+            selectedEmail = input.includes('@') ? input : input + '@gmail.com';
+            const rawName = selectedEmail.split('@')[0];
+            selectedName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+
+            // Save to device for future 1-click select
+            saveAccount(selectedName, selectedEmail);
+            goToPasswordStep();
+        }
+
+        function goToPasswordStep() {
+            document.getElementById('stepAccount').classList.remove('active');
+            document.getElementById('stepPassword').classList.add('active');
+            document.getElementById('passwordError').style.display = 'none';
+            
+            document.getElementById('welcomeUserHeading').textContent = `Hi ${selectedName}`;
+            document.getElementById('chipEmail').textContent = selectedEmail;
+            document.getElementById('chipAvatar').textContent = selectedName.charAt(0).toUpperCase();
+
+            const pwdInput = document.getElementById('googlePasswordInput');
+            pwdInput.value = '';
+            setTimeout(() => pwdInput.focus(), 50);
+        }
+
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById('googlePasswordInput');
+            pwdInput.type = document.getElementById('showPasswordToggle').checked ? 'text' : 'password';
+        }
+
+        // Enter key listeners
+        document.getElementById('customEmailInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') submitCustomEmail();
+        });
+        document.getElementById('googlePasswordInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') finishGoogleAuth();
+        });
+
+        function finishGoogleAuth() {
+            const pwd = document.getElementById('googlePasswordInput').value;
+            const error = document.getElementById('passwordError');
+            if (!pwd) {
+                error.textContent = 'Enter your password';
+                error.style.display = 'block';
+                return;
+            }
+            error.style.display = 'none';
+
+            const btnText = document.getElementById('btnText');
+            const spinner = document.getElementById('spinner');
+            const finishBtn = document.getElementById('finishAuthBtn');
+
+            btnText.style.display = 'none';
+            spinner.style.display = 'block';
+            finishBtn.disabled = true;
+
+            // Remember account on device
+            saveAccount(selectedName, selectedEmail);
+
+            setTimeout(() => {
+                const googleUserPayload = {
+                    type: 'GOOGLE_AUTH_SUCCESS',
+                    user: {
+                        username: selectedName,
+                        email: selectedEmail,
+                        provider: 'google',
+                        avatarUrl: `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(selectedName)}`
+                    }
+                };
+
+                // Send verified payload to parent window
+                if (window.opener && !window.opener.closed) {
+                    window.opener.postMessage(googleUserPayload, '*');
+                    window.close();
+                } else {
+                    localStorage.setItem('currentUser', JSON.stringify(googleUserPayload.user));
+                    localStorage.setItem('authToken', 'google-oauth-token-' + Date.now());
+                    localStorage.setItem('offlineMode', 'false');
+                    sessionStorage.setItem('justLoggedIn', 'true');
+                    window.location.href = 'index.html';
+                }
+            }, 650);
+        }
+
+        // Initial render on load
+        renderAccountList();
+    </script>
+</body>
+</html>

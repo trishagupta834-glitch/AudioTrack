@@ -1,0 +1,321 @@
+<!-- --- PROFILE VIEW (INSTAGRAM / Y2K STYLE) --- -->
+<section id="profile-view" class="view" style="padding-bottom: 6rem; padding-top: 2rem; max-width: 935px; margin: 0 auto;">
+    
+    <!-- HEADER SECTION -->
+    <div style="display: flex; align-items: stretch; gap: 4rem; padding: 0 2rem; margin-bottom: 2.5rem;">
+        
+        <!-- Avatar (Left) -->
+        <div style="flex-shrink: 0; position: relative; margin-left: 1rem;">
+            <img id="profileAvatarImg" src="https://api.dicebear.com/9.x/avataaars/svg?seed=DJ_Glitch" alt="Avatar" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&auto=format&fit=crop';" style="width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--neon-pink, #ff69b4); padding: 4px; background: rgba(255,255,255,0.5); object-fit: cover;">
+            <button id="shuffleAvatarBtn" style="position: absolute; bottom: 5px; right: 5px; width: 36px; height: 36px; border-radius: 50%; background: var(--bg-panel); border: 1px solid var(--bg-panel); box-shadow: 0 2px 5px var(--bg-panel); cursor: pointer; display: flex; justify-content: center; align-items: center;" title="Shuffle Avatar">
+                <span class="material-icons" style="font-size: 1.2rem; color: var(--text-main);">shuffle</span>
+            </button>
+        </div>
+
+        <!-- Info (Right) -->
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+            <!-- Username & Actions -->
+            <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.2rem;">
+                <h1 id="profileUsernameDisplay" style="font-size: 1.6rem; font-weight: 800; margin: 0; color: var(--text-main);">@DJ_Glitch</h1>
+                <button id="btnLogout" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--neon-pink); background: rgba(255,105,180,0.1); font-weight: 600; font-size: 0.85rem; cursor: pointer; color: var(--neon-pink); transition: all 0.2s;">Logout</button>
+            </div>
+            
+            <!-- Stats -->
+            <div style="display: flex; gap: 2rem; margin-bottom: 1.2rem; flex-wrap: wrap;">
+                <div style="font-size: 1rem; color: var(--text-main);"><strong id="profilePlaylistsCount" style="font-weight: 600;">0</strong> playlists</div>
+                <div style="font-size: 1rem; color: var(--text-main);"><strong id="profileConnectionsCount" style="font-weight: 600;">0</strong> connections</div>
+                <div style="font-size: 1rem; color: var(--text-main);"><strong id="profileArtistsCount" style="font-weight: 600;">0</strong> artists</div>
+            </div>
+
+            <!-- Bio -->
+            <div style="font-size: 0.95rem; color: var(--text-main); line-height: 1.4; margin-bottom: 1rem;">
+                <strong id="profileBioDisplay" style="display: block; font-weight: 600; margin-bottom: 0.1rem;">Vibing to the beat of the universe 🎧</strong>
+            </div>
+            
+            <!-- Song in Bio -->
+            <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+                <div id="profileBioSongCard" style="display: inline-flex; align-items: center; gap: 0.6rem; background: var(--bg-panel); padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.18); width: fit-content; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.25);" title="Click to play your bio song">
+                    <img id="profileBioSongArt" src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=120&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=120&auto=format&fit=crop';" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;" alt="Bio Song Art">
+                    <span class="material-icons" style="font-size: 1rem; color: var(--neon-pink, #ff69b4);">music_note</span>
+                    <span id="profileBioSongTitle" style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">Midnight City • M83</span>
+                    <span class="material-icons" id="profileBioSongPlayIcon" style="font-size: 1rem; color: var(--text-main); margin-left: 0.2rem;">play_arrow</span>
+                </div>
+                <button id="btnChangeBioSong" type="button" style="display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.38rem 0.85rem; border-radius: 18px; border: 1px solid var(--neon-cyan, #00f0ff); background: rgba(0,240,255,0.08); color: var(--neon-cyan, #00f0ff); font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s;" title="Change featured bio song">
+                    <span class="material-icons" style="font-size: 0.95rem;">edit</span> Change Song
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABS ROW -->
+    <div style="border-top: 1px solid var(--bg-panel); display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;">
+        <div id="tab-btn-playlists" class="profile-tab-btn active" style="display: flex; align-items: center; gap: 0.4rem; padding: 1.2rem 0; border-top: 2px solid var(--text-main); margin-top: -1px; cursor: pointer; color: var(--text-main); font-weight: 600; font-size: 0.75rem; letter-spacing: 1px;">
+            <span class="material-icons" style="font-size: 1rem;">queue_music</span> PLAYLISTS
+        </div>
+        <div id="tab-btn-connections" class="profile-tab-btn" style="display: flex; align-items: center; gap: 0.4rem; padding: 1.2rem 0; cursor: pointer; color: var(--text-muted); font-weight: 600; font-size: 0.75rem; letter-spacing: 1px; position: relative;">
+            <span class="material-icons" style="font-size: 1rem;">people_outline</span> CONNECTIONS
+            <span id="tabConnectionsBadge" style="display: none; background: var(--neon-pink, #ff69b4); color: #000; font-size: 0.65rem; font-weight: 800; border-radius: 10px; padding: 1px 6px; line-height: 1.2;">0</span>
+        </div>
+        <div id="tab-btn-artists" class="profile-tab-btn" style="display: flex; align-items: center; gap: 0.4rem; padding: 1.2rem 0; cursor: pointer; color: var(--text-muted); font-weight: 600; font-size: 0.75rem; letter-spacing: 1px;">
+            <span class="material-icons" style="font-size: 1rem;">mic</span> ARTISTS
+        </div>
+        <div id="tab-btn-listen" class="profile-tab-btn" style="display: flex; align-items: center; gap: 0.4rem; padding: 1.2rem 0; cursor: pointer; color: var(--text-muted); font-weight: 600; font-size: 0.75rem; letter-spacing: 1px;">
+            <span class="material-icons" style="font-size: 1rem;">headphones</span> LISTEN TOGETHER
+        </div>
+    </div>
+
+    <!-- CONTENT SECTIONS -->
+    <div id="profile-content-area">
+        <!-- PLAYLISTS TAB -->
+        <div id="profile-tab-playlists" class="profile-tab-content active" style="display: flex; flex-direction: column; gap: 1.5rem; padding: 1rem 2rem 4rem;">
+            
+            <!-- TOP FREQUENTLY PLAYED PLAYLISTS (MOST PLAYED) -->
+            <div id="topPlayedPlaylistsSection" style="display: flex; flex-direction: column; gap: 0.8rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.4rem;">
+                    <h3 style="margin: 0; font-size: 1.15rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; font-weight: 700;">
+                        <span class="material-icons" style="color: #ff5722;">local_fire_department</span> Top Playlists (Most Played)
+                    </h3>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Ranked dynamically by your rotation</span>
+                </div>
+                <div id="topPlayedPlaylistsContainer" style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    <!-- Populated dynamically with most frequently played playlists -->
+                </div>
+            </div>
+
+            <!-- Pinned Playlists Section -->
+            <div id="pinnedPlaylistsSection" style="display: none; flex-direction: column; gap: 0.8rem;">
+                <h3 style="margin: 0; font-size: 1rem; color: var(--neon-pink, #ff69b4); display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="material-icons">push_pin</span> Pinned Playlists
+                </h3>
+                <div id="pinnedPlaylistsContainer" style="display: flex; flex-direction: column; gap: 0.8rem;"></div>
+                <hr style="border: 0; border-top: 1px solid var(--bg-panel); margin: 0.5rem 0;">
+            </div>
+
+            <!-- All Playlists Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                <h3 style="margin: 0; font-size: 1.1rem; color: var(--text-main); display: flex; align-items: center; gap: 0.4rem;">
+                    <span class="material-icons" style="color: var(--neon-cyan, #00f0ff);">queue_music</span> All Platform Playlists
+                </h3>
+            </div>
+            
+            <!-- Playlist Items Grid -->
+            <div id="allPlaylistsContainer" style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Playlists are rendered dynamically here -->
+            </div>
+        </div>
+
+        <!-- CONNECTIONS TAB -->
+        <div id="profile-tab-connections" class="profile-tab-content" style="display: none; flex-direction: column; gap: 1.5rem; padding: 1rem 2rem 4rem;">
+            
+            <!-- PENDING CONNECTION REQUESTS TO APPROVE -->
+            <div id="pendingRequestsSection" style="display: none; background: rgba(255, 105, 180, 0.08); padding: 1.3rem; border-radius: 16px; border: 1px dashed var(--neon-pink, #ff69b4); box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.5rem;">
+                    <h4 style="margin: 0; color: var(--text-main); font-size: 1.05rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 700;">
+                        <span class="material-icons" style="color: var(--neon-pink, #ff69b4);">notification_important</span> Pending Connection Requests (<span id="pendingRequestsCount">0</span>)
+                    </h4>
+                    <span style="font-size: 0.78rem; color: var(--neon-pink, #ff69b4); font-weight: 600;">Action Required</span>
+                </div>
+                <div id="pendingRequestsContainer" style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    <!-- Injected with Accept / Decline action cards -->
+                </div>
+            </div>
+
+            <!-- Friend Search Bar -->
+            <div style="background: var(--bg-panel); padding: 1.4rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.5rem;">
+                    <h4 style="margin: 0; color: var(--text-main); font-size: 1.05rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 700;">
+                        <span class="material-icons" style="color: var(--neon-pink, #ff69b4);">person_search</span> Find Accounts & Artists
+                    </h4>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Send connection requests or follow artists</span>
+                </div>
+                <div style="display: flex; gap: 0.8rem;">
+                    <input type="text" id="userSearchInput" placeholder="Search accounts to connect or artists to follow..." style="flex: 1; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.18); font-size: 0.95rem; background: rgba(0,0,0,0.3); color: var(--text-main, #fff); outline: none;">
+                    <button id="btnSearchUsers" style="padding: 0.75rem 1.4rem; border-radius: 10px; border: none; background: var(--neon-pink, #ff69b4); color: #fff; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: transform 0.2s;">
+                        <span class="material-icons">search</span> Search
+                    </button>
+                </div>
+                <div id="userSearchResults" style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 1rem;"></div>
+            </div>
+
+            <!-- My Connections Grid -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                <h3 style="margin: 0; color: var(--text-main); font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="material-icons" style="color: var(--neon-cyan, #00f0ff);">people</span> My Connections
+                </h3>
+            </div>
+            <div id="connectionsContainer" style="display: flex; flex-wrap: wrap; gap: 1.2rem;">
+                <p id="noConnectionsText" style="color: var(--text-muted); font-style: italic; margin: 0;">No connected friends yet. Search above to add connections!</p>
+            </div>
+
+            <!-- Shared With Me -->
+            <h3 style="margin: 1rem 0 0; color: var(--text-main); font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span class="material-icons" style="color: var(--neon-pink, #ff69b4);">folder_shared</span> Shared With Me
+            </h3>
+            <div id="shared-playlists-container" style="display: flex; flex-direction: column; gap: 1rem;">
+                <p style="color: var(--text-muted); font-style: italic; margin: 0;">No playlists shared with you yet.</p>
+            </div>
+        </div>
+
+        <!-- ARTISTS TAB (Followed Artists) -->
+        <div id="profile-tab-artists" class="profile-tab-content" style="display: none; flex-direction: column; gap: 1.5rem; padding: 1rem 2rem 4rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+                <div>
+                    <h3 style="margin: 0; color: var(--text-main); font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span class="material-icons" style="color: var(--neon-pink, #ff69b4);">mic</span> Artists You Follow
+                    </h3>
+                    <p style="margin: 0.3rem 0 0; color: var(--text-muted); font-size: 0.85rem;">Discover discography and top releases from your favorite artists.</p>
+                </div>
+            </div>
+            
+            <div id="followedArtistsContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1.2rem;">
+                <!-- Populated dynamically by renderFollowedArtists -->
+            </div>
+        </div>
+
+        <!-- LISTEN TOGETHER TAB -->
+        <div id="profile-tab-listen" class="profile-tab-content" style="display: none; flex-direction: column; align-items: center; gap: 2rem; padding: 2rem 2rem 4rem; text-align: center;">
+            <div id="room-setup" style="width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="background: var(--bg-panel); padding: 2rem; border-radius: 16px;">
+                    <span class="material-icons" style="font-size: 3rem; color: var(--text-main); margin-bottom: 1rem;">wifi_tethering</span>
+                    <h3 style="margin: 0 0 1rem; color: var(--text-main);">Host a Room</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Create a synced listening session.</p>
+                    <button id="btnCreateRoom" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: none; background: var(--text-main); color: maroon; font-weight: bold; cursor: pointer;">CREATE ROOM</button>
+                </div>
+                <div style="background: var(--bg-panel); padding: 2rem; border-radius: 16px;">
+                    <h3 style="margin: 0 0 1rem; color: var(--text-main);">Join a Room</h3>
+                    <input type="text" id="inputRoomCode" placeholder="Enter 6-digit code" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--bg-panel); margin-bottom: 1rem; text-align: center; font-size: 1.1rem; letter-spacing: 2px;">
+                    <button id="btnJoinRoom" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--text-main); background: transparent; color: var(--text-main); font-weight: bold; cursor: pointer;">JOIN ROOM</button>
+                </div>
+            </div>
+
+            <div id="room-active" style="display: none; width: 100%; max-width: 500px; background: var(--bg-panel); padding: 2rem; border-radius: 20px; border: 2px solid var(--neon-pink, #ff69b4);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Live Room Code</p>
+                        <h2 id="activeRoomCode" style="margin: 0; font-size: 2.5rem; color: var(--text-main); letter-spacing: 4px;">------</h2>
+                        <div style="display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap;">
+                            <button id="copyRoomCodeBtn" type="button" style="padding: 0.35rem 0.8rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); color: var(--text-main); font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.3rem;" title="Copy 6-digit room code">
+                                <span class="material-icons" style="font-size: 0.95rem;">content_copy</span> Copy Code
+                            </button>
+                            <button id="copyRoomInviteLinkBtn" type="button" style="padding: 0.35rem 0.85rem; border-radius: 8px; border: none; background: var(--neon-pink, #ff69b4); color: #000; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.3rem;" title="Copy 1-click invite link for friends">
+                                <span class="material-icons" style="font-size: 0.95rem;">link</span> Copy Friend Invite Link
+                            </button>
+                        </div>
+                    </div>
+                    <button id="btnLeaveRoom" style="padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid red; background: transparent; color: red; cursor: pointer; font-weight: bold;">Leave</button>
+                </div>
+                
+                <div style="text-align: left;">
+                    <h4 style="margin: 0 0 1rem; color: var(--text-main);">Currently Syncing:</h4>
+                    <div id="roomSyncStatus" style="display: flex; align-items: center; gap: 1rem; background: var(--bg-panel); padding: 1rem; border-radius: 12px; box-shadow: 0 4px 10px var(--bg-panel);">
+                        <img id="roomSyncArt" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=120&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=120&auto=format&fit=crop';" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                        <div style="flex: 1;">
+                            <h4 id="roomSyncTitle" style="margin: 0 0 4px; color: var(--text-main); font-size: 1rem;">Waiting for music...</h4>
+                            <p id="roomSyncArtist" style="margin: 0; color: var(--text-muted); font-size: 0.85rem;">Host must play a track</p>
+                        </div>
+                        <span class="material-icons" style="color: #4CAF50; animation: pulse 2s infinite;">graphic_eq</span>
+                    </div>
+
+                    <!-- CHOOSE MUSIC TO PLAY IN ROOM -->
+                    <div class="room-music-picker" style="margin-top: 1.5rem; background: rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 1.2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <h4 style="margin: 0; color: var(--text-main); font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                                <span class="material-icons" style="font-size: 1.2rem; color: var(--neon-pink, #ff69b4);">queue_music</span> Select Playlist to Play in Room
+                            </h4>
+                            <button id="btnBrowsePlaylistsFromRoom" type="button" style="background: transparent; border: 1px solid rgba(255,255,255,0.25); color: var(--text-main); padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s;">Browse All ↗</button>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                            <select id="roomPlaylistSelect" style="flex: 1; padding: 0.6rem; border-radius: 8px; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.2); color: var(--text-main, #fff); font-size: 0.9rem;">
+                                <option value="">— Choose a Playlist to Stream —</option>
+                            </select>
+                            <button id="btnPlayRoomPlaylist" type="button" class="neon-btn" style="padding: 0.6rem 1.2rem; border-radius: 8px; background: var(--neon-pink, #ff69b4); color: #000; font-weight: bold; font-size: 0.85rem; white-space: nowrap; cursor: pointer;">
+                                ▶ Play
+                            </button>
+                        </div>
+
+                        <!-- SEARCH & PLAY ANY SONG IN ROOM -->
+                        <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.9rem;">
+                            <h4 style="margin: 0 0 0.6rem; color: var(--text-main); font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                                <span class="material-icons" style="font-size: 1.2rem; color: var(--neon-cyan, #00f0ff);">search</span> Or Search Any Song
+                            </h4>
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.6rem;">
+                                <input type="text" id="inputRoomSongSearch" placeholder="Type song name or artist..." style="flex: 1; padding: 0.55rem 0.8rem; border-radius: 8px; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 0.85rem;">
+                                <button id="btnSearchRoomSong" type="button" class="neon-btn" style="padding: 0.55rem 1rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Search</button>
+                            </div>
+                            <div id="roomSearchResults" style="max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.4rem;">
+                                <!-- Live search results injected here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Autoplay Click-To-Enable Prompt for Listeners in Remote Cities -->
+                    <button id="btnEnableAudio" style="display: none; width: 100%; margin-top: 1rem; padding: 0.8rem; border-radius: 8px; border: none; background: var(--neon-cyan, #00f0ff); color: #000; font-weight: bold; cursor: pointer;">
+                        🔊 Click to Enable Live Audio Stream
+                    </button>
+
+                    <!-- Real-Time Emoji Reaction Bar -->
+                    <div style="margin-top: 1.5rem;">
+                        <p style="margin: 0 0 0.5rem; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Reactions</p>
+                        <div style="display: flex; gap: 0.5rem; justify-content: space-between;">
+                            <button class="room-reaction-btn" data-emoji="🔥" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 1.2rem; cursor: pointer;">🔥</button>
+                            <button class="room-reaction-btn" data-emoji="💖" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 1.2rem; cursor: pointer;">💖</button>
+                            <button class="room-reaction-btn" data-emoji="⚡" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 1.2rem; cursor: pointer;">⚡</button>
+                            <button class="room-reaction-btn" data-emoji="🕺" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 1.2rem; cursor: pointer;">🕺</button>
+                            <button class="room-reaction-btn" data-emoji="🎧" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 1.2rem; cursor: pointer;">🎧</button>
+                        </div>
+                    </div>
+
+                    <!-- Room Live Chat Box -->
+                    <div style="margin-top: 1.5rem; background: rgba(0,0,0,0.25); border-radius: 12px; padding: 1rem; border: 1px solid rgba(255,255,255,0.1);">
+                        <p style="margin: 0 0 0.5rem; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Room Live Chat</p>
+                        <div id="roomChatDisplay" style="height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.85rem; margin-bottom: 0.75rem; padding-right: 4px;">
+                            <div style="color: var(--text-muted); font-style: italic;">Welcome to the listening room! Say hi 👋</div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="inputRoomChat" placeholder="Type a message..." style="flex: 1; padding: 0.5rem 0.8rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 0.85rem;">
+                            <button id="btnSendRoomChat" style="padding: 0.5rem 1rem; border-radius: 6px; border: none; background: var(--neon-pink, #ff69b4); color: #fff; font-weight: bold; cursor: pointer;">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- MODAL: CHANGE BIO SONG -->
+    <div id="changeBioSongModal" class="mood-modal" style="display: none; align-items: center; justify-content: center; z-index: 10000;">
+        <div style="background: var(--bg-panel); padding: 2rem; border-radius: 20px; border: 1px solid var(--neon-cyan, #00f0ff); width: 500px; max-width: 92vw; text-align: left; box-shadow: 0 16px 45px rgba(0,0,0,0.7); position: relative;">
+            <button id="btnCloseBioSongModal" type="button" aria-label="Close" style="position: absolute; top: 1.2rem; right: 1.2rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%;">
+                <span class="material-icons">close</span>
+            </button>
+            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+                <span class="material-icons" style="color: var(--neon-pink, #ff69b4); font-size: 1.8rem;">queue_music</span>
+                <h2 style="font-size: 1.4rem; margin: 0; color: var(--text-main);">Change Bio Song</h2>
+            </div>
+            <p style="margin: 0 0 1.2rem; font-size: 0.85rem; color: var(--text-muted);">Pick an anthem that defines your vibe when people visit your profile.</p>
+
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                <input id="inputBioSongSearch" type="text" placeholder="Search track title or artist..." style="flex: 1; padding: 0.7rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 0.9rem;">
+                <button id="btnSearchBioSong" type="button" class="neon-btn" style="padding: 0.7rem 1.3rem; font-size: 0.85rem; background: var(--neon-pink, #ff69b4); color: #000; font-weight: bold; cursor: pointer;">Search</button>
+            </div>
+
+            <!-- Quick Suggestions -->
+            <p style="margin: 0 0 0.5rem; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Quick Hits</p>
+            <div id="bioSongQuickPicks" style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+                <button type="button" class="bio-quick-pick" data-title="Midnight City" data-artist="M83" style="padding: 0.3rem 0.7rem; font-size: 0.75rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); color: var(--text-main); cursor: pointer;">Midnight City • M83</button>
+                <button type="button" class="bio-quick-pick" data-title="Starboy" data-artist="The Weeknd" style="padding: 0.3rem 0.7rem; font-size: 0.75rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); color: var(--text-main); cursor: pointer;">Starboy • The Weeknd</button>
+                <button type="button" class="bio-quick-pick" data-title="Bad Guy" data-artist="Billie Eilish" style="padding: 0.3rem 0.7rem; font-size: 0.75rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); color: var(--text-main); cursor: pointer;">Bad Guy • Billie Eilish</button>
+                <button type="button" class="bio-quick-pick" data-title="Goosebumps" data-artist="Travis Scott" style="padding: 0.3rem 0.7rem; font-size: 0.75rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); color: var(--text-main); cursor: pointer;">Goosebumps • Travis Scott</button>
+            </div>
+
+            <!-- Results container -->
+            <div id="bioSongSearchResults" style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; padding-right: 4px;" class="no-scrollbar">
+                <!-- Tracks list injected here -->
+            </div>
+            
+            <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                <button id="btnCancelBioSongModal" type="button" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 0.4rem 0.8rem; font-size: 0.85rem;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</section>

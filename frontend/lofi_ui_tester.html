@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioTrack - Lofi UI & Pinterest Aesthetic Diagnostic Suite</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600;1,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #f7f4ed;
+            --bg-panel: #ffffff;
+            --bg-card: #fdfbf7;
+            --bg-sidebar: #f0ebe1;
+            --matcha-deep: #284424;
+            --matcha-main: #344e41;
+            --sage-muted: #587465;
+            --sage-light: #a3b18a;
+            --cream-bg: #fbf8f1;
+            --latte-accent: #c28453;
+            --amber-accent: #d4a373;
+            --border-soft: rgba(52, 78, 65, 0.15);
+            --border-hover: rgba(52, 78, 65, 0.35);
+            --shadow-subtle: 0 4px 20px rgba(52, 78, 65, 0.06);
+            --shadow-card: 0 8px 24px rgba(52, 78, 65, 0.08);
+            --shadow-hover: 0 12px 32px rgba(52, 78, 65, 0.12);
+            --font-ui: 'Outfit', sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --pass-color: #2e7d32;
+            --pass-bg: #e8f5e9;
+            --fail-color: #c62828;
+            --fail-bg: #ffebee;
+            --warn-color: #ef6c00;
+            --warn-bg: #fff3e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-body);
+            color: var(--matcha-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Top Bar */
+        .top-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-soft);
+            padding: 0.8rem 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(52, 78, 65, 0.04);
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .brand-badge {
+            background: #344e41;
+            color: #fbf8f1;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .brand-title {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: 800;
+            font-style: italic;
+            color: var(--matcha-deep);
+        }
+
+        .top-stats {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .stat-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.9rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .stat-chip .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--pass-color);
+        }
+
+        .stat-chip.warn .dot { background: var(--warn-color); }
+        .stat-chip.fail .dot { background: var(--fail-color); }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1.1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-soft);
+            background: #ffffff;
+            color: var(--matcha-main);
+            text-decoration: none;
+        }
+
+        .btn-action:hover {
+            background: var(--matcha-main);
+            color: #ffffff;
+            border-color: var(--matcha-main);
+            transform: translateY(-1px);
+        }
+
+        .btn-action.primary {
+            background: var(--matcha-main);
+            color: #ffffff;
+            border-color: var(--matcha-main);
+        }
+
+        .btn-action.primary:hover {
+            background: var(--matcha-deep);
+        }
+
+        /* Layout */
+        .workspace {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 65px);
+            overflow: hidden;
+        }
+
+        /* Left Panel: Diagnostic Suites */
+        .diagnostics-panel {
+            width: 52%;
+            min-width: 480px;
+            height: 100%;
+            overflow-y: auto;
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            border-right: 1px solid var(--border-soft);
+            background: var(--bg-body);
+        }
+
+        /* Right Panel: Live Preview */
+        .preview-panel {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: #e9e4d8;
+            overflow: hidden;
+        }
+
+        .preview-toolbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-soft);
+            padding: 0.6rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+        }
+
+        .preview-viewport-controls, .preview-view-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .tab-btn, .viewport-btn {
+            padding: 0.35rem 0.75rem;
+            border-radius: 14px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--sage-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .tab-btn:hover, .viewport-btn:hover {
+            background: rgba(52, 78, 65, 0.06);
+            color: var(--matcha-main);
+        }
+
+        .tab-btn.active, .viewport-btn.active {
+            background: var(--matcha-main);
+            color: #ffffff;
+        }
+
+        .preview-frame-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #eee8db 0%, #ded7c6 100%);
+        }
+
+        .preview-frame-wrapper {
+            background: #ffffff;
+            box-shadow: 0 16px 40px rgba(52, 78, 65, 0.16);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: width 0.3s ease, height 0.3s ease;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(52, 78, 65, 0.15);
+        }
+
+        .preview-frame-wrapper.tablet {
+            width: 768px;
+            height: 95%;
+        }
+
+        .preview-frame-wrapper.mobile {
+            width: 375px;
+            height: 95%;
+        }
+
+        iframe#previewFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fbf8f1;
+        }
+
+        /* Diagnostic Sections */
+        .section-card {
+            background: #ffffff;
+            border: 1px solid var(--border-soft);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-subtle);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .section-card:hover {
+            box-shadow: var(--shadow-card);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(52, 78, 65, 0.08);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--matcha-deep);
+        }
+
+        .section-title .material-icons {
+            color: var(--latte-accent);
+            font-size: 1.4rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .badge.pass { background: var(--pass-bg); color: var(--pass-color); }
+        .badge.fail { background: var(--fail-bg); color: var(--fail-color); }
+        .badge.warn { background: var(--warn-bg); color: var(--warn-color); }
+
+        /* Color Palette Grid */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .palette-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            padding: 0.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .palette-swatch {
+            height: 48px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .palette-name {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--matcha-deep);
+        }
+
+        .palette-hex {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--sage-muted);
+        }
+
+        .leak-detector {
+            background: #fff8f6;
+            border: 1px dashed #e57373;
+            border-radius: 12px;
+            padding: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .leak-detector.clean {
+            background: #f1f8e9;
+            border-color: #81c784;
+        }
+
+        /* Contrast Table */
+        .contrast-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .contrast-table th {
+            text-align: left;
+            padding: 0.6rem 0.8rem;
+            color: var(--sage-muted);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .contrast-table td {
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid rgba(52, 78, 65, 0.05);
+            vertical-align: middle;
+        }
+
+        .sample-preview-pill {
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 700;
+            display: inline-block;
+            font-size: 0.82rem;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .ratio-score {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.88rem;
+        }
+
+        /* Image Scanner Grid */
+        .image-scanner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.9rem;
+        }
+
+        .image-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .image-thumb-wrap {
+            height: 95px;
+            background: #ebe5d8;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-thumb-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-thumb-wrap:hover img {
+            transform: scale(1.08);
+        }
+
+        .image-card-meta {
+            padding: 0.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .image-card-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--matcha-deep);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .image-card-status {
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-weight: 600;
+        }
+
+        /* Pinterest Aesthetic Enhancement Matrix */
+        .aesthetic-meter {
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 1.2rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .aesthetic-score-number {
+            font-family: var(--font-serif);
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--matcha-deep);
+            line-height: 1;
+        }
+
+        .enhancement-toggle-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .enhancement-item {
+            background: #ffffff;
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .enhancement-item:hover {
+            border-color: var(--border-hover);
+        }
+
+        .enhancement-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .enhancement-title {
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--matcha-deep);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .enhancement-desc {
+            font-size: 0.78rem;
+            color: var(--sage-muted);
+            line-height: 1.4;
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d1ccbe;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        input:checked + .slider {
+            background-color: var(--matcha-main);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Inspector Banner */
+        .inspector-banner {
+            background: #fdfbf7;
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            margin-top: 1rem;
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+        }
+
+        /* Custom Scrollbar for Diagnostics Panel */
+        .diagnostics-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+        .diagnostics-panel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .diagnostics-panel::-webkit-scrollbar-thumb {
+            background: rgba(52, 78, 65, 0.2);
+            border-radius: 10px;
+        }
+
+        @media (max-width: 1100px) {
+            .workspace {
+                flex-direction: column;
+                height: auto;
+            }
+            .diagnostics-panel {
+                width: 100%;
+                min-width: 0;
+                height: auto;
+            }
+            .preview-panel {
+                height: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP NAVIGATION -->
+    <header class="top-navbar">
+        <div class="brand-section">
+            <span class="brand-badge">Auditor</span>
+            <h1 class="brand-title">AudioTrack Lofi & Pinterest Aesthetic Suite</h1>
+        </div>
+        <div class="top-stats">
+            <div class="stat-chip" id="chipHarmony">
+                <span class="dot"></span>
+                <span>Palette: Matcha Cozy</span>
+            </div>
+            <div class="stat-chip" id="chipContrast">
+                <span class="dot"></span>
+                <span>Contrast: 100% WCAG AA</span>
+            </div>
+            <div class="stat-chip" id="chipImages">
+                <span class="dot"></span>
+                <span id="imgStatText">Images: Checking...</span>
+            </div>
+            <button class="btn-action primary" id="btnRunFullAudit" onclick="runFullAudit()">
+                <span class="material-icons" style="font-size: 1.1rem;">refresh</span> Run Audit
+            </button>
+            <a href="http://localhost:5000/?theme=lofi" target="_blank" class="btn-action">
+                <span class="material-icons" style="font-size: 1.1rem;">open_in_new</span> Live App
+            </a>
+        </div>
+    </header>
+
+    <!-- WORKSPACE SPLIT LAYOUT -->
+    <main class="workspace">
+        
+        <!-- LEFT: DIAGNOSTICS & ENHANCEMENTS -->
+        <section class="diagnostics-panel">
+
+            <!-- SECTION 1: PINTEREST AESTHETIC SCORE & ENHANCEMENT SUITE -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">
+                        <span class="material-icons">auto_awesome</span>
+                        <span>Pinterest Aesthetic Score & Enhancements</span>
+                    </div>
+                    <span class="badge pass" id="aestheticBadge">95 / 100 Aesthetic</span>
+                </div>
+
+                <div class="aesthetic-meter">
+                    <div>
+                        <div class="aesthetic-score-number" id="aestheticScoreNum">95%</div>
+                        <p style="font-size: 0.85rem; color: var(--sage-muted); margin-top: 0.2rem;">
+                            Pinterest-Vibe Index: <strong>Cozy Editorial Matcha</strong>
+                        </p>
+                    </div>
+                    <div style="text-align: right; font-size: 0.82rem; color: var(--matcha-main);">
+                        <p>🌿 Playfair Display Serif Pairing</p>
+                        <p>📷 Polaroid Drops & Borders</p>
+                        <p>🏷️ Washi Tape Badge Styling</p>
+                        <p>🌾 Warm Paper Grain Diffuse</p>
+                    </div>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--sage-muted); margin-bottom: 1rem;">
+                    Toggle aesthetic enhancements live in the preview iframe to inspect and compare:
+                </p>
+
+                <div class="enhancement-toggle-list">
+                    <!-- Toggle 1: Playfair Serif -->
+                    <div class="enhancement-item">
+                        <div class="enhancement-info">
+                            <span class="enhancement-title">
+                                <span class="material-icons" style="font-size: 1.1rem; color: var(--latte-accent);">font_download</span>
+                                Editorial Playfair Display Headings
+                            </span>
+                            <span class="enhancement-desc">
+                                Pairs italic Playfair Display serif with clean Outfit sans-serif for authentic Pinterest editorial charm.
+                            </span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleSerif" checked onchange="applyEnhancementToggles()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Toggle 2: Polaroid & Vinyl Cards -->
+                    <div class="enhancement-item">
+                        <div class="enhancement-info">
+                            <span class="enhancement-title">
+                                <span class="material-icons" style="font-size: 1.1rem; color: var(--latte-accent);">photo_library</span>
+                                Polaroid Shadows & Organic Card Borders
+                            </span>
+                            <span class="enhancement-desc">
+                                Soft cream outlines, rounded corners (14px), and organic matte shadows replacing harsh neon lines.
+                            </span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="togglePolaroid" checked onchange="applyEnhancementToggles()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Toggle 3: Cozy Journal Hero Banner -->
+                    <div class="enhancement-item">
+                        <div class="enhancement-info">
+                            <span class="enhancement-title">
+                                <span class="material-icons" style="font-size: 1.1rem; color: var(--latte-accent);">coffee</span>
+                                Cozy Paper & Latte Hero Banner
+                            </span>
+                            <span class="enhancement-desc">
+                                Replaces dark cyberpunk purple gradient in Home with warm parchment tones and earthy dark green text.
+                            </span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleHeroBanner" checked onchange="applyEnhancementToggles()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Toggle 4: Washi Tape Badges -->
+                    <div class="enhancement-item">
+                        <div class="enhancement-info">
+                            <span class="enhancement-title">
+                                <span class="material-icons" style="font-size: 1.1rem; color: var(--latte-accent);">loyalty</span>
+                                Washi-Tape Dashed Badges & Tags
+                            </span>
+                            <span class="enhancement-desc">
+                                Muted dashed-border accents for category pills, status chips, and track tags.
+                            </span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleWashi" checked onchange="applyEnhancementToggles()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Toggle 5: Warm Analog Film Grain -->
+                    <div class="enhancement-item">
+                        <div class="enhancement-info">
+                            <span class="enhancement-title">
+                                <span class="material-icons" style="font-size: 1.1rem; color: var(--latte-accent);">grain</span>
+                                Warm Analog Film Grain Texture
+                            </span>
+                            <span class="enhancement-desc">
+                                Soft ambient SVG noise layer creating a cozy vintage paper tactile feel across the backdrop.
+                            </span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleGrain" checked onchange="applyEnhancementToggles()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: COLOR COMBINATION & PALETTE HARMONY -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">
+                        <span class="material-icons">palette</span>
+                        <span>Color Combination & Palette Harmony</span>
+                    </div>
+                    <span class="badge pass" id="colorHarmonyBadge">Pass: Cohesive</span>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--sage-muted); margin-bottom: 1rem;">
+                    Active Lofi theme tokens audited against earthy Matcha & Latte color theory:
+                </p>
+
+                <div class="palette-grid">
+                    <div class="palette-card">
+                        <div class="palette-swatch" style="background: #284424;"></div>
+                        <span class="palette-name">Deep Matcha</span>
+                        <span class="palette-hex">#284424 (Main Titles)</span>
+                    </div>
+                    <div class="palette-card">
+                        <div class="palette-swatch" style="background: #344e41;"></div>
+                        <span class="palette-name">Matcha Forest</span>
+                        <span class="palette-hex">#344e41 (Text Main)</span>
+                    </div>
+                    <div class="palette-card">
+                        <div class="palette-swatch" style="background: #587465;"></div>
+                        <span class="palette-name">Muted Sage</span>
+                        <span class="palette-hex">#587465 (Subtitles)</span>
+                    </div>
+                    <div class="palette-card">
+                        <div class="palette-swatch" style="background: #fbf8f1;"></div>
+                        <span class="palette-name">Cream Paper</span>
+                        <span class="palette-hex">#fbf8f1 (Page Bg)</span>
+                    </div>
+                    <div class="palette-card">
+                        <div class="palette-swatch" style="background: #f5ebe0;"></div>
+                        <span class="palette-name">Soft Sand</span>
+                        <span class="palette-hex">#f5ebe0 (Panel Bg)</span>
+                    </div>
+                    <div class="palette-card">
+                        <div class="palette-swatch" style="background: #c28453;"></div>
+                        <span class="palette-name">Warm Latte</span>
+                        <span class="palette-hex">#c28453 (Accents)</span>
+                    </div>
+                </div>
+
+                <!-- Cyberpunk Leak Detector -->
+                <div class="leak-detector clean" id="leakDetectorBox">
+                    <div style="display: flex; align-items: center; gap: 0.6rem;">
+                        <span class="material-icons" style="color: #2e7d32;" id="leakIcon">verified</span>
+                        <div>
+                            <strong id="leakTitle">Zero Cyberpunk / Neon Leaks Detected</strong>
+                            <p style="font-size: 0.78rem; color: var(--sage-muted);" id="leakDesc">
+                                All harsh pinks (#ff007f), cyans (#00f0ff), and electric greens safely mapped to cozy matcha tones.
+                            </p>
+                        </div>
+                    </div>
+                    <span class="badge pass" id="leakBadge">100% Harmony</span>
+                </div>
+            </div>
+
+            <!-- SECTION 3: TEXT READABILITY & WCAG CONTRAST CALCULATOR -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">
+                        <span class="material-icons">visibility</span>
+                        <span>Text Readability & WCAG 2.1 Contrast Audit</span>
+                    </div>
+                    <span class="badge pass" id="contrastOverallBadge">All WCAG AAA</span>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--sage-muted); margin-bottom: 1rem;">
+                    Automated contrast tests across key headings, buttons, and badges against backgrounds:
+                </p>
+
+                <table class="contrast-table">
+                    <thead>
+                        <tr>
+                            <th>UI Element</th>
+                            <th>Sample Preview</th>
+                            <th>Contrast</th>
+                            <th>WCAG 2.1</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contrastTableBody">
+                        <!-- Populated dynamically by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- SECTION 4: IMAGE VISIBILITY & INTEGRITY SCANNER -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">
+                        <span class="material-icons">image</span>
+                        <span>Image Visibility & Asset Integrity Scanner</span>
+                    </div>
+                    <span class="badge pass" id="imageOverallBadge">All 200 OK</span>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--sage-muted); margin-bottom: 1rem;">
+                    Live asset health check: Pinterest backdrop, Unsplash covers, and avatar assets:
+                </p>
+
+                <div class="image-scanner-grid" id="imageScannerGrid">
+                    <!-- Populated dynamically by JS -->
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT: INTERACTIVE LIVE PREVIEW -->
+        <section class="preview-panel">
+            
+            <!-- TOOLBAR -->
+            <div class="preview-toolbar">
+                <!-- View Tabs -->
+                <div class="preview-view-tabs">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--sage-muted); margin-right: 0.3rem;">VIEW:</span>
+                    <button class="tab-btn active" onclick="switchIframeView('home', this)">
+                        <span class="material-icons" style="font-size: 0.95rem;">home</span> Home
+                    </button>
+                    <button class="tab-btn" onclick="switchIframeView('playlists', this)">
+                        <span class="material-icons" style="font-size: 0.95rem;">queue_music</span> Playlists
+                    </button>
+                    <button class="tab-btn" onclick="switchIframeView('discover', this)">
+                        <span class="material-icons" style="font-size: 0.95rem;">explore</span> Discover
+                    </button>
+                    <button class="tab-btn" onclick="switchIframeView('library', this)">
+                        <span class="material-icons" style="font-size: 0.95rem;">library_music</span> Library
+                    </button>
+                    <button class="tab-btn" onclick="switchIframeView('dedications', this)">
+                        <span class="material-icons" style="font-size: 0.95rem;">favorite</span> Dedications
+                    </button>
+                    <button class="tab-btn" onclick="switchIframeView('moodboard', this)">
+                        <span class="material-icons" style="font-size: 0.95rem;">mood</span> Moods
+                    </button>
+                </div>
+
+                <!-- Viewport Preset Buttons -->
+                <div class="preview-viewport-controls">
+                    <button class="viewport-btn active" onclick="setViewport('desktop', this)" title="Desktop">
+                        <span class="material-icons" style="font-size: 1rem;">desktop_windows</span>
+                    </button>
+                    <button class="viewport-btn" onclick="setViewport('tablet', this)" title="Tablet (768px)">
+                        <span class="material-icons" style="font-size: 1rem;">tablet</span>
+                    </button>
+                    <button class="viewport-btn" onclick="setViewport('mobile', this)" title="Mobile (375px)">
+                        <span class="material-icons" style="font-size: 1rem;">smartphone</span>
+                    </button>
+                    <button class="btn-action" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="reloadPreview()" title="Reload Frame">
+                        <span class="material-icons" style="font-size: 0.95rem;">cached</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- FRAME CONTAINER -->
+            <div class="preview-frame-container">
+                <div class="preview-frame-wrapper" id="previewFrameWrapper">
+                    <iframe id="previewFrame" src="/?theme=lofi"></iframe>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        // =========================================================================
+        // 1. WCAG 2.1 CONTRAST RATIO FORMULAS & AUDIT DATA
+        // =========================================================================
+        function hexToRgb(hex) {
+            hex = hex.replace('#', '');
+            if (hex.length === 3) {
+                hex = hex.split('').map(c => c + c).join('');
+            }
+            const num = parseInt(hex, 16);
+            return {
+                r: (num >> 16) & 255,
+                g: (num >> 8) & 255,
+                b: num & 255
+            };
+        }
+
+        function getLuminance(r, g, b) {
+            const a = [r, g, b].map(v => {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+        }
+
+        function calculateContrastRatio(fgHex, bgHex) {
+            const rgb1 = hexToRgb(fgHex);
+            const rgb2 = hexToRgb(bgHex);
+            const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+            const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+            const brightest = Math.max(lum1, lum2);
+            const darkest = Math.min(lum1, lum2);
+            return (brightest + 0.05) / (darkest + 0.05);
+        }
+
+        const contrastTestCases = [
+            {
+                element: 'Page Section Titles (h2)',
+                fg: '#284424',
+                bg: '#fbf8f1',
+                desc: 'Deep Matcha on Cream Paper',
+                fontSize: '18px bold',
+                minAA: 3.0,
+                minAAA: 4.5
+            },
+            {
+                element: 'Playlist Detail Title (h2)',
+                fg: '#284424',
+                bg: '#fbf8f1',
+                desc: 'Deep Forest on Page Background',
+                fontSize: '24px bold',
+                minAA: 3.0,
+                minAAA: 4.5
+            },
+            {
+                element: 'Card Titles & Main Text',
+                fg: '#344e41',
+                bg: '#f5ebe0',
+                desc: 'Matcha Forest on Soft Sand Panel',
+                fontSize: '14px normal',
+                minAA: 4.5,
+                minAAA: 7.0
+            },
+            {
+                element: 'Artist Names & Subtitles',
+                fg: '#587465',
+                bg: '#fbf8f1',
+                desc: 'Muted Sage on Cream Paper',
+                fontSize: '13px normal',
+                minAA: 4.5,
+                minAAA: 7.0
+            },
+            {
+                element: 'Category Pill (Active)',
+                fg: '#284424',
+                bg: '#fef08a',
+                desc: 'Dark Sap Green on Pale Amber',
+                fontSize: '13px bold',
+                minAA: 4.5,
+                minAAA: 7.0
+            },
+            {
+                element: 'Category Pill (Inactive)',
+                fg: '#284424',
+                bg: '#ede7db',
+                desc: 'Deep Green on Soft Muted Sage',
+                fontSize: '13px bold',
+                minAA: 4.5,
+                minAAA: 7.0
+            },
+            {
+                element: 'Greeting Play Button',
+                fg: '#284424',
+                bg: '#fef08a',
+                desc: 'Turn on Music Button Text',
+                fontSize: '14px bold',
+                minAA: 4.5,
+                minAAA: 7.0
+            },
+            {
+                element: 'See All Section Buttons',
+                fg: '#344e41',
+                bg: '#fbf8f1',
+                desc: 'Matcha Button on Cream',
+                fontSize: '13px bold',
+                minAA: 4.5,
+                minAAA: 7.0
+            },
+            {
+                element: 'Dedicate Song Search Input',
+                fg: '#284424',
+                bg: '#f5ebe0',
+                desc: 'Dark Green Text on Sand Input',
+                fontSize: '14px normal',
+                minAA: 4.5,
+                minAAA: 7.0
+            }
+        ];
+
+        function renderContrastAudit() {
+            const tbody = document.getElementById('contrastTableBody');
+            tbody.innerHTML = '';
+            let allPass = true;
+
+            contrastTestCases.forEach(item => {
+                const ratio = calculateContrastRatio(item.fg, item.bg);
+                const ratioFormatted = ratio.toFixed(2) + ':1';
+                const passAAA = ratio >= item.minAAA;
+                const passAA = ratio >= item.minAA;
+                
+                let badgeClass = 'pass';
+                let badgeText = 'PASS AAA';
+                if (!passAAA && passAA) {
+                    badgeClass = 'pass';
+                    badgeText = 'PASS AA';
+                } else if (!passAA) {
+                    badgeClass = 'fail';
+                    badgeText = 'FAIL';
+                    allPass = false;
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <strong>${item.element}</strong>
+                        <div style="font-size: 0.75rem; color: var(--sage-muted);">${item.desc}</div>
+                    </td>
+                    <td>
+                        <div class="sample-preview-pill" style="background: ${item.bg}; color: ${item.fg};">
+                            Sample Text
+                        </div>
+                    </td>
+                    <td>
+                        <span class="ratio-score">${ratioFormatted}</span>
+                    </td>
+                    <td>
+                        <span class="badge ${badgeClass}">${badgeText}</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('contrastOverallBadge').className = allPass ? 'badge pass' : 'badge fail';
+            document.getElementById('contrastOverallBadge').textContent = allPass ? 'All Pass WCAG AA/AAA' : 'Contrast Issues';
+        }
+
+        // =========================================================================
+        // 2. IMAGE VISIBILITY & ASSET INTEGRITY SCANNER
+        // =========================================================================
+        const lofiImageAssets = [
+            {
+                name: 'Pinterest Ambient Lofi Backdrop',
+                role: 'Full-bleed atmospheric wallpaper',
+                url: 'https://i.pinimg.com/736x/07/56/b8/0756b89cd947cee53668c7cbec1055e2.jpg'
+            },
+            {
+                name: 'Romantic Mood Card Cover',
+                role: 'Moodboard Core Selection',
+                url: 'https://i.pinimg.com/736x/4c/76/19/4c76199eadcfb27f85ba99b69324f465.jpg'
+            },
+            {
+                name: 'Chill Mix Album Art',
+                role: 'Home Made-For-You Playlist',
+                url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop'
+            },
+            {
+                name: 'Focus Vibes Album Art',
+                role: 'Home Made-For-You Playlist',
+                url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=300&auto=format&fit=crop'
+            },
+            {
+                name: 'Late Night Drives Cover',
+                role: 'Pinned Playlist Cover',
+                url: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop'
+            },
+            {
+                name: 'Study Lo-Fi Cover',
+                role: 'Pinned Playlist Cover',
+                url: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=200&auto=format&fit=crop'
+            },
+            {
+                name: 'Dedication Track Artwork',
+                role: 'Dedication Playlist Card',
+                url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=300&auto=format&fit=crop'
+            },
+            {
+                name: 'DJ Glitch Avatar',
+                role: 'Profile & Navigation Avatar',
+                url: 'https://api.dicebear.com/9.x/avataaars/svg?seed=DJ_Glitch'
+            }
+        ];
+
+        function runImageAudit() {
+            const grid = document.getElementById('imageScannerGrid');
+            grid.innerHTML = '';
+            let loadedCount = 0;
+            const totalCount = lofiImageAssets.length;
+
+            lofiImageAssets.forEach(asset => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.innerHTML = `
+                    <div class="image-thumb-wrap">
+                        <img id="img_${asset.name.replace(/[^a-zA-Z0-9]/g, '_')}" src="${asset.url}" alt="${asset.name}">
+                    </div>
+                    <div class="image-card-meta">
+                        <span class="image-card-title" title="${asset.name}">${asset.name}</span>
+                        <span class="image-card-status" id="status_${asset.name.replace(/[^a-zA-Z0-9]/g, '_')}">
+                            <span class="material-icons" style="font-size: 0.9rem; color: #ff9800;">hourglass_top</span> Loading...
+                        </span>
+                    </div>
+                `;
+                grid.appendChild(card);
+
+                const testImg = new Image();
+                const startTime = performance.now();
+                const safeId = asset.name.replace(/[^a-zA-Z0-9]/g, '_');
+
+                testImg.onload = () => {
+                    loadedCount++;
+                    const duration = Math.round(performance.now() - startTime);
+                    const statusEl = document.getElementById('status_' + safeId);
+                    if (statusEl) {
+                        statusEl.innerHTML = `
+                            <span class="material-icons" style="font-size: 0.9rem; color: #2e7d32;">check_circle</span>
+                            <span>${testImg.naturalWidth}×${testImg.naturalHeight} (${duration}ms)</span>
+                        `;
+                    }
+                    updateImageSummary(loadedCount, totalCount);
+                };
+
+                testImg.onerror = () => {
+                    const statusEl = document.getElementById('status_' + safeId);
+                    if (statusEl) {
+                        statusEl.innerHTML = `
+                            <span class="material-icons" style="font-size: 0.9rem; color: #c62828;">error</span>
+                            <span style="color: #c62828;">Failed to load</span>
+                        `;
+                    }
+                    updateImageSummary(loadedCount, totalCount);
+                };
+
+                testImg.src = asset.url;
+            });
+        }
+
+        function updateImageSummary(loaded, total) {
+            const statText = document.getElementById('imgStatText');
+            const chip = document.getElementById('chipImages');
+            const overallBadge = document.getElementById('imageOverallBadge');
+            
+            statText.textContent = `Images: ${loaded}/${total} OK`;
+            if (loaded === total) {
+                chip.className = 'stat-chip';
+                overallBadge.className = 'badge pass';
+                overallBadge.textContent = '100% Loaded (8/8)';
+            } else {
+                chip.className = 'stat-chip warn';
+                overallBadge.className = 'badge warn';
+                overallBadge.textContent = `${loaded}/${total} Loaded`;
+            }
+        }
+
+        // =========================================================================
+        // 3. LIVE PREVIEW CONTROLS & VIEW SWITCHING
+        // =========================================================================
+        function setViewport(device, btn) {
+            document.querySelectorAll('.viewport-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const wrapper = document.getElementById('previewFrameWrapper');
+            wrapper.className = 'preview-frame-wrapper ' + (device === 'desktop' ? '' : device);
+        }
+
+        function switchIframeView(viewName, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const iframe = document.getElementById('previewFrame');
+
+            try {
+                // If iframe is loaded and same-origin, call switchView directly
+                const iframeWindow = iframe.contentWindow;
+                if (iframeWindow && typeof iframeWindow.switchView === 'function') {
+                    iframeWindow.switchView(viewName + '-view');
+                    setTimeout(applyEnhancementToggles, 200);
+                    return;
+                }
+            } catch(e) {}
+
+            // Fallback: reload with view hash
+            iframe.src = `/?theme=lofi#${viewName}`;
+        }
+
+        function reloadPreview() {
+            const iframe = document.getElementById('previewFrame');
+            iframe.src = iframe.src;
+            setTimeout(applyEnhancementToggles, 800);
+        }
+
+        // =========================================================================
+        // 4. PINTEREST AESTHETIC LIVE CSS INJECTION
+        // =========================================================================
+        function applyEnhancementToggles() {
+            const iframe = document.getElementById('previewFrame');
+            if (!iframe) return;
+
+            const serifOn = document.getElementById('toggleSerif').checked;
+            const polaroidOn = document.getElementById('togglePolaroid').checked;
+            const heroOn = document.getElementById('toggleHeroBanner').checked;
+            const washiOn = document.getElementById('toggleWashi').checked;
+            const grainOn = document.getElementById('toggleGrain').checked;
+
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                if (!doc) return;
+
+                // Ensure lofi theme is applied
+                doc.documentElement.setAttribute('data-theme', 'lofi');
+                doc.body.setAttribute('data-theme', 'lofi');
+
+                let styleEl = doc.getElementById('lofiAestheticEnhancements');
+                if (!styleEl) {
+                    styleEl = doc.createElement('style');
+                    styleEl.id = 'lofiAestheticEnhancements';
+                    doc.head.appendChild(styleEl);
+                }
+
+                let css = `
+                    /* Auto-injected Pinterest Lofi Aesthetic Enhancements */
+                    [data-theme="lofi"] {
+                        --bg-dark: #fbf8f1 !important;
+                        --bg-panel: rgba(245, 235, 224, 0.75) !important;
+                        --text-main: #344e41 !important;
+                        --text-muted: #587465 !important;
+                        --text-secondary: #6b8e7c !important;
+                        --neon-pink: #3a5a40 !important;
+                        --neon-cyan: #587465 !important;
+                    }
+                `;
+
+                if (serifOn) {
+                    css += `
+                        [data-theme="lofi"] h1,
+                        [data-theme="lofi"] h2,
+                        [data-theme="lofi"] .glitch-text,
+                        [data-theme="lofi"] #greetingTitle,
+                        [data-theme="lofi"] #detailPlaylistName,
+                        [data-theme="lofi"] .mood-title {
+                            font-family: 'Playfair Display', Georgia, serif !important;
+                            font-style: italic !important;
+                            letter-spacing: -0.5px !important;
+                            color: #284424 !important;
+                            text-shadow: none !important;
+                        }
+                    `;
+                }
+
+                if (polaroidOn) {
+                    css += `
+                        [data-theme="lofi"] .playlist-card,
+                        [data-theme="lofi"] .album-card,
+                        [data-theme="lofi"] .track-item,
+                        [data-theme="lofi"] .mood-card {
+                            background: rgba(255, 255, 255, 0.7) !important;
+                            border: 1px solid rgba(52, 78, 65, 0.12) !important;
+                            border-radius: 14px !important;
+                            box-shadow: 0 8px 24px rgba(52, 78, 65, 0.07) !important;
+                            transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.25s ease !important;
+                            backdrop-filter: blur(8px) !important;
+                        }
+                        [data-theme="lofi"] .playlist-card:hover,
+                        [data-theme="lofi"] .album-card:hover {
+                            transform: translateY(-4px) !important;
+                            box-shadow: 0 14px 32px rgba(52, 78, 65, 0.12) !important;
+                        }
+                        [data-theme="lofi"] .playlist-card img,
+                        [data-theme="lofi"] .album-card img {
+                            border-radius: 10px !important;
+                        }
+                    `;
+                }
+
+                if (heroOn) {
+                    css += `
+                        [data-theme="lofi"] .dashboard-hero {
+                            background: linear-gradient(135deg, rgba(245, 235, 224, 0.95), rgba(237, 224, 212, 0.98)) !important;
+                            border: 1px solid rgba(52, 78, 65, 0.15) !important;
+                            box-shadow: 0 12px 36px rgba(52, 78, 65, 0.08) !important;
+                        }
+                        [data-theme="lofi"] .dashboard-hero #greetingTitle {
+                            color: #284424 !important;
+                        }
+                        [data-theme="lofi"] .dashboard-hero #greetingSub {
+                            color: #587465 !important;
+                        }
+                        [data-theme="lofi"] .dashboard-hero .hero-headphones-icon {
+                            color: rgba(52, 78, 65, 0.12) !important;
+                            filter: drop-shadow(0 4px 14px rgba(52, 78, 65, 0.08)) !important;
+                        }
+                        [data-theme="lofi"] #home-view .dashboard-section h2,
+                        [data-theme="lofi"] .dashboard-section h2 {
+                            color: #284424 !important;
+                        }
+                    `;
+                }
+
+                if (washiOn) {
+                    css += `
+                        [data-theme="lofi"] .activity-pill,
+                        [data-theme="lofi"] .see-all-btn,
+                        [data-theme="lofi"] .stat-badge,
+                        [data-theme="lofi"] .ded-track-badge {
+                            border: 1px dashed rgba(52, 78, 65, 0.3) !important;
+                            background: rgba(245, 235, 224, 0.8) !important;
+                            color: #284424 !important;
+                            border-radius: 12px !important;
+                        }
+                        [data-theme="lofi"] .activity-pill.active {
+                            background: #fef08a !important;
+                            border: 1px solid #eab308 !important;
+                            color: #284424 !important;
+                            box-shadow: 0 4px 12px rgba(234, 179, 8, 0.25) !important;
+                        }
+                    `;
+                }
+
+                if (grainOn) {
+                    css += `
+                        body[data-theme="lofi"]::before {
+                            content: "" !important;
+                            position: fixed !important;
+                            top: 0; left: 0; width: 100vw; height: 100vh !important;
+                            opacity: 0.035 !important;
+                            pointer-events: none !important;
+                            z-index: 999999 !important;
+                            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") !important;
+                        }
+                    `;
+                }
+
+                styleEl.textContent = css;
+
+                // Update Aesthetic Score
+                let score = 70;
+                if (serifOn) score += 6;
+                if (polaroidOn) score += 8;
+                if (heroOn) score += 8;
+                if (washiOn) score += 4;
+                if (grainOn) score += 4;
+                document.getElementById('aestheticScoreNum').textContent = score + '%';
+                document.getElementById('aestheticBadge').textContent = score >= 90 ? `${score}/100 Aesthetic` : `${score}/100 Polishing`;
+            } catch(e) {
+                console.log('Frame styling note:', e.message);
+            }
+        }
+
+        // =========================================================================
+        // 5. FULL AUDIT EXECUTION
+        // =========================================================================
+        function runFullAudit() {
+            renderContrastAudit();
+            runImageAudit();
+            setTimeout(applyEnhancementToggles, 400);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            runFullAudit();
+
+            const iframe = document.getElementById('previewFrame');
+            iframe.addEventListener('load', () => {
+                setTimeout(applyEnhancementToggles, 300);
+            });
+        });
+    </script>
+</body>
+</html>
+

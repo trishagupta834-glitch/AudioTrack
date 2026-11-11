@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioTrack - Y2K Music Player</title>
+
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;800;900&family=Rubik+Glitch&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="audiotrack_logo.jpg">
+
+    <!-- Stylesheet -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=57">
+    <script>
+        // Immediately hide nav bar on initial load if user is selecting languages, artists, and mood
+        (function() {
+            try {
+                const user = JSON.parse(localStorage.getItem('currentUser'));
+                const themeKey = user && user.username ? ('audioTrackTheme_' + user.username) : 'audioTrackTheme';
+                const savedTheme = localStorage.getItem(themeKey);
+                const justLoggedIn = sessionStorage.getItem('justLoggedIn') === 'true';
+                if (!savedTheme || justLoggedIn) {
+                    document.documentElement.classList.add('hide-nav-after-login');
+                }
+            } catch(e) {}
+        })();
+    </script>
+</head>
+
+<body>
+    <!-- Song Suggestion Toast -->
+    <div id="lyricToast" class="lyric-toast">
+        <div class="toast-content">
+            <span class="material-icons toast-icon">music_note</span>
+            <div>
+                <h4 id="toastSong">Song Name</h4>
+                <p id="toastLyric">"Lyric goes here..."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Persistent Floating Live Room Indicator Bar -->
+    <div id="persistentLiveRoomBar" class="persistent-live-room-bar" style="display: none;">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <span style="width: 8px; height: 8px; background: #00ff66; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #00ff66;"></span>
+            <span class="room-bar-code" style="font-weight: 800; font-size: 0.8rem; letter-spacing: 1px; color: var(--text-main, #fff);">ROOM #<span id="floatingRoomCode">------</span></span>
+            <span class="room-bar-sep" style="opacity: 0.4; font-size: 0.75rem;">|</span>
+            <span id="floatingRoomTrack" style="color: var(--text-muted); font-size: 0.8rem; max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Waiting for music...</span>
+        </div>
+        <div style="display: flex; gap: 0.4rem; align-items: center;">
+            <button id="floatingBtnOpenRoom" type="button" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: var(--text-main, #fff); padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 600;">
+                Room Panel
+            </button>
+            <button id="floatingBtnLeaveRoom" type="button" style="background: transparent; border: 1px solid rgba(255,70,70,0.5); color: #ff6666; padding: 3px 6px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 600;">
+                ✕
+            </button>
+        </div>
+    </div>
+
+    <!-- Background Animated Shapes -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <!-- Dynamic Background Color Layer -->
+    <div class="dynamic-bg" id="dynamicBg"></div>
+
+    <!-- Theme Specific Decorations (Visible only on specific themes) -->
+    <div class="theme-decorations lofi-decor">
+        <img src="https://i.pinimg.com/736x/07/56/b8/0756b89cd947cee53668c7cbec1055e2.jpg" class="lofi-blur-bg"
+            alt="Lofi Background">
+    </div>
+
+    <div class="theme-decorations romantic-decor">
+        <img src="https://i.pinimg.com/736x/61/b6/8a/61b68a601974ea2383a1bd5702c9f533.jpg" class="romantic-blur-bg"
+            alt="Romantic Background">
+        <div class="floating-heart" style="left: 15%; animation-delay: 0s; font-size: 3rem;">❤️</div>
+        <div class="floating-heart" style="left: 35%; animation-delay: 4s; font-size: 4rem;">💖</div>
+        <div class="floating-heart" style="left: 55%; animation-delay: 2s; font-size: 2.5rem;">🕯️</div>
+        <div class="floating-heart" style="left: 75%; animation-delay: 6s; font-size: 3.5rem;">❤️</div>
+        <div class="floating-heart" style="left: 85%; animation-delay: 1s; font-size: 5rem;">🕯️</div>
+        <div class="floating-heart" style="left: 5%; animation-delay: 7s; font-size: 2rem;">💖</div>
+    </div>
+
+    <div class="theme-decorations sad-decor">
+        <img src="https://i.pinimg.com/736x/2c/bf/31/2cbf312200f8c6d53e71724841270349.jpg" class="sad-blur-bg" alt="Sad Background">
+    </div>
+    <div class="theme-decorations chill-decor">
+        <img src="https://i.pinimg.com/736x/c2/71/4d/c2714d3c5e59dfd0b4417f558a1e1338.jpg" class="chill-blur-bg" alt="Chill Background">
+    </div>
+    <div class="theme-decorations happy-decor">
+        <img src="https://i.pinimg.com/736x/43/6b/de/436bde2c5e1aaefa27f8598ccafda41c.jpg" class="happy-blur-bg" alt="Happy Background">
+    </div>
+    <div class="theme-decorations energetic-decor">
+        <img src="https://i.pinimg.com/736x/df/ce/71/dfce719e012a535e5592a6ab92707fbd.jpg" class="energetic-blur-bg" alt="Energetic Background">
+    </div>
+    <div class="theme-decorations focus-decor">
+        <img src="https://i.pinimg.com/736x/c3/10/3f/c3103f32a48590be59080d094fbe36ca.jpg" class="focus-blur-bg" alt="Focus Background">
+    </div>
+    <div class="theme-decorations party-decor">
+        <img src="https://i.pinimg.com/736x/56/d9/c5/56d9c536fe069559b436d83010b39b01.jpg" class="party-blur-bg" alt="Party Background">
+    </div>
+    <div class="theme-decorations cyberpunk-decor">
+        <img src="https://i.pinimg.com/736x/2e/de/03/2ede036c4272faf1e58e283ca5eeabc9.jpg" class="cyberpunk-blur-bg" alt="Cyberpunk Background">
+    </div>
+
+    <!-- Floating Sticker Example -->
+    <!-- You can add more stickers here -->
+    <!-- <img src="path/to/sticker.png" class="floating-sticker sticker-1"> -->
+
+    <div class="app-container">
+        <!-- --- SIDEBAR --- -->
+        <aside class="sidebar glass-panel">
+            <div class="logo-container" onclick="const h = document.querySelector('.nav-item[data-target=\'home\']'); if (h) h.click();" title="AudioTrack Home">
+                <img src="audiotrack_logo.jpg" alt="AudioTrack Logo" class="brand-logo">
+                <span class="brand-name">AudioTrack</span>
+            </div>
+
+            <ul class="nav-links">
+                <li class="nav-item" data-target="home">
+                    <span class="material-icons">home</span>
+                    <span>Home</span>
+                </li>
+                <li class="nav-item" data-target="discover">
+                    <span class="material-icons">explore</span>
+                    <span>Discover</span>
+                </li>
+                <li class="nav-item" data-target="library">
+                    <span class="material-icons">music_note</span>
+                    <span>Library</span>
+                </li>
+                <li class="nav-item" data-target="playlists">
+                    <span class="material-icons">queue_music</span>
+                    <span>Playlists</span>
+                </li>
+                <li class="nav-item" data-target="dedications">
+                    <span class="material-icons">card_giftcard</span>
+                    <span>Dedications</span>
+                </li>
+                <li class="nav-item active" data-target="moodboard">
+                    <span class="material-icons">palette</span>
+                    <span>Mood Board</span>
+                </li>
+                <li class="nav-item" data-target="profile">
+                    <span class="material-icons">account_circle</span>
+                    <span>Profile</span>
+                </li>
+
+                <li class="sidebar-action-btn push-down" id="sidebarNewPlaylistBtn" style="cursor: pointer; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 12px; transition: all 0.2s; color: var(--text-muted, #aaa);">
+                    <span class="material-icons" style="color: var(--neon-cyan, #00f0ff);">add_circle_outline</span>
+                    <span style="font-weight: 600; font-size: 0.95rem;">New Playlist</span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- --- MAIN CONTENT --- -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="search-bar glass-panel" style="display: none;">
+                    <span class="material-icons">search</span>
+                    <input type="text" placeholder="Search for artists, songs, or podcasts...">
+                </div>
+                <div id="demoModeBadge" style="display: none; align-items: center; gap: 0.5rem; background: rgba(0, 240, 255, 0.1); border: 1px solid var(--neon-cyan); padding: 0.4rem 0.8rem; border-radius: 50px; color: var(--neon-cyan); font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);">
+                    <span class="material-icons" style="font-size: 1rem; animation: pulse 2s infinite;">offline_bolt</span>
+                    Demo Active
+                </div>
+                <div class="user-profile nav-item" data-target="profile"
+                    style="text-decoration: none; display: flex; align-items: center; gap: 1rem; cursor: pointer; padding: 0.5rem 1rem; border-radius: 50px;">
+                    <div class="avatar"
+                        style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; border: 2px solid var(--neon-pink);">
+                        <img id="topbarAvatarImg" src="https://api.dicebear.com/9.x/avataaars/svg?seed=DJ_Glitch"
+                            alt="User Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <span class="username"
+                        style="font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">DJ_Glitch</span>
+                </div>
+            </header>
+
+            <!-- Marquee -->
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    NOW PLAYING: HYPERPOP HITS // CYBER RAVE MIX // ACID TECHNO ANTHEMS // FOLLOW @AUDIOTRACK ON SOCIALS
+                    //
+                </div>
+            </div>
+
+            <!-- Views -->
+            <div class="view-container" id="app-content-area">
+                <!-- Content will be injected here dynamically by app.js -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Drag-and-Drop Queue Bubble -->
+    <div id="queue-dropzone" class="queue-dropzone">
+        <span class="material-icons" style="font-size: 3rem;">queue_music</span>
+        <p style="margin-top: 0.5rem; font-weight: bold;">Drop to Queue</p>
+    </div>
+
+    <!-- --- BOTTOM MUSIC PLAYER --- -->
+    <footer class="music-player glass-panel" id="bottom-player" style="display: none;">
+        <!-- Now Playing -->
+        <div class="now-playing">
+            <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=120&auto=format&fit=crop"
+                alt="Track Art" class="track-art rotating">
+            <div class="track-info">
+                <div class="track-title">Acid Rain</div>
+                <div class="track-artist">Y2K Junkie</div>
+            </div>
+            <span class="material-icons like-btn">favorite_border</span>
+            <span class="material-icons dedicate-btn" id="openDedicateBtn" title="Dedicate to a Friend"
+                style="color: var(--neon-pink); cursor: pointer; margin-left: 10px;">card_giftcard</span>
+        </div>
+
+        <!-- Player Controls -->
+        <div class="player-controls">
+            <div class="control-buttons">
+                <span class="material-icons">shuffle</span>
+                <span class="material-icons">skip_previous</span>
+                <button id="playBtn" class="play-pause-btn">
+                    <span id="playIcon" class="material-icons">play_arrow</span>
+                </button>
+                <span class="material-icons">skip_next</span>
+                <span class="material-icons">repeat</span>
+            </div>
+            <div class="progress-container">
+                <span class="time">1:23</span>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
+                </div>
+                <span class="time">3:45</span>
+            </div>
+        </div>
+
+        <!-- Player Actions -->
+        <div class="player-actions">
+            <span class="material-icons" id="shareTimestampBtn" title="Share Timestamp" style="cursor: pointer;">share</span>
+            <span class="material-icons" id="openQueueDrawerPlayer" title="Open Queue" style="cursor: pointer;">playlist_play</span>
+            <span class="material-icons" id="muteBtn" style="cursor: pointer;">volume_up</span>
+            <div class="volume-bar-bg" style="cursor: pointer;">
+                <div class="volume-bar-fill"></div>
+            </div>
+            <span class="material-icons" id="playerFullscreenBtn" title="Toggle Fullscreen" style="cursor: pointer;">fullscreen</span>
+        </div>
+    </footer>
+
+    <!-- Hidden Audio Player -->
+    <audio id="mainAudio" preload="auto"></audio>
+
+
+    <!-- --- ONBOARDING & MOOD MODAL --- -->
+    <!-- Content now injected into #app-content-area via JS -->
+
+    <!-- --- DEDICATE SONG MODAL (2-STEP WORKFLOW) --- -->
+    <div id="dedicateModal" class="mood-modal" style="padding-top: 3.5rem; padding-bottom: 4rem;">
+        <div class="dedicate-form dedicate-modal-card"
+            style="background: var(--bg-panel); padding: 2rem; border-radius: 20px; border: 1px solid var(--neon-pink); width: 540px; max-width: 92vw; text-align: left; box-shadow: 0 16px 45px rgba(0,0,0,0.65); position: relative; margin-bottom: 2rem;">
+            
+            <!-- Close Button -->
+            <button id="closeDedicateModalBtn" type="button" aria-label="Close" style="position: absolute; top: 1.2rem; right: 1.2rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%;">
+                <span class="material-icons">close</span>
+            </button>
+
+            <!-- Modal Header & Steps Breadcrumb -->
+            <div style="margin-bottom: 1.4rem;">
+                <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem;">
+                    <span class="material-icons" style="color: var(--neon-pink); font-size: 1.8rem;">volunteer_activism</span>
+                    <h2 id="dedicateModalTitle" class="glitch-text" style="font-size: 1.6rem; margin: 0;">Dedicate a Song</h2>
+                </div>
+                <!-- Step Breadcrumb -->
+                <div class="dedicate-steps-bar" style="display: flex; align-items: center; gap: 0.6rem; margin-top: 0.8rem; font-size: 0.85rem;">
+                    <div id="stepIndicator1" class="step-pill active" style="display: flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.9rem; border-radius: 20px; background: var(--neon-pink); color: #000; font-weight: 700; transition: all 0.3s;">
+                        <span>1</span> <span>Choose Song</span>
+                    </div>
+                    <span style="color: var(--text-muted);">──</span>
+                    <div id="stepIndicator2" class="step-pill" style="display: flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.9rem; border-radius: 20px; background: rgba(255,255,255,0.08); color: var(--text-muted); font-weight: 600; transition: all 0.3s;">
+                        <span>2</span> <span>Choose Friend</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 1: CHOOSE SONG -->
+            <div id="dedicateStep1">
+                <p style="margin: 0 0 0.8rem; font-size: 0.88rem; color: var(--text-secondary);">Search for any song or pick from recent & popular tracks:</p>
+                
+                <div style="position: relative; margin-bottom: 1rem;">
+                    <input id="dedicateSongSearch" type="text" class="glass-input" placeholder="Search song title or artist..." style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.6rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); color: #fff; font-size: 0.92rem; box-sizing: border-box;">
+                    <span class="material-icons" style="position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.2rem; pointer-events: none;">search</span>
+                </div>
+
+                <!-- Currently Playing Quick Select Banner (if any) -->
+                <div id="dedicateNowPlayingBanner" style="display: none; margin-bottom: 1rem; padding: 0.6rem 0.8rem; background: rgba(255, 0, 127, 0.08); border: 1px dashed rgba(255, 0, 127, 0.45); border-radius: 10px; align-items: center; justify-content: space-between; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 0.7rem; min-width: 0; flex: 1;">
+                        <img id="npBannerArt" src="" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop';" style="width: 40px; height: 40px; border-radius: 6px; object-fit: cover;">
+                        <div style="min-width: 0; flex: 1;">
+                            <p style="margin: 0; font-size: 0.7rem; color: var(--neon-pink); font-weight: 700; text-transform: uppercase;">Now Playing</p>
+                            <p id="npBannerTitle" style="margin: 0; font-size: 0.85rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
+                        </div>
+                    </div>
+                    <button class="neon-btn" type="button" style="padding: 0.35rem 0.8rem; font-size: 0.75rem; white-space: nowrap;">USE THIS</button>
+                </div>
+
+                <!-- Search Results & Suggestions List -->
+                <div id="dedicateSongResults" style="max-height: 270px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; padding-right: 0.2rem;" class="no-scrollbar">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; margin-top: 1.2rem;">
+                    <button id="cancelDedicateStep1Btn" type="button" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 0.5rem 1rem;">Cancel</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: CHOOSE FRIEND FROM CONNECTIONS -->
+            <div id="dedicateStep2" style="display: none;">
+                <!-- Chosen Song Summary Card -->
+                <div id="dedicateTrackPreview" style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; padding: 0.7rem 0.9rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 0.8rem; min-width: 0; flex: 1;">
+                        <img id="dedicatePreviewArt" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop';" style="width: 46px; height: 46px; border-radius: 8px; object-fit: cover;">
+                        <div style="min-width: 0; flex: 1;">
+                            <div id="dedicatePreviewTitle" style="font-weight: 700; font-size: 0.95rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
+                            <div id="dedicatePreviewArtist" style="font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
+                        </div>
+                    </div>
+                    <button id="btnChangeDedicateSong" type="button" style="background: transparent; border: 1px solid rgba(255,255,255,0.25); color: var(--text-main); font-size: 0.75rem; padding: 0.35rem 0.8rem; border-radius: 8px; cursor: pointer; white-space: nowrap;">
+                        Change Song
+                    </button>
+                </div>
+
+                <p style="margin: 0 0 0.6rem; font-weight: bold; font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <span class="material-icons" style="font-size: 1.15rem; color: var(--neon-pink);">people</span> Choose a Friend from your Connection:
+                </p>
+
+                <!-- Interactive Connections Card Grid -->
+                <div id="dedicateFriendsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 1rem; max-height: 160px; overflow-y: auto;" class="no-scrollbar">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Hidden select for programmatic fallback -->
+                <select id="dedicateFriendSelect" style="display: none;"></select>
+
+                <!-- Optional Note -->
+                <p style="margin: 0 0 0.4rem; font-weight: bold; font-size: 0.85rem;">Add a Note (Optional):</p>
+                <textarea id="dedicateMessageInput" class="glass-input" rows="2" placeholder="Write a sweet memory or note for your friend..."
+                    style="width: 100%; margin-bottom: 0.9rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px 10px; border-radius: 8px; font-size: 0.85rem; box-sizing: border-box; resize: none;"></textarea>
+
+                <!-- Vibe tag selector -->
+                <div style="margin-bottom: 1.2rem;">
+                    <p style="margin: 0 0 0.35rem; font-size: 0.8rem; color: var(--text-secondary);">Select Vibe:</p>
+                    <div id="dedicateMoodTags" style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                        <button type="button" class="ded-mood-tag-btn active" data-mood="romantic" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; border-radius: 14px; border: 1px solid var(--neon-pink); background: rgba(255,0,127,0.2); color: #fff; cursor: pointer;">💖 Romantic</button>
+                        <button type="button" class="ded-mood-tag-btn" data-mood="lofi" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: var(--text-muted); cursor: pointer;">🌙 Lofi</button>
+                        <button type="button" class="ded-mood-tag-btn" data-mood="happy" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: var(--text-muted); cursor: pointer;">☀️ Happy</button>
+                        <button type="button" class="ded-mood-tag-btn" data-mood="energetic" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: var(--text-muted); cursor: pointer;">⚡ Energetic</button>
+                        <button type="button" class="ded-mood-tag-btn" data-mood="sad" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: var(--text-muted); cursor: pointer;">🌧️ Sad</button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: space-between; align-items: center;">
+                    <button id="btnBackToStep1" type="button" class="neon-btn" style="padding: 0.45rem 0.9rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.3rem;">
+                        <span class="material-icons" style="font-size: 1rem;">arrow_back</span> Back
+                    </button>
+                    <div style="display: flex; gap: 0.8rem;">
+                        <button id="cancelDedicateBtn" type="button"
+                            style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 0.45rem 0.9rem;">Cancel</button>
+                        <button id="submitDedicateBtn" type="button" class="neon-btn" style="background: var(--neon-pink); color: #000; font-weight: 800; padding: 0.5rem 1.4rem;">SEND 🎁</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- ADD TO PLAYLIST MODAL --- -->
+    <div id="addToPlaylistModal" class="mood-modal">
+        <h2 class="mood-title glitch-text" style="font-size: 2.5rem; margin-bottom: 1.5rem;">Add to Playlist</h2>
+        <div class="playlist-add-form"
+            style="background: var(--bg-panel); padding: 2rem; border-radius: 20px; border: 1px solid var(--neon-cyan); width: 440px; max-width: 90vw; text-align: left;">
+            <div id="addToPlaylistTrackSummary" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                <img id="addToPlaylistTrackArt" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop';" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;">
+                <div style="flex: 1; min-width: 0;">
+                    <h4 id="addToPlaylistTrackTitle" style="margin: 0; font-size: 1rem; color: var(--text-main, #fff); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Track Title</h4>
+                    <p id="addToPlaylistTrackArtist" style="margin: 0; font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Artist</p>
+                </div>
+            </div>
+
+            <p style="margin-bottom: 0.8rem; font-weight: bold; color: var(--text-main, #fff);">Choose a Playlist:</p>
+            <div id="addToPlaylistOptionsList" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
+                <!-- Populated dynamically -->
+            </div>
+
+            <p style="margin-bottom: 0.5rem; font-weight: bold; color: var(--text-muted); font-size: 0.9rem;">Or Create a New Playlist:</p>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                <input id="createNewPlaylistNameInput" type="text" placeholder="New Playlist Name..." class="glass-input" style="flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: var(--text-main, #fff);">
+                <button id="btnCreateAndAddPlaylist" class="neon-btn" style="padding: 8px 14px; font-size: 0.85rem; white-space: nowrap;">+ Create</button>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;">
+                <button id="closeAddToPlaylistBtn" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.95rem;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- SHARE PLAYLIST MODAL --- -->
+    <div id="sharePlaylistModal" class="mood-modal" style="display: none;">
+        <h2 class="mood-title glitch-text" style="font-size: 2.2rem; margin-bottom: 1.5rem;">Share Playlist</h2>
+        <div style="background: var(--bg-panel); padding: 2rem; border-radius: 20px; border: 1px solid var(--neon-cyan); width: 440px; max-width: 90vw; text-align: left;">
+            <p style="margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Playlist</p>
+            <h3 id="sharingPlaylistName" style="margin: 0 0 1.2rem; font-size: 1.3rem; color: var(--text-main, #fff);">Playlist Name</h3>
+
+            <p style="margin-bottom: 0.5rem; font-weight: bold; font-size: 0.9rem; color: var(--text-main, #fff);">Share With Connection:</p>
+            <select id="shareToFriendSelect" class="glass-input" style="width: 100%; margin-bottom: 1.2rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: var(--text-main, #fff); padding: 10px; border-radius: 8px;">
+                <option value="">— Choose a friend —</option>
+            </select>
+
+            <p style="margin-bottom: 0.5rem; font-weight: bold; font-size: 0.9rem; color: var(--text-main, #fff);">Message (Optional):</p>
+            <textarea id="shareMessageInput" class="glass-input" rows="3" placeholder="You've got to hear this..." style="width: 100%; margin-bottom: 1.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: var(--text-main, #fff); padding: 10px; border-radius: 8px;"></textarea>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <button id="closeSharePlaylistModal" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.95rem;">Cancel</button>
+                <button id="confirmSharePlaylistBtn" class="neon-btn" style="padding: 0.65rem 1.6rem; border-radius: 8px; cursor: pointer; font-weight: bold;">SHARE 📤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- BIRTHDAY CONFETTI OVERLAY --- -->
+    <div id="confettiContainer" class="confetti-container"></div>
+
+    <!-- JavaScript (Modular View Loader) -->
+    <script>
+        const cb = Date.now();
+        Promise.all([
+            fetch('views/home.html?v=' + cb).then(r => r.text()),
+            fetch('views/discover.html?v=' + cb).then(r => r.text()),
+            fetch('views/library.html?v=' + cb).then(r => r.text()),
+            fetch('views/playlist.html?v=' + cb).then(r => r.text()),
+            fetch('views/dedications.html?v=' + cb).then(r => r.text()),
+            fetch('views/artist.html?v=' + cb).then(r => r.text()),
+            fetch('views/moodboard.html?v=' + cb).then(r => r.text()),
+            fetch('views/profile.html?v=' + cb).then(r => r.text())
+        ]).then(([home, discover, library, playlist, dedications, artist, moodboard, profile]) => {
+            const rawViews = (home + discover + library + playlist + dedications + artist + moodboard + profile)
+                .replace(/>\s*\[\]\s*</g, '><')
+                .replace(/>\s*\[\s*\]\s*</g, '><');
+            document.getElementById('app-content-area').innerHTML = rawViews;
+
+            // Global Stray Bracket Sanitizer & Purger (cleans any stray '[]' text or empty brackets across all views)
+            function purgeStrayBrackets() {
+                try {
+                    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+                    let node;
+                    const toRemove = [];
+                    while (node = walker.nextNode()) {
+                        if (!node || !node.nodeValue) continue;
+                        if (node.parentElement && (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE')) continue;
+                        const val = node.nodeValue.replace(/\u00a0/g, ' ').trim();
+                        if (val === '[]' || val === '[ ]' || /^\[\s*\]$/.test(val)) {
+                            toRemove.push(node);
+                        } else if (/\[\s*\]/.test(node.nodeValue)) {
+                            node.nodeValue = node.nodeValue.replace(/\[\s*\]/g, '');
+                        }
+                    }
+                    toRemove.forEach(n => {
+                        if (n.parentNode) n.parentNode.removeChild(n);
+                    });
+                    document.querySelectorAll('*').forEach(el => {
+                        if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE') return;
+                        if (el.children.length === 0) {
+                            const txt = el.textContent.replace(/\u00a0/g, ' ').trim();
+                            if (txt === '[]' || txt === '[ ]' || /^\[\s*\]$/.test(txt)) {
+                                el.remove();
+                            }
+                        }
+                    });
+                } catch(e) {}
+            }
+            window.purgeStrayBrackets = purgeStrayBrackets;
+            purgeStrayBrackets();
+
+            const observer = new MutationObserver(purgeStrayBrackets);
+            observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+
+            const script = document.createElement('script');
+            script.src = 'app.js?v=' + cb;
+            document.body.appendChild(script);
+        }).catch(err => {
+            console.error("Error loading modular views:", err);
+            document.getElementById('app-content-area').innerHTML = "<h2 class='glitch-text' style='padding: 2rem;'>Error loading views. Please ensure you are running on a local server.</h2>";
+        });
+    </script>
+</body>
+
+</html>

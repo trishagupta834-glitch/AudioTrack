@@ -1,0 +1,147 @@
+<!-- Dedications View -->
+<section id="dedications-view" class="view">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h1 class="glitch-text" style="margin: 0; font-size: 2.2rem;">Dedications</h1>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0.3rem 0 0;">Dedicated tracks & personal memories shared between you and your connections</p>
+        </div>
+        <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
+            <button class="neon-btn" id="btnOpenDedicateWorkflow" style="padding: 0.65rem 1.5rem; background: var(--neon-pink); color: #000; font-weight: 800; border-radius: 25px; border: none; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; box-shadow: 0 0 18px rgba(255, 0, 127, 0.45); letter-spacing: 0.5px;">
+                <span class="material-icons" style="font-size: 1.25rem;">volunteer_activism</span> DEDICATE A SONG
+            </button>
+            <button class="neon-btn" style="padding: 0.65rem 1.3rem; width: auto;" id="playAllDedications">
+                <span class="material-icons" style="font-size: 1.1rem;">play_arrow</span> PLAY ALL
+            </button>
+        </div>
+    </div>
+
+    <!-- Dedication Playlist Section -->
+    <div class="dashboard-section dedication-playlist-section" id="dedicationPlaylistSection" style="margin-bottom: 2.2rem; background: linear-gradient(135deg, rgba(255, 0, 127, 0.08), rgba(0, 240, 255, 0.04)); border: 1px solid rgba(255, 0, 127, 0.25); border-radius: 18px; padding: 1.4rem 1.6rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.8rem;">
+            <div style="display: flex; align-items: center; gap: 0.9rem;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(255, 0, 127, 0.15); display: flex; align-items: center; justify-content: center; color: var(--neon-pink); border: 1px solid rgba(255, 0, 127, 0.35);">
+                    <span class="material-icons" style="font-size: 1.8rem;">queue_music</span>
+                </div>
+                <div>
+                    <h2 class="glitch-text" style="font-size: 1.4rem; margin: 0;">Dedication Playlist</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0.2rem 0 0;">Curated mix from dedications & connections • Ready to play</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center;">
+                <button id="btnPlayDedicationPlaylist" class="neon-btn" style="padding: 0.45rem 1.2rem; font-size: 0.85rem; font-weight: 700; border-color: var(--neon-pink); color: var(--neon-pink);">
+                    <span class="material-icons" style="font-size: 1.1rem;">play_arrow</span> PLAY MIX
+                </button>
+            </div>
+        </div>
+        <div class="horizontal-scroll-row no-scrollbar" id="dedicationPlaylistTracksRow" style="display: flex; gap: 1.2rem; min-height: 140px; overflow-x: auto; padding: 0.4rem 0.2rem;">
+            <!-- Populated dynamically by JS -->
+        </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="dedications-filter-bar" id="dedicationsFilterBar">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="sender">By Sender</button>
+        <button class="filter-pill" data-filter="mood">By Mood</button>
+        <button class="filter-pill" data-filter="recent">Most Recent</button>
+        <input type="text" class="filter-search" id="dedicationSearch" placeholder="Search notes...">
+    </div>
+
+    <!-- Dedications Grid -->
+    <div class="dedications-full-grid" id="dedicationsGrid">
+        <!-- Dedication 1 -->
+        <div class="dedication-full-card" data-sender="Alex" data-mood="romantic" data-date="2025-12-15" data-url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/bc/d8/21/bcd82103-3b68-9c24-a0cb-07df7a5b0cce/mzaf_14604456924045178752.plus.aac.p.m4a">
+            <div class="ded-art">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=300&auto=format&fit=crop" alt="Track">
+                <div class="ded-play"><span class="material-icons">play_arrow</span></div>
+                <button class="ded-queue-btn" title="Add to Queue"><span class="material-icons">playlist_add</span></button>
+            </div>
+            <div class="ded-info">
+                <h3>Until I Found You</h3>
+                <p class="ded-artist">Stephen Sanchez</p>
+                <div class="ded-meta">
+                    <span class="ded-sender"><span class="material-icons" style="font-size: 0.9rem;">person</span> Alex</span>
+                    <span class="ded-mood-tag romantic">💖 Romantic</span>
+                    <span class="ded-date">Dec 15</span>
+                </div>
+                <div class="ded-note">"This song reminds me of our trip!"</div>
+            </div>
+        </div>
+
+        <!-- Dedication 2 -->
+        <div class="dedication-full-card" data-sender="Sam" data-mood="techno" data-date="2025-12-20" data-url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/92/79/ce/9279ce85-bcf3-dfb5-b461-1250b73c9c9b/mzaf_7823528437021703273.plus.aac.p.m4a">
+            <div class="ded-art">
+                <img src="https://images.unsplash.com/photo-1541271696563-3be2f555fc4e?q=80&w=300&auto=format&fit=crop" alt="Track">
+                <div class="ded-play"><span class="material-icons">play_arrow</span></div>
+                <button class="ded-queue-btn" title="Add to Queue"><span class="material-icons">playlist_add</span></button>
+            </div>
+            <div class="ded-info">
+                <h3>Murder In My Mind</h3>
+                <p class="ded-artist">Kordhell</p>
+                <div class="ded-meta">
+                    <span class="ded-sender"><span class="material-icons" style="font-size: 0.9rem;">person</span> Sam</span>
+                    <span class="ded-mood-tag techno">⚡ Techno</span>
+                    <span class="ded-date">Dec 20</span>
+                </div>
+                <div class="ded-note">"You need to hear this drop!"</div>
+            </div>
+        </div>
+
+        <!-- Dedication 3 -->
+        <div class="dedication-full-card" data-sender="Jamie" data-mood="sad" data-date="2026-01-05" data-url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/92/79/ce/9279ce85-bcf3-dfb5-b461-1250b73c9c9b/mzaf_7823528437021703273.plus.aac.p.m4a">
+            <div class="ded-art">
+                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=300&auto=format&fit=crop" alt="Track" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=300&auto=format&fit=crop';">
+                <div class="ded-play"><span class="material-icons">play_arrow</span></div>
+                <button class="ded-queue-btn" title="Add to Queue"><span class="material-icons">playlist_add</span></button>
+            </div>
+            <div class="ded-info">
+                <h3>What Was I Made For?</h3>
+                <p class="ded-artist">Billie Eilish</p>
+                <div class="ded-meta">
+                    <span class="ded-sender"><span class="material-icons" style="font-size: 0.9rem;">person</span> Jamie</span>
+                    <span class="ded-mood-tag sad">🌧️ Sad</span>
+                    <span class="ded-date">Jan 5</span>
+                </div>
+                <div class="ded-note">"Play this when it rains. Trust me."</div>
+            </div>
+        </div>
+
+        <!-- Dedication 4 -->
+        <div class="dedication-full-card" data-sender="Alex" data-mood="lofi" data-date="2026-02-14" data-url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/bc/d8/21/bcd82103-3b68-9c24-a0cb-07df7a5b0cce/mzaf_14604456924045178752.plus.aac.p.m4a">
+            <div class="ded-art">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=300&auto=format&fit=crop" alt="Track">
+                <div class="ded-play"><span class="material-icons">play_arrow</span></div>
+                <button class="ded-queue-btn" title="Add to Queue"><span class="material-icons">playlist_add</span></button>
+            </div>
+            <div class="ded-info">
+                <h3>Yume Utsutsu</h3>
+                <p class="ded-artist">Lamp</p>
+                <div class="ded-meta">
+                    <span class="ded-sender"><span class="material-icons" style="font-size: 0.9rem;">person</span> Alex</span>
+                    <span class="ded-mood-tag lofi">🌙 Lofi</span>
+                    <span class="ded-date">Feb 14</span>
+                </div>
+                <div class="ded-note">"Late night study vibes for you 💜"</div>
+            </div>
+        </div>
+
+        <!-- Dedication 5 -->
+        <div class="dedication-full-card" data-sender="Sam" data-mood="happy" data-date="2026-03-10" data-url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/37/14/08/37140801-adfd-4c90-b7b2-30c0d58e6de5/mzaf_1392558310011617280.plus.aac.p.m4a">
+            <div class="ded-art">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop" alt="Track">
+                <div class="ded-play"><span class="material-icons">play_arrow</span></div>
+                <button class="ded-queue-btn" title="Add to Queue"><span class="material-icons">playlist_add</span></button>
+            </div>
+            <div class="ded-info">
+                <h3>Levitating</h3>
+                <p class="ded-artist">Dua Lipa</p>
+                <div class="ded-meta">
+                    <span class="ded-sender"><span class="material-icons" style="font-size: 0.9rem;">person</span> Sam</span>
+                    <span class="ded-mood-tag happy">☀️ Happy</span>
+                    <span class="ded-date">Mar 10</span>
+                </div>
+                <div class="ded-note">"This always puts me in a good mood!"</div>
+            </div>
+        </div>
+    </div>
+</section>

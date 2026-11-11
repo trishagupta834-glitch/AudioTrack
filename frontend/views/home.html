@@ -1,0 +1,141 @@
+<!-- Home View (Dashboard) -->
+<section id="home-view" class="view">
+
+    <!-- HERO SECTION (Start Your Sonic Journey) -->
+    <div class="dashboard-hero" style="position: relative; background: linear-gradient(135deg, rgba(20,0,50,0.8), rgba(0,0,0,0.9)); border-radius: 20px; padding: 3rem; margin-bottom: 2rem; display: flex; flex-direction: column; justify-content: center; min-height: 250px; overflow: hidden; border: 1px solid rgba(255, 0, 127, 0.2);">
+        <!-- Decorative background elements -->
+        <div style="position: absolute; right: -50px; top: -50px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(176,38,255,0.4) 0%, transparent 70%); filter: blur(40px); z-index: 1;"></div>
+        <div style="position: absolute; right: 10%; bottom: -20px; z-index: 2; opacity: 0.8;">
+            <span class="material-icons hero-headphones-icon" style="font-size: 15rem; color: var(--neon-pink); filter: drop-shadow(0 0 20px var(--neon-pink)); transform: rotate(-15deg);">headphones</span>
+        </div>
+
+        <div style="position: relative; z-index: 3; max-width: 60%;">
+            <h1 class="glitch-text" style="font-size: 3rem; margin-bottom: 0.5rem; text-transform: none;" id="greetingTitle">Start Your<br>Sonic Journey</h1>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.5; max-width: 400px;" id="greetingSub">Dive into a world of music — millions of songs, custom playlists, and every genre you love.</p>
+            <button class="neon-btn" style="width: auto; padding: 0.8rem 2rem; display: inline-flex; align-items: center; gap: 0.8rem; background: var(--neon-pink); color: #000; border-radius: 50px; font-weight: bold; font-size: 0.9rem;" id="playGreetingBtn">
+                <span class="material-icons" style="background: rgba(0,0,0,0.2); border-radius: 50%; padding: 4px;">play_arrow</span> 
+                <span id="greetingPlaylistName">Turn on your music</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- PINNED PLAYLISTS (New Section Before Categories) -->
+    <div class="dashboard-section" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 style="font-size: 1.1rem; color: #fff; font-weight: 600; margin: 0;">Pinned Playlists</h2>
+            <span class="see-all-btn" data-section="pinned" style="color: var(--neon-pink); font-size: 0.8rem; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center;">See all <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">chevron_right</span></span>
+        </div>
+        <div class="horizontal-scroll-row no-scrollbar" id="homePinnedPlaylistsContainer">
+            <!-- Pinned playlists are rendered dynamically here -->
+        </div>
+    </div>
+
+    <!-- RECENT PLAYS (New Section After Pinned Playlists) -->
+    <div class="dashboard-section" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 style="font-size: 1.1rem; color: #fff; font-weight: 600; margin: 0;">Recent Plays</h2>
+            <span class="see-all-btn" data-section="recent" style="color: var(--neon-pink); font-size: 0.8rem; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center;">See all <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">chevron_right</span></span>
+        </div>
+        <div class="horizontal-scroll-row no-scrollbar recent-plays-row" id="homeRecentPlaysRow">
+            <!-- Top 3 Recent Playlists -->
+            <div class="quick-card recent-card" data-playlist="Chill Mix" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=200&auto=format&fit=crop" alt="Chill Mix">
+                <div style="padding-left: 10px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Chill Mix</div>
+            </div>
+            <div class="quick-card recent-card" data-playlist="Focus Vibes" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=200&auto=format&fit=crop" alt="Focus Vibes">
+                <div style="padding-left: 10px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Focus Vibes</div>
+            </div>
+            <div class="quick-card recent-card" data-playlist="On Repeat" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1487180144351-b8472da7d491?q=80&w=200&auto=format&fit=crop" alt="On Repeat" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop';">
+                <div style="padding-left: 10px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">On Repeat</div>
+            </div>
+            
+            <!-- 5 Recent Songs -->
+            <div class="quick-card recent-card recent-song-card" data-track-title="Starboy" data-track-artist="The Weeknd" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1541271696563-3be2f555fc4e?q=80&w=200&auto=format&fit=crop" alt="The Weeknd">
+                <div style="padding-left: 10px; font-weight: 600; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Starboy</div>
+            </div>
+            <div class="quick-card recent-card recent-song-card" data-track-title="Bad Guy" data-track-artist="Billie Eilish" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop" alt="Billie Eilish">
+                <div style="padding-left: 10px; font-weight: 600; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Bad Guy</div>
+            </div>
+            <div class="quick-card recent-card recent-song-card" data-track-title="God's Plan" data-track-artist="Drake" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?q=80&w=200&auto=format&fit=crop" alt="Drake">
+                <div style="padding-left: 10px; font-weight: 600; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">God's Plan</div>
+            </div>
+            <div class="quick-card recent-card recent-song-card" data-track-title="Super Shy" data-track-artist="NewJeans" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=200&auto=format&fit=crop" alt="NewJeans">
+                <div style="padding-left: 10px; font-weight: 600; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Super Shy</div>
+            </div>
+            <div class="quick-card recent-card recent-song-card" data-track-title="Goosebumps" data-track-artist="Travis Scott" style="cursor: pointer;">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&auto=format&fit=crop" alt="Travis Scott" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop';">
+                <div style="padding-left: 10px; font-weight: 600; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Goosebumps</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORIES (Pills) -->
+    <div class="dashboard-section" style="margin-bottom: 2rem;">
+        <h2 style="font-size: 1.1rem; margin-bottom: 1rem; color: #fff; font-weight: 600;">Categories</h2>
+        <div class="activity-pills-container" style="margin-bottom: 0;">
+            <div class="activity-pills" id="activityPills">
+                <button class="activity-pill active" data-activity="all" style="border-radius: 20px; padding: 0.5rem 1.5rem; font-size: 0.85rem; border: none; font-weight: 800;">All</button>
+                <button class="activity-pill" data-activity="party" style="border-radius: 20px; padding: 0.5rem 1.5rem; font-size: 0.85rem; border: none; font-weight: 800;">Party</button>
+                <button class="activity-pill" data-activity="latenight" style="border-radius: 20px; padding: 0.5rem 1.5rem; font-size: 0.85rem; border: none; font-weight: 800;">Blues</button>
+                <button class="activity-pill" data-activity="study" style="border-radius: 20px; padding: 0.5rem 1.5rem; font-size: 0.85rem; border: none; font-weight: 800;">Sad</button>
+                <button class="activity-pill" data-activity="workout" style="border-radius: 20px; padding: 0.5rem 1.5rem; font-size: 0.85rem; border: none; font-weight: 800;">Hip Hop</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPULAR SONGS (Horizontal Album Cards) -->
+    <div class="dashboard-section" style="margin-bottom: 3rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 style="font-size: 1.1rem; color: #fff; font-weight: 600; margin: 0;">Popular Songs</h2>
+            <span id="seeAllPopularSongs" class="see-all-btn" data-section="popular" data-playlist="Popular Songs" style="color: var(--neon-pink); font-size: 0.8rem; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center;">See all <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">chevron_right</span></span>
+        </div>
+        
+        <div id="masonry-gallery" class="album-cards-row no-scrollbar">
+            <!-- Items injected by JS -->
+        </div>
+    </div>
+
+    <!-- SUGGESTED FOR YOU (Large Cards) -->
+    <div class="dashboard-section" style="margin-bottom: 3rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 style="font-size: 1.1rem; color: #fff; font-weight: 600; margin: 0;">Suggested For You</h2>
+            <span class="see-all-btn" data-section="suggested" style="color: var(--neon-pink); font-size: 0.8rem; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center;">See all <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">chevron_right</span></span>
+        </div>
+        <div class="horizontal-scroll-row no-scrollbar" style="gap: 1.5rem;">
+            
+            <div class="playlist-card" data-playlist="Top Songs Global" style="position: relative; width: 280px; height: 180px; border-radius: 20px; overflow: hidden; cursor: pointer; flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=400&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" alt="Top Songs Global" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400&auto=format&fit=crop';">
+                <div style="position: absolute; inset: 0; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(to right, rgba(0,0,0,0.8), transparent);">
+                    <h3 id="suggestedCard1" style="font-size: 1.5rem; font-weight: bold; color: #fff; line-height: 1.2; margin-bottom: 0.5rem;">Top Songs<br>Global</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.8rem; margin-bottom: 1rem;">Discover 86 songs</p>
+                    <span class="material-icons" style="color: var(--neon-pink);">arrow_forward</span>
+                </div>
+            </div>
+
+            <div class="playlist-card" data-playlist="Popular Songs" style="position: relative; width: 280px; height: 180px; border-radius: 20px; overflow: hidden; cursor: pointer; flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=400&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" alt="Popular Songs">
+                <div style="position: absolute; inset: 0; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(to right, rgba(20,0,50,0.8), transparent);">
+                    <h3 id="suggestedCard2" style="font-size: 1.5rem; font-weight: bold; color: #fff; line-height: 1.2; margin-bottom: 0.5rem;">Popular<br>Songs</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.8rem; margin-bottom: 1rem;">Discover 50</p>
+                    <span class="material-icons" style="color: var(--neon-pink);">arrow_forward</span>
+                </div>
+            </div>
+
+            <div class="playlist-card" data-playlist="Viral Hits" style="position: relative; width: 280px; height: 180px; border-radius: 20px; overflow: hidden; cursor: pointer; flex-shrink: 0;">
+                <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=400&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" alt="Viral Hits">
+                <div style="position: absolute; inset: 0; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(to right, rgba(0,50,100,0.8), transparent);">
+                    <h3 id="suggestedCard3" style="font-size: 1.5rem; font-weight: bold; color: #fff; line-height: 1.2; margin-bottom: 0.5rem;">Viral<br>Hits</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.8rem; margin-bottom: 1rem;">Trending now</p>
+                    <span class="material-icons" style="color: var(--electric-blue);">arrow_forward</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
