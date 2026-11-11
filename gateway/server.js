@@ -295,7 +295,7 @@ async function saveUser(username, user) {
             `INSERT INTO gateway_users (username, data)
              VALUES ($1, $2)
              ON CONFLICT (username) DO UPDATE SET data = EXCLUDED.data`,
-            [username, user]
+            [username, JSON.stringify(user)]
         );
     }
 }
@@ -306,7 +306,7 @@ async function savePlaylists() {
             `INSERT INTO gateway_playlists (id, data)
              VALUES (1, $1)
              ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data`,
-            [mockPlaylists]
+            [JSON.stringify(mockPlaylists)]
         );
     }
 }
