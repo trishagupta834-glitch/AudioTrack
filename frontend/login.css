@@ -141,6 +141,32 @@
     /* Allow the card to scroll if content overflows */
 }
 
+.login-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.2rem;
+}
+
+.login-brand-logo {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(0, 240, 255, 0.75);
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.45);
+}
+
+.login-brand-name {
+    margin: 0;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+}
+
 .form-title {
     font-size: 2.5rem;
     text-align: center;
