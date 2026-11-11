@@ -1,25 +1,42 @@
-# AudioTrack
+# 🎧 AudioTrack
 
-AudioTrack is a browser-based music discovery and listening-room app. It combines a music-player interface with social profiles, playlists, and live room events so friends can share what they are listening to across devices.
+### Find your sound. Set the mood. Share the moment.
 
-## What it does
+AudioTrack is a browser-based music discovery and listening-room experience built for people who want music to feel social. Explore tracks, make playlists, shape a profile around your taste, and tune in with friends from different devices.
 
-- Browse featured tracks and playlists, and search music using the iTunes Search API.
-- Create an account, sign in, and customize a music profile.
-- Create playlists and save profile preferences.
-- Create or join a listening room with a room code and share playback updates with other connected listeners.
-- Explore mood-based themes and music recommendations.
+## ✨ Features
 
-Audio previews and catalog search use third-party music services. Availability of individual tracks depends on those services and regional access.
+- **Discover music:** Browse featured tracks and playlists, and search the iTunes catalog for music and previews.
+- **Make it yours:** Create an account, personalize your profile, save preferences, and build playlists.
+- **Listen together:** Create or join a room with a shareable code and send live playback updates to other listeners.
+- **Pick a vibe:** Explore mood-inspired themes and recommendations to match the moment.
+- **Stay connected:** Find other listeners, connect with friends, and share musical dedications.
 
-## Technology
+## 🚀 What makes AudioTrack different
+
+- **A shared listening moment:** Room codes make it easy to bring friends into the same listening space, wherever they are.
+- **Your music, your atmosphere:** Mood-led themes make the player feel like a personal space, not just a list of tracks.
+- **Music meets community:** Profiles, playlists, connections, and dedications bring social discovery into the listening experience.
+- **One place to press play:** Music discovery, personal libraries, and live room updates come together in a single web app.
+
+## 🛠️ Technology
 
 - **Frontend:** HTML, CSS, and vanilla JavaScript.
-- **Gateway and current application API:** Node.js built-in HTTP server, with server-sent events (SSE) for room updates.
-- **Persistent data for the Render deployment:** PostgreSQL, accessed from Node.js using `pg`.
-- **Additional backend:** A separate Spring Boot API exists in `backend/`; it is not currently connected to the deployed frontend/gateway.
+- **Application server:** Node.js built-in HTTP server, serving the frontend and application API.
+- **Live room updates:** Server-sent events (SSE).
+- **Persistent data:** PostgreSQL, accessed from Node.js using `pg`.
+- **Music search and previews:** iTunes Search API and its linked preview sources.
+- **Hosting:** Render Blueprint, defined in [`render.yaml`](./render.yaml).
 
-## Run locally
+## 🌐 Listen to AudioTrack
+
+Open the live app: **[audiotrack.onrender.com](https://audiotrack.onrender.com)**
+
+## 🔒 Security note
+
+AudioTrack's current gateway authentication and authorization are demo-grade and have not been hardened for sensitive or production use. Do not use real or reused passwords, and avoid storing sensitive information in the app.
+
+## 💻 Run locally
 
 Requirements: Node.js 20 or newer.
 
@@ -28,32 +45,20 @@ npm ci
 npm start
 ```
 
-Open [http://localhost:5000](http://localhost:5000). To use persistent data locally, set `DATABASE_URL` to a PostgreSQL connection string before starting. Without it, the gateway uses in-memory data for local development.
+Then open [http://localhost:5000](http://localhost:5000). To persist local data, set `DATABASE_URL` to a PostgreSQL connection string before starting. Without it, the gateway uses in-memory data for local development.
 
 On Windows, `start_all.bat` or `start_all.ps1` can also start the gateway.
 
-## Deploy to Render
+## 🧪 Tests
 
-The root `render.yaml` Blueprint defines a Node web service and PostgreSQL database. The live service is available at [https://audiotrack.onrender.com](https://audiotrack.onrender.com).
-
-To create or update the Render resources, connect this GitHub repository to Render using **New + → Blueprint**, then apply the Blueprint. Commits pushed to the connected branch can trigger automatic deploys.
-
-To use `www.audiotrack.com`, register the domain, add it under the Render service's **Settings → Custom Domains**, then configure the DNS records Render provides at the domain registrar. Render must verify the DNS before the custom URL and TLS certificate are active.
-
-### Render free-tier notes
-
-- Free web services may spin down when idle, so the first request after inactivity can be delayed.
-- Free PostgreSQL databases expire after 30 days. Upgrade the database before relying on it for durable production data.
-- Listening-room playback state is live server memory and is not retained across restarts.
-
-## Tests
-
-Run the included frontend theme and asset checks with:
+Run the included frontend theme and asset checks:
 
 ```powershell
 node test_lofi_ui.js
 ```
 
-## Important security note
+## ☁️ Deployment notes
 
-The current gateway authentication and authorization are demo-grade. Do not use real or reused passwords, and do not treat the application as production-secure until authentication, authorization, and account protections have been reviewed and hardened.
+The Render Blueprint creates a Node web service and PostgreSQL database. Free web services may spin down after inactivity, and free PostgreSQL databases expire after 30 days. Upgrade the database before relying on it for durable production data. Listening-room playback state is held in server memory and is not retained across restarts.
+
+To use `www.audiotrack.com`, register the domain, add it under the Render service's **Settings → Custom Domains**, and configure the DNS records Render provides at your domain registrar.
