@@ -156,7 +156,7 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid rgba(0, 240, 255, 0.75);
-    box-shadow: 0 0 16px rgba(0, 240, 255, 0.45);
+    box-shadow: 0 0 10px var(--neon-cyan), 0 0 22px rgba(0, 240, 255, 0.65), 0 0 34px rgba(255, 0, 127, 0.35);
 }
 
 .login-brand-name {
@@ -165,6 +165,7 @@
     font-size: 1.5rem;
     font-weight: 900;
     letter-spacing: 0.04em;
+    text-shadow: 0 0 6px #fff, 0 0 12px var(--neon-cyan), 0 0 24px var(--neon-cyan), 0 0 32px var(--neon-pink);
 }
 
 .form-title {

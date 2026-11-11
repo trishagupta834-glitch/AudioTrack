@@ -16,7 +16,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css?v=1"> <!-- Import base styles/tokens -->
-    <link rel="stylesheet" href="login.css?v=1">
+    <link rel="stylesheet" href="login.css?v=2">
     <style>
         /* Social Auth Modal Styles */
         .social-auth-modal {
@@ -196,7 +196,7 @@
 
             <div class="login-card glass-panel">
                 <div class="login-brand">
-                    <img class="login-brand-logo" src="audiotrack_logo.jpg" alt="">
+                    <img class="login-brand-logo" src="audiotrack_logo.jpg" alt="AudioTrack logo">
                     <h1 class="login-brand-name">AudioTrack</h1>
                 </div>
                 <div
@@ -249,9 +249,6 @@
                         ENTER THE TRACK <span class="material-icons">arrow_forward</span>
                     </button>
 
-                    <button type="button" id="demoModeBtn" class="neon-btn" style="width: 100%; margin-top: 0.8rem; background: rgba(0, 240, 255, 0.1); border-color: var(--neon-cyan); color: var(--neon-cyan); display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 0.9rem;">
-                        <span class="material-icons" style="font-size: 1.2rem;">offline_bolt</span> Demo Mode / Guest Login
-                    </button>
                 </form>
 
                 <div class="divider">
@@ -491,33 +488,6 @@
             const params = new URLSearchParams(window.location.search);
             const room = params.get('room') || params.get('join');
             return room ? `index.html?room=${encodeURIComponent(room)}` : 'index.html';
-        }
-
-        // Demo Mode / Guest Login Handler
-        const demoModeBtn = document.getElementById('demoModeBtn');
-        if (demoModeBtn) {
-            demoModeBtn.addEventListener('click', () => {
-                const guestUser = {
-                    username: 'Guest_Viber',
-                    email: 'guest@audiotrack.io',
-                    avatarUrl: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Guest_Viber',
-                    bio: 'Cruising AudioTrack in Guest / Demo Mode 🎧',
-                    connections: [],
-                    connectionRequests: [],
-                    sentConnectionRequests: [],
-                    followedArtists: [],
-                    pinnedPlaylists: [],
-                    playlistPlayCounts: {},
-                    dedications: []
-                };
-                localStorage.setItem('currentUser', JSON.stringify(guestUser));
-                localStorage.setItem('authToken', 'demo-token-' + Date.now());
-                localStorage.setItem('offlineMode', 'true');
-                sessionStorage.setItem('justLoggedIn', 'true');
-                const userKey = `audioTrackTheme_${guestUser.username}`;
-                localStorage.removeItem(userKey);
-                window.location.href = getIndexRedirectUrl();
-            });
         }
 
         // Form submit authentication logic
