@@ -1,50 +1,59 @@
-# AudioTrack - Real-Time Multi-Device Listening Room
+# AudioTrack
 
-AudioTrack is a full-stack web application designed for synchronized music playback across multiple devices, whether on the same Wi-Fi network or in different cities worldwide.
+AudioTrack is a browser-based music discovery and listening-room app. It combines a music-player interface with social profiles, playlists, and live room events so friends can share what they are listening to across devices.
 
----
+## What it does
 
-## 🚀 Quick Start Guide
+- Browse featured tracks and playlists, and search music using the iTunes Search API.
+- Create an account, sign in, and customize a music profile.
+- Create playlists and save profile preferences.
+- Create or join a listening room with a room code and share playback updates with other connected listeners.
+- Explore mood-based themes and music recommendations.
 
-### Option A: Local & Home Wi-Fi (Same Network)
-1. Double-click `start_all.bat`.
-2. Open `http://localhost:5000` in your browser.
-3. Friends on the same Wi-Fi can join by opening `http://<YOUR_IP>:5000` (e.g. `http://10.102.13.254:5000`).
+Audio previews and catalog search use third-party music services. Availability of individual tracks depends on those services and regional access.
 
-### Option B: Worldwide / Multi-City (Different Wi-Fi / Cities)
-1. Double-click `start_all.bat`.
-2. Double-click `start_internet_tunnel.bat` to generate a free, public HTTPS link (e.g. `https://your-room.loca.lt`).
-3. Send this link to your friends in any city.
+## Technology
 
----
+- **Frontend:** HTML, CSS, and vanilla JavaScript.
+- **Gateway and current application API:** Node.js built-in HTTP server, with server-sent events (SSE) for room updates.
+- **Persistent data for the Render deployment:** PostgreSQL, accessed from Node.js using `pg`.
+- **Additional backend:** A separate Spring Boot API exists in `backend/`; it is not currently connected to the deployed frontend/gateway.
 
-## 🎧 How to Use Room Sync
-1. Go to the **Profile** tab in AudioTrack.
-2. Under **Host a Room**, click **CREATE ROOM** to generate a 6-digit room code.
-3. Friends enter the code under **Join a Room** and click **JOIN ROOM**.
-4. When the host plays, pauses, seeks, or sends emoji reactions, all connected devices update in real time with sub-25ms latency over WebSockets!
+## Run locally
 
----
+Requirements: Node.js 20 or newer.
 
-## 🧪 Running Automated QA Tests
-To verify synchronization across multiple simulated devices:
-```bash
-node test_deep_sync.js
+```powershell
+npm ci
+npm start
 ```
-All 6 test phases (Join Handshake, Play Sync, Pause Sync, Seek Sync, Reactions, Chat) will run and report status.
 
----
+Open [http://localhost:5000](http://localhost:5000). To use persistent data locally, set `DATABASE_URL` to a PostgreSQL connection string before starting. Without it, the gateway uses in-memory data for local development.
 
-## Deploying to Render
+On Windows, `start_all.bat` or `start_all.ps1` can also start the gateway.
 
-The repository includes a Render Blueprint in `render.yaml`. It deploys the Node gateway (which serves the frontend and current API) and creates a PostgreSQL database for user and playlist state. The separate Spring Boot project in `backend/` is not part of this Blueprint because the current frontend uses the Node gateway API.
+## Deploy to Render
 
-1. Push this project to a GitHub repository.
-2. In Render, choose **New + → Blueprint**, connect the repository, and apply the `render.yaml` Blueprint.
-3. Wait for the `audiotrack` service health check to pass. Render assigns a temporary `*.onrender.com` address.
-4. Once you register `audiotrack.com`, add `www.audiotrack.com` as a custom domain in the Render service settings and add the DNS records Render provides at your domain registrar.
-5. After Render verifies DNS and provisions TLS, open `https://www.audiotrack.com`.
+The root `render.yaml` Blueprint defines a Node web service and PostgreSQL database. The live service is available at [https://audiotrack.onrender.com](https://audiotrack.onrender.com).
 
-The Blueprint uses Render's free web-service and PostgreSQL tiers. Free web services can sleep when idle, and free PostgreSQL databases expire 30 days after creation; upgrade the database to a paid plan before relying on it for durable production data. Room playback synchronization is live SSE state and is not stored between server restarts.
+To create or update the Render resources, connect this GitHub repository to Render using **New + → Blueprint**, then apply the Blueprint. Commits pushed to the connected branch can trigger automatic deploys.
 
-The current gateway is a demo implementation: authentication tokens are not production-grade, and several APIs are not access-controlled. Do not use real or reused passwords until authentication and authorization have been hardened.
+To use `www.audiotrack.com`, register the domain, add it under the Render service's **Settings → Custom Domains**, then configure the DNS records Render provides at the domain registrar. Render must verify the DNS before the custom URL and TLS certificate are active.
+
+### Render free-tier notes
+
+- Free web services may spin down when idle, so the first request after inactivity can be delayed.
+- Free PostgreSQL databases expire after 30 days. Upgrade the database before relying on it for durable production data.
+- Listening-room playback state is live server memory and is not retained across restarts.
+
+## Tests
+
+Run the included frontend theme and asset checks with:
+
+```powershell
+node test_lofi_ui.js
+```
+
+## Important security note
+
+The current gateway authentication and authorization are demo-grade. Do not use real or reused passwords, and do not treat the application as production-secure until authentication, authorization, and account protections have been reviewed and hardened.
