@@ -56,9 +56,3 @@ Run the included frontend theme and asset checks:
 ```powershell
 node test_lofi_ui.js
 ```
-
-## ☁️ Deployment notes
-
-The Render Blueprint creates a Node web service and PostgreSQL database. Free web services may spin down after inactivity, and free PostgreSQL databases expire after 30 days. Upgrade the database before relying on it for durable production data. Listening-room playback state is held in server memory and is not retained across restarts.
-
-To use `www.audiotrack.com`, register the domain, add it under the Render service's **Settings → Custom Domains**, and configure the DNS records Render provides at your domain registrar.
