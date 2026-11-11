@@ -2088,6 +2088,15 @@ body.moodboard-initial .expanded-moods .mood-card .mood-label,
     color: #e0ffff;
 }
 
+.mood-card.devotion {
+    border-color: #e7a12d;
+    box-shadow: 0 4px 24px rgba(196, 115, 24, 0.3);
+}
+
+.mood-card.devotion:hover {
+    box-shadow: 0 12px 40px rgba(196, 115, 24, 0.5);
+}
+
 /* ---------- Seasonal Moods Row ---------- */
 .seasonal-moods {
     display: flex;
