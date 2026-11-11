@@ -10,6 +10,7 @@ AudioTrack is a browser-based music discovery and listening-room experience buil
 - **Make it yours:** Create an account, personalize your profile, save preferences, and build playlists.
 - **Listen together:** Create or join a room with a shareable code and send live playback updates to other listeners.
 - **Pick a vibe:** Explore mood-inspired themes and recommendations to match the moment.
+- **Find a devotional soundtrack:** Discover bhajans, chants, worship, and devotional music searches spanning multiple languages and traditions.
 - **Stay connected:** Find other listeners, connect with friends, and share musical dedications.
 
 ## 🚀 What makes AudioTrack different

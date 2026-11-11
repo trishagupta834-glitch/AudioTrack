@@ -3562,6 +3562,52 @@ body.zen-mode .progress-container {
     --purple-haze: #39FF14; /* Use main neon green for other accents */
 }
 
+[data-theme="devotion"] {
+    --bg-dark: #fff3d4;
+    --bg-panel: rgba(255, 250, 232, 0.92);
+    --text-main: #4a2c16;
+    --text-muted: #69411f;
+    --text-secondary: #79552f;
+    --neon-pink: #bd5b16;
+    --neon-green: #8a4b16;
+    --neon-cyan: #a45a18;
+    --electric-blue: #c76b14;
+    --cyber-yellow: #f2b632;
+    --purple-haze: #f4c85a;
+    --glass-border: 1px solid rgba(133, 77, 23, 0.2);
+    --glass-shadow: 0 8px 32px rgba(111, 63, 18, 0.14);
+    --font-graffiti: 'Outfit', sans-serif;
+}
+
+body[data-theme="devotion"] {
+    color: var(--text-main);
+    background-color: var(--bg-dark);
+}
+
+body[data-theme="devotion"] .mood-card.devotion {
+    border-color: #e7a12d;
+    box-shadow: 0 4px 24px rgba(196, 115, 24, 0.3);
+}
+
+body[data-theme="devotion"] .mood-card.devotion:hover {
+    box-shadow: 0 12px 40px rgba(196, 115, 24, 0.5);
+}
+
+body[data-theme="devotion"] .mood-card.devotion::after {
+    background: linear-gradient(to top, rgba(255, 239, 195, 0.95), rgba(255, 239, 195, 0.12) 65%, transparent);
+}
+
+body[data-theme="devotion"] .mood-card.devotion .mood-label {
+    color: #4a2c16;
+    text-shadow: 0 1px 5px rgba(255, 239, 195, 0.8);
+}
+
+body[data-theme="devotion"] .mood-next-btn {
+    background: #e18b22 !important;
+    border-color: #bd6818 !important;
+    box-shadow: 0 0 25px rgba(225, 139, 34, 0.5), 0 0 50px rgba(225, 139, 34, 0.25) !important;
+}
+
 /* ============================================
    DYNAMIC BACKGROUND LAYER
    ============================================ */

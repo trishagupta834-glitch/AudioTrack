@@ -77,6 +77,12 @@ const moodSongs = {
         recent: ['Grimes', 'Kavinsky', 'The Midnight'],
         madeForYou: [{name: "Neon Mix", img: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=300&auto=format&fit=crop"}, {name: "Cyber Rave", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=300&auto=format&fit=crop"}],
         artists: ['Grimes', 'Kavinsky', 'The Midnight', 'Gunship', 'Perturbator']
+    },
+    devotion: {
+        name: "Devotional Music", lyric: "Find a moment of peace with devotional music from around the world.",
+        query: "devotional bhajan kirtan worship",
+        greeting: "A moment of devotion",
+        subGreeting: "Explore devotional music across languages and traditions in the available music catalog."
     }
 };
 
@@ -310,6 +316,7 @@ function initApp() {
             const smartQuery = selectedArtists.length > 0 ? `${selectedArtists[0]} ${baseQuery}` : 
                                (selectedLanguages.length > 0 ? `${selectedLanguages[0]} ${baseQuery}` : baseQuery);
                                
+            if (savedTheme === 'devotion') fetchDevotionalMusic('masonry-gallery');
             updateDashboardForMood(savedTheme);
             moodboardView.classList.remove('initial-load');
         }
@@ -398,7 +405,11 @@ function initApp() {
                 const smartQuery = selectedArtists.length > 0 ? `${selectedArtists[0]} ${baseQuery}` : 
                                    (selectedLanguages.length > 0 ? `${selectedLanguages[0]} ${baseQuery}` : baseQuery);
                                    
-                fetchMusic(smartQuery, 'masonry-gallery');
+                if (selectedTheme === 'devotion') {
+                    fetchDevotionalMusic('masonry-gallery');
+                } else {
+                    fetchMusic(smartQuery, 'masonry-gallery');
+                }
                 
                 // 6. Update Dashboard Layout
                 updateDashboardForMood(selectedTheme);
@@ -440,6 +451,63 @@ function initApp() {
         } catch (err) {
             console.error('Error fetching music:', err);
             container.innerHTML = '<p>Error syncing tracks.</p>';
+        }
+    }
+
+    async function fetchDevotionalMusic(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const searchTerms = [
+            'Hindi devotional bhajan',
+            'Punjabi shabad Gurbani',
+            'Sanskrit mantra kirtan',
+            'Tamil Telugu devotional songs',
+            'Bengali bhakti songs',
+            'English Christian worship gospel',
+            'Spanish musica cristiana Portuguese louvor gospel',
+            'French chants religieux German christliche musik Italian canti religiosi',
+            'Arabic nasheed',
+            'Japanese Buddhist chants Korean worship',
+            'Turkish ilahi Indonesian lagu rohani',
+            'Swahili worship Chinese devotional music'
+        ];
+
+        container.innerHTML = '<p class="glitch-text" style="font-size: 1.5rem; text-align: center; width: 100%;">DISCOVERING DEVOTIONAL MUSIC...</p>';
+
+        const searches = await Promise.allSettled(searchTerms.map(async term => {
+            const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&media=music&limit=8`);
+            if (!response.ok) throw new Error(`Music search failed with status ${response.status}`);
+            const data = await response.json();
+            return data.results || [];
+        }));
+
+        const successfulSearches = searches.map(result => result.status === 'fulfilled' ? result.value : []);
+        const uniqueTracks = new Map();
+        for (let rank = 0; rank < 8; rank++) {
+            successfulSearches.forEach(results => {
+                const track = results[rank];
+                if (track?.trackId && track.previewUrl && !uniqueTracks.has(track.trackId)) {
+                    uniqueTracks.set(track.trackId, track);
+                }
+            });
+        }
+        const tracks = Array.from(uniqueTracks.values()).slice(0, 30);
+
+        if (tracks.length) {
+            populateMasonry(containerId, tracks);
+            if (searches.some(result => result.status === 'rejected')) {
+                console.warn('Some devotional music searches could not be completed.');
+            }
+            return;
+        }
+
+        const failedSearches = searches.filter(result => result.status === 'rejected').length;
+        if (failedSearches === searches.length) {
+            console.error('All multilingual devotional music searches failed.');
+            container.innerHTML = '<p>Devotional music could not be loaded. Please try again later.</p>';
+        } else {
+            container.innerHTML = '<p>No playable devotional previews were found in the available music catalog.</p>';
         }
     }
 
@@ -1774,7 +1842,11 @@ function initApp() {
                     if (typeof updateDynamicBg === 'function') updateDynamicBg(data.img);
                 } else {
                     const query = data.query || theme;
-                    fetchMusic(query, 'masonry-gallery');
+                    if (theme === 'devotion') {
+                        fetchDevotionalMusic('masonry-gallery');
+                    } else {
+                        fetchMusic(query, 'masonry-gallery');
+                    }
                 }
             };
         }
@@ -1820,8 +1892,14 @@ function initApp() {
         titleEl.textContent = greeting;
         subEl.textContent = `Here's your ${playlist}`;
         if (nameEl) nameEl.textContent = playlist;
+        if (document.body.getAttribute('data-theme') === 'devotion') {
+            titleEl.textContent = moodSongs.devotion.greeting;
+            subEl.textContent = moodSongs.devotion.subGreeting;
+            if (nameEl) nameEl.textContent = 'Devotional Music';
+        }
         if (playBtn) {
             playBtn.addEventListener('click', async () => {
+                if (document.body.getAttribute('data-theme') === 'devotion') return;
                 try {
                     const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=15`);
                     const data = await res.json();
