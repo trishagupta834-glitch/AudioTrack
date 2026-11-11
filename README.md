@@ -48,11 +48,3 @@ npm start
 Then open [http://localhost:5000](http://localhost:5000). To persist local data, set `DATABASE_URL` to a PostgreSQL connection string before starting. Without it, the gateway uses in-memory data for local development.
 
 On Windows, `start_all.bat` or `start_all.ps1` can also start the gateway.
-
-## 🧪 Tests
-
-Run the included frontend theme and asset checks:
-
-```powershell
-node test_lofi_ui.js
-```
